@@ -5,13 +5,27 @@
 #ifndef REPPLATFORM_ALGORYTHM_H
 #define REPPLATFORM_ALGORYTHM_H
 
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <map>
+#include <string>
+#include "User.h"
+#include "teacher.h"
+#include "student.h"
+#include "courses.h"
+#include "subcatalog.h"
+#include "catalog.h"
+#include "cards.h"
 
 class Algorithm {
-    void pars_courses();
-    void pars_users();
-    void pars_teachers();
-    void pars_students();
-    void pars_cards();
+public:
+    static void parse_courses(std::map<std::string, Course>& courses);
+    void parse_users();
+    void parse_teachers();
+    void parse_students();
+    void parse_cards();
 };
 
 

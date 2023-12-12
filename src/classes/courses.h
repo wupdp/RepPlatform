@@ -14,12 +14,12 @@ struct Course_struct{
     std::vector<int> teachers;
 };
 
-class Courses {
+class Course {
     Course_struct current_course;
 public:
-    Courses();
-    ~Courses();
-    explicit Courses(const Course_struct &currentCourse);
+    Course();
+    ~Course();
+    explicit Course(const Course_struct &currentCourse);
 
     //
 };

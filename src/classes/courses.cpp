@@ -4,7 +4,7 @@
 
 #include "courses.h"
 
-/*int Courses::find_course(std::string name) {
+/*int Course::find_course(std::string name) {
     //Parsing
     //
     //
@@ -15,28 +15,28 @@
     return 0;
 }*/
 
-/*std::vector<std::string> Courses::list_catalog() {
+/*std::vector<std::string> Course::list_catalog() {
     //Parsing
     //
     //
 }*/
 
-/*std::vector<std::string> Courses::list_undercatalog(std::string catalog) {
+/*std::vector<std::string> Course::list_undercatalog(std::string catalog) {
     //Parsing of 1 catalog
     //
     //
 }*/
 
-/*void Courses::add_course(std::string name) {
+/*void Course::add_course(std::string name) {
 
 }*/
 
-/*void Courses::delete_course(std::string name) {
+/*void Course::delete_course(std::string name) {
 
 }*/
 
-Courses::Courses(const Course_struct &currentCourse) : current_course(currentCourse) {}
+Course::Course(const Course_struct &currentCourse) : current_course(currentCourse) {}
 
-Courses::Courses() = default;
+Course::Course() = default;
 
-Courses::~Courses() = default;
+Course::~Course() = default;

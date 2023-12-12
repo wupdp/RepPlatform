@@ -59,8 +59,8 @@ Guest::search_course([[maybe_unused]] std::string request_msg, std::string crit1
 
 Guest::~Guest() = default;      //Destructor
 
-/*bool Guest::isUsernameUnique(const std::string &username) {
+bool Guest::isUsernameUnique(const std::string &username) {
     return std::all_of(users->begin(), users->end(), [username](const User &user) {
         return user.getUsername() != username;
     });
-}*/
+}

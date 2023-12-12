@@ -8,7 +8,7 @@
 
 class Subcatalog {
     std::string subcatalog_name;
-    std::vector<Courses> courses;
+    std::vector<Course> courses;
 
 public:
     Subcatalog();
