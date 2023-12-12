@@ -9,8 +9,8 @@ int main(){
     Catalog catalog;
     Algorithm alg;                              // Class algorithm
     std::map<std::string, Course> courses;      //map courses
-    Algorithm::parse_courses(courses);       //Ensure map
-    std::cout << courses.size();
+    Algorithm::parse_courses(catalog);       //Ensure map
+    std::cout << catalog;
 
     return 0;
 }

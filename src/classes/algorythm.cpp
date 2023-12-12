@@ -20,7 +20,7 @@ void Algorithm::parse_users() {
 
 }
 
-void Algorithm::parse_courses(std::map<std::string, Course>& courses) {
+void Algorithm::parse_courses(Catalog& catalog) {
     std::ifstream file("../var/info/Courses");
     std::string line;
     while (std::getline(file, line)) {
@@ -43,7 +43,14 @@ void Algorithm::parse_courses(std::map<std::string, Course>& courses) {
         }
 
         Course newCourse(course_data);
-        courses[course_data.name] = newCourse;
+
+        if (!catalog.hasSubcatalog(course_data.subcatalog)) {
+            catalog.addSubcatalog(course_data.subcatalog);
+        }
+
+        Subcatalog& subcatalog = catalog.getSubcatalog(course_data.subcatalog);
+        subcatalog.add_course(course_data);
     }
     file.close();
 }
+

@@ -13,9 +13,11 @@ public:
     Catalog();
     ~Catalog();
 
-    void addSubcatalog(const Subcatalog &subcatalog);
+    void addSubcatalog(const std::string& undercatalog_name);
     Course find_course(std::string name);
     friend std::ostream& operator<<(std::ostream& os, const Catalog& catalog);
+    [[nodiscard]] bool hasSubcatalog(const std::string& subcatalog) const;
+    Subcatalog& getSubcatalog(const std::string& subcatalogName);
 };
 
 

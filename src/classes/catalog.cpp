@@ -9,9 +9,15 @@ Catalog::Catalog() = default;
 
 Catalog::~Catalog() = default;
 
-void Catalog::addSubcatalog(const Subcatalog &subcatalog) {
-    subcatalogs[subcatalog.getSubcatalogName()] = subcatalog;
+void Catalog::addSubcatalog(const std::string& undercatalog_name) {
+    if (subcatalogs.find(undercatalog_name) == subcatalogs.end()) {
+        Subcatalog new_subcatalog(undercatalog_name);
+        subcatalogs[undercatalog_name] = new_subcatalog;
+    } else {
+        std::cout << "Subcatalog " << undercatalog_name << " already exists!" << std::endl;
+    }
 }
+
 
 Course Catalog::find_course(std::string name) {
     for (auto& subcatalog : subcatalogs) {
@@ -30,3 +36,12 @@ std::ostream& operator<<(std::ostream& os, const Catalog& catalog) {
     }
     return os;
 }
+
+bool Catalog::hasSubcatalog(const std::string& subcatalog) const {
+    return subcatalogs.find(subcatalog) != subcatalogs.end();
+}
+
+Subcatalog &Catalog::getSubcatalog(const std::string &subcatalogName) {
+        return subcatalogs[subcatalogName];
+}
+

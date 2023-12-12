@@ -4,34 +4,32 @@
 
 #include "subcatalog.h"
 
+//#include <utility>
+
 Subcatalog::Subcatalog() = default;
 
 Subcatalog::~Subcatalog() = default;
 
-Subcatalog::Subcatalog(const std::string &name) : subcatalog_name(name) {
-    // Инициализация других членов класса, если необходимо
+Subcatalog::Subcatalog(std::string name) : subcatalog_name(std::move(name)) {
 }
 
 void Subcatalog::add_course(const Course_struct &course) {
     Course newCourse(course);
-    courses.push_back(newCourse);
+    courses[newCourse.get_course_name()] = newCourse;
 }
 
 Course Subcatalog::find_course(std::string name) {
-    for (const auto& course : courses) {
-        if (course.get_course_name() == name) {
-            return course;
-        }
+    auto it = courses.find(name);
+    if (it != courses.end()) {
+        return it->second; // Возвращаем найденный курс
     }
     return Course(); // Вернуть пустой объект Course, если курс не найден
 }
 
 void Subcatalog::delete_course(std::string name) {
-    for (auto it = courses.begin(); it != courses.end(); ++it) {
-        if (it->get_course_name() == name) {
-            courses.erase(it);
-            break;
-        }
+    auto it = courses.find(name);
+    if (it != courses.end()) {
+        courses.erase(it); // Удаляем курс, если найден
     }
 }
 
@@ -41,9 +39,8 @@ const std::string &Subcatalog::getSubcatalogName() const {
 
 std::ostream& operator<<(std::ostream& os, const Subcatalog& subcatalog) {
     os << "Subcatalog: " << subcatalog.subcatalog_name << std::endl;
-    for (const auto& course : subcatalog.courses) {
-        os << "Course Name: " << course.get_course_name() << std::endl;
-        // Вывод других данных о курсе, если необходимо
+    for (const auto& pair : subcatalog.courses) {
+        os << "Course Name: " << pair.first << std::endl;
     }
     return os;
 }

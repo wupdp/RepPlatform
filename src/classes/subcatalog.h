@@ -9,12 +9,12 @@
 
 class Subcatalog {
     std::string subcatalog_name;
-    std::vector<Course> courses;
+    std::map<std::string,Course> courses;
 
 public:
     Subcatalog();
     ~Subcatalog();
-    explicit Subcatalog(const std::string &name);
+    explicit Subcatalog(std::string name);
 
     void add_course(const Course_struct &course);
     Course find_course(std::string name);

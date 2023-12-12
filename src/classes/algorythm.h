@@ -21,7 +21,7 @@
 
 class Algorithm {
 public:
-    static void parse_courses(std::map<std::string, Course>& courses);
+    static void parse_courses(Catalog& catalog);
     void parse_users();
     void parse_teachers();
     void parse_students();
