@@ -28,7 +28,7 @@ void Algorithm::parse_courses(std::map<std::string, Course>& courses) {
 
         std::istringstream iss(line);
         std::getline(iss, course_data.name, '/');
-        std::getline(iss, course_data.undercatalog, '/');
+        std::getline(iss, course_data.subcatalog, '/');
         std::getline(iss, course_data.catalog, '/');
         std::string teachersID;
         std::getline(iss, teachersID);

@@ -14,8 +14,8 @@ public:
     ~Catalog();
 
     void addSubcatalog(const Subcatalog &subcatalog);
-    static int find_course(std::string name);
-    static std::vector<std::string> list_catalog();
+    Course find_course(std::string name);
+    friend std::ostream& operator<<(std::ostream& os, const Catalog& catalog);
 };
 
 

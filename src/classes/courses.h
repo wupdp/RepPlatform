@@ -9,7 +9,7 @@
 
 struct Course_struct{
     std::string name;
-    std::string undercatalog;
+    std::string subcatalog;
     std::string catalog;
     std::vector<int> teachers;
 };
@@ -21,7 +21,10 @@ public:
     ~Course();
     explicit Course(const Course_struct &currentCourse);
 
-    //
+    [[nodiscard]] const std::string &get_course_name() const;
+    [[nodiscard]] const std::string &get_course_catalog() const;
+    [[nodiscard]] const std::string &get_course_subcatalog() const;
+    [[nodiscard]] const std::vector<int> &get_course_teachers() const;
 };
 
 #endif //REPPLATFORM_COURSES_H
