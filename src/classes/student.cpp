@@ -5,15 +5,11 @@
 #include "User.h"
 #include "student.h"
 
-Student::Student(std::string username, std::string password) : User(username, password) {
-
+Student::Student(int id) : User(id) {
+    get_lessons();
 }
 
 void Student::view_messages() {
-
-}
-
-void Student::send_message(std::string message) {
 
 }
 
@@ -24,3 +20,10 @@ void Student::send_lesson_request(std::string teacher_id, std::string course_nam
 void Student::view_lesson_schedule() {
 
 }
+
+void Student::get_lessons() {
+    lesson_requests.emplace_back("PARSEd");
+    lesson_schedule.emplace_back("Parsed");
+}
+
+Student::~Student() = default;

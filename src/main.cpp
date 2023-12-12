@@ -1,6 +1,7 @@
 #include "classes/Guest.h"
 #include "classes/User.h"
 #include "iostream"
+
 int main(){
     std::vector<User> users;
     Guest person(&users);

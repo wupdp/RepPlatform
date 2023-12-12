@@ -8,6 +8,19 @@ add_executable(RepPlatform src/main.cpp
         src/classes/Guest.h
         src/classes/User.cpp
         src/classes/User.h
+        src/classes/courses.cpp
+        src/classes/courses.h
+        src/classes/student.cpp
+        src/classes/algorythm.cpp
+        src/classes/algorythm.h
+        src/classes/teacher.h
+        src/classes/teacher.cpp
+        src/classes/cards.cpp
+        src/classes/cards.h
+        src/classes/subcatalog.cpp
+        src/classes/subcatalog.h
+        src/classes/catalog.cpp
+        src/classes/catalog.h
         #src/classes/teacher.cpp
         #src/classes/teacher.h
         #src/classes/student.cpp

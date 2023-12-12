@@ -14,7 +14,6 @@ User::User(int idD, std::string name, std::string password) {
 }
 
 User::User(int id) {
-
 }
 
 void User::registerAsTeacher() {
@@ -76,3 +75,21 @@ bool User::checkPassword(std::string password) {
 int User::checkID(std::string password) {
     return this->id;
 }
+
+const std::string &User::getUsername() const {
+    return username;
+}
+
+void User::setUsername(const std::string &name) {
+    User::username = name;
+}
+
+const std::string &User::getRole() const {
+    return role;
+}
+
+void User::setRole(const std::string &role) {
+    User::role = role;
+}
+
+User::User() = default;
