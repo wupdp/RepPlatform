@@ -10,7 +10,6 @@
 struct Course_struct{
     std::string name;
     std::string subcatalog;
-    std::string catalog;
     std::vector<int> teachers;
 };
 
@@ -19,10 +18,9 @@ class Course {
 public:
     Course();
     ~Course();
-    explicit Course(const Course_struct &currentCourse);
+    explicit Course(Course_struct currentCourse);
 
     [[nodiscard]] const std::string &get_course_name() const;
-    [[nodiscard]] const std::string &get_course_catalog() const;
     [[nodiscard]] const std::string &get_course_subcatalog() const;
     [[nodiscard]] const std::vector<int> &get_course_teachers() const;
 };

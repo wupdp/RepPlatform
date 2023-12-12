@@ -4,14 +4,12 @@
 
 #include "courses.h"
 
-Course::Course(const Course_struct &currentCourse) : current_course(currentCourse) {}
+#include <utility>
+
+Course::Course(Course_struct currentCourse) : current_course(std::move(currentCourse)) {}
 
 const std::string &Course::get_course_name() const {
     return current_course.name;
-}
-
-const std::string &Course::get_course_catalog() const {
-    return current_course.catalog;
 }
 
 const std::string &Course::get_course_subcatalog() const {
