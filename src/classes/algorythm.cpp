@@ -4,8 +4,40 @@
 
 #include "algorythm.h"
 
-void Algorithm::parse_cards() {
+void Algorithm::parse_cards(int idToFind, Cards& cardsObj) {
+    std::ifstream file("../var/info/Cards");
+    std::string line;
+    while (std::getline(file, line)) {
+        int id;
+        std::string number, validity, cvcCodeStr, holderName;
 
+        std::istringstream iss(line);
+        std::getline(iss, cvcCodeStr, '/');
+        std::getline(iss, number, '/');
+        std::getline(iss, validity, '/');
+        std::string cvcStr;
+        std::getline(iss, cvcStr, '/');
+        std::getline(iss, holderName);
+
+        std::istringstream cvcStream(cvcStr);
+        int cvcCode;
+        cvcStream >> cvcCode;
+
+        std::istringstream idStream(cvcCodeStr);
+        idStream >> id;
+
+        if (id == idToFind) {
+            cardsObj.setNumber(number);
+            cardsObj.setValidity(validity);
+            cardsObj.setCvcCode(cvcCode);
+            cardsObj.setHolderName(holderName);
+
+            std::cout << "Card found! ID: " << id << ", Number: " << number << ", Validity: " << validity << ", CVC: " << cvcCode << std::endl;
+
+            break;
+        }
+    }
+    file.close();
 }
 
 void Algorithm::parse_students() {
@@ -52,4 +84,3 @@ void Algorithm::parse_courses(Catalog& catalog) {
     }
     file.close();
 }
-

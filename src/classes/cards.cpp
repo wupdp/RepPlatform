@@ -21,3 +21,23 @@ int Cards::getBalance() const {
 void Cards::add_balance(int money) {
     balance+=money;
 }
+
+void Cards::setNumber(const std::string &number) {
+    Cards::number = number;
+}
+
+void Cards::setValidity(const std::string &validity) {
+    Cards::validity = validity;
+}
+
+void Cards::setCvcCode(int cvcCode) {
+    cvc_code = cvcCode;
+}
+
+const std::string &Cards::getNumber() const {
+    return number;
+}
+
+void Cards::setHolderName(const std::string &holderName) {
+    holder_name = holderName;
+}

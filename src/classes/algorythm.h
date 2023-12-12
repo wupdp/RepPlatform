@@ -25,7 +25,7 @@ public:
     void parse_users();
     void parse_teachers();
     void parse_students();
-    void parse_cards();
+    static void parse_cards(int idToFind, Cards& cardsObj);
 };
 
 
