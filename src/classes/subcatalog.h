@@ -5,6 +5,7 @@
 #ifndef REPPLATFORM_SUBCATALOG_H
 #define REPPLATFORM_SUBCATALOG_H
 #include "courses.h"
+#include <map>
 
 class Subcatalog {
     std::string subcatalog_name;
@@ -21,6 +22,7 @@ public:
     static std::vector<std::string> list_subcatalog(std::string catalog);
     void delete_course(std::string name);
     // Другие методы для работы с курсами
+    [[nodiscard]] const std::string &getSubcatalogName() const;
 };
 
 

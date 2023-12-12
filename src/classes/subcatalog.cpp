@@ -27,3 +27,7 @@ std::vector<std::string> Subcatalog::list_subcatalog(std::string catalog) {
 void Subcatalog::delete_course(std::string name) {
 
 }
+
+const std::string &Subcatalog::getSubcatalogName() const {
+    return subcatalog_name;
+}

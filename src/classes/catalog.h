@@ -7,17 +7,15 @@
 #include "subcatalog.h"
 
 class Catalog {
-    std::vector<Subcatalog> subcatalogs;
+    std::map<std::string, Subcatalog> subcatalogs;
 
 public:
     Catalog();
     ~Catalog();
 
-    // Методы для работы с каталогом и подкаталогами
     void addSubcatalog(const Subcatalog &subcatalog);
     static int find_course(std::string name);
     static std::vector<std::string> list_catalog();
-    // Другие методы для работы с подкаталогами
 };
 
 
