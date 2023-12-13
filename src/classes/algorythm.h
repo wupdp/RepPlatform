@@ -22,7 +22,7 @@
 class Algorithm {
 public:
     static void parse_courses(Catalog& catalog);
-    void parse_users();
+    static void parse_users(std::map<int, User>& usersMap);
     void parse_teachers();
     void parse_students();
     static void parse_cards(int idToFind, Cards& cardsObj);

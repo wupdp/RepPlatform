@@ -33,28 +33,23 @@ int Guest::authorize(std::string username, std::string password) {          //Au
     return -1;
 }
 
-int Guest::register_user(std::string username, std::string password) {      //Registration
+int Guest::register_user(User_data data) {      //Registration
     //LOGIC
     //
-    if (isUsernameUnique(username)) {
-        User *newUser = new User(nextUserId, username, password);
+    if (isUsernameUnique(data.username)) {
+        User *newUser = new User(data);
         (*users).push_back(*newUser);
 
-        std::cout << "Registration successful for user: " << username << std::endl;
+        std::cout << "Registration successful for user: " << data.username << std::endl;
 
         nextUserId++;
 
         return nextUserId - 1;
     } else {
-        std::cout << "Registration failed for user: " << username << ". Username already exists." << std::endl;
+        std::cout << "Registration failed for user: " << data.username << ". Username already exists." << std::endl;
 
         return -1;
     }
-}
-
-void
-Guest::search_course([[maybe_unused]] std::string request_msg, std::string crit1, [[maybe_unused]] std::string crit2) { //Search course
-    //search in map
 }
 
 Guest::~Guest() = default;      //Destructor

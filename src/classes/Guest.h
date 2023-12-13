@@ -10,6 +10,7 @@
 #include <vector>
 
 class User;
+struct User_data;
 
 class Guest {
 public:
@@ -18,9 +19,7 @@ public:
     Guest(std::vector<User> *users);  // Конструктор класса.
     ~Guest(); // Деструктор класса.
 
-    void search_course([[maybe_unused]] std::string request_msg, std::string crit1,
-                       [[maybe_unused]] std::string crit2); // Поиск курсов по критериям.
-    int register_user(std::string username, std::string password); // Регистрация пользователя на сайте.
+    int register_user(User_data data); // Регистрация пользователя на сайте.
     int authorize(std::string username, std::string password); // Авторизация пользователя.
     void view_teacher_profiles(int teacher_id); // Просмотр карточек доступных преподавателей.
 

@@ -48,8 +48,39 @@ void Algorithm::parse_teachers() {
 
 }
 
-void Algorithm::parse_users() {
+void Algorithm::parse_users(std::map<int, User>& usersMap) {
+    std::ifstream file("../var/info/Users");
+    std::string line;
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+        std::string idStr, username, role, notificationsStr, walletStr, phoneNumber, password;
 
+        std::getline(iss, idStr, '/');
+        int id = std::stoi(idStr);
+
+        std::getline(iss, username, '/');
+        std::getline(iss, role, '/');
+        std::getline(iss, notificationsStr, '/');
+        std::getline(iss, walletStr, '/');
+        int wallet = std::stoi(walletStr);
+        std::getline(iss, phoneNumber, '/');
+        std::getline(iss, password);
+
+        std::vector<std::string> notifications;
+        std::istringstream notificationsStream(notificationsStr);
+        std::string notif;
+        while (std::getline(notificationsStream, notif, ',')) {
+            notifications.push_back(notif);
+        }
+
+        User_data user_data{username, id, role, notifications, wallet, phoneNumber, password};
+        User newUser(user_data);
+        parse_cards(newUser.getwalletid(), newUser.current_card);
+        usersMap[id] = newUser;
+
+        // Можно выполнить другие операции или вывод на консоль
+    }
+    file.close();
 }
 
 void Algorithm::parse_courses(Catalog& catalog) {

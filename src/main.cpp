@@ -11,9 +11,10 @@ int main(){
     Algorithm::parse_cards(1, card);
     Catalog catalog;
     Algorithm alg;                              // Class algorithm
-    std::map<std::string, Course> courses;      //map courses
     Algorithm::parse_courses(catalog);       //Ensure map
     std::cout << catalog;
+    std::map<int, User> users;
+    Algorithm::parse_users(users);
 
     return 0;
 }

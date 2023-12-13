@@ -10,7 +10,7 @@ Teacher::~Teacher() = default;
 
 Teacher::Teacher(int _id) {     //Use User constructor
     get_lessons();
-    id = _id;
+    data.id = _id;
 }
 
 
