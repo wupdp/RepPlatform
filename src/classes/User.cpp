@@ -10,8 +10,8 @@ User::User(User_data data_) {
     loggedIn = false;
 }
 
-User::User(int id) {
-    // Некоторая логика для конструктора по ID, если необходимо
+User::User(int id){
+
 }
 
 void User::registerAsTeacher() {
@@ -23,21 +23,24 @@ void User::registerAsStudent() {
 }
 
 void User::viewNotifications() {
-    // Логика для просмотра уведомлений пользователя
+    std::cout << "Notifications:" << std::endl;
     for (const auto& notif : data.notifications) {
-        // Вывод уведомлений в консоль или другая обработка данных
+        std::cout << notif << std::endl;
     }
 }
 
+void User::viewProfile() const {
+    std::cout << "User Profile:" << std::endl;
+    std::cout << "Username: " << data.username << std::endl;
+    std::cout << "User ID: " << data.id << std::endl;
+    std::cout << "Role: " << data.role << std::endl;
 
-void User::editProfile(std::string profileData) {
-    // Логика для редактирования профиля пользователя
-    // Обновление данных профиля на основе переданных данных
+    std::cout << "Number of Notifications: " << data.notifications.size() << std::endl;
+
+    std::cout << "Card Number: " << current_card.getNumber() << std::endl;
+    std::cout << "Phone Number: " << data.phoneNumber << std::endl;
 }
 
-void User::viewSupportPage() {
-    // Логика для просмотра страницы поддержки
-}
 
 void User::changePassword(std::string newPassword) {
     // Логика для изменения пароля пользователя
@@ -49,21 +52,27 @@ void User::changePhoneNumber(std::string newNumber) {
     data.phoneNumber = newNumber; // Обновляем номер телефона
 }
 
-void User::deactivateAccount() {
-    // Логика для деактивации аккаунта пользователя
-    // Можно изменить флаг или другие данные, чтобы указать, что аккаунт деактивирован
+void User::deactivateAccount(std::map<int, User>& usersMap) {
+    if (usersMap.find(data.id) != usersMap.end()) {
+        // Удаляем пользователя из map по его ID
+        usersMap.erase(data.id);
+        std::cout << "User with ID " << data.id << " has been deactivated and removed." << std::endl;
+    } else {
+        std::cout << "User with ID " << data.id << " not found." << std::endl;
+    }
 }
+
 
 void User::logOut() {
     // Логика для выхода из аккаунта пользователя
     loggedIn = false; // Устанавливаем флаг в "false", чтобы указать, что пользователь вышел из системы
 }
 
-bool User::checkPassword(std::string password) {
+
+bool User::checkPassword(std::string password) const {
     // Логика для проверки пароля пользователя
     return data.password == password; // Сравниваем переданный пароль с паролем пользователя
 }
-
 
 int User::checkID(std::string password) const {
     return data.id;

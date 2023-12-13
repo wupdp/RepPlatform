@@ -29,6 +29,7 @@ public:
     Cards current_card;
 
     User();
+    User(int id);
     explicit User(User_data data);
     void setUsername(const std::string &username);
     void setRole(const std::string &role);
@@ -38,18 +39,15 @@ public:
     [[nodiscard]] const std::string &getRole() const;
     [[nodiscard]] const int &getwalletid() const;
 
-    explicit User(int id);
     [[nodiscard]] int checkID(std::string password) const;
-    static bool checkPassword(std::string password);
+    bool checkPassword(std::string password) const;
     void registerAsTeacher();
     void registerAsStudent();
     void viewNotifications();
-    void viewProfile();
-    void editProfile(std::string profileData);
-    void viewSupportPage();
+    void viewProfile() const;
     void changePassword(std::string newPassword);
     void changePhoneNumber(std::string newNumber);
-    void deactivateAccount();
+    void deactivateAccount(std::map<int, User>& usersMap);
     void logOut();
 protected:
     User_data data;
