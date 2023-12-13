@@ -2,8 +2,8 @@
 // Created by wupdp on 07.11.23.
 //
 
-#include "User.h"
-#include "student.h"
+#include "../../../include/User.h"
+#include "../../../include/student.h"
 
 Student::Student(int id) : User(id) {
     get_lessons();

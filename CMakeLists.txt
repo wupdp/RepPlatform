@@ -4,29 +4,29 @@ project(RepPlatform)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(RepPlatform src/main.cpp
-        src/classes/Guest.cpp
-        src/classes/Guest.h
-        src/classes/User.cpp
-        src/classes/User.h
-        src/classes/courses.cpp
-        src/classes/courses.h
-        src/classes/student.cpp
+        src/classes/user_module/Guest.cpp
+        include/Guest.h
+        src/classes/user_module/User.cpp
+        include/User.h
+        src/classes/catalog_module/courses.cpp
+        include/courses.h
+        src/classes/user_module/student.cpp
         src/classes/algorythm.cpp
-        src/classes/algorythm.h
-        src/classes/teacher.h
-        src/classes/teacher.cpp
-        src/classes/cards.cpp
-        src/classes/cards.h
-        src/classes/subcatalog.cpp
-        src/classes/subcatalog.h
-        src/classes/catalog.cpp
-        src/classes/catalog.h
-        src/classes/Exception.cpp
-        "src/classes/Exception.h"
-        src/classes/FileException.h
-        src/classes/FileException.cpp
-        src/classes/InputException.h
-        src/classes/InputException.cpp
+        include/algorythm.h
+        include/teacher.h
+        src/classes/user_module/teacher.cpp
+        src/classes/user_module/cards.cpp
+        include/cards.h
+        src/classes/catalog_module/subcatalog.cpp
+        include/subcatalog.h
+        src/classes/catalog_module/catalog.cpp
+        include/catalog.h
+        src/classes/exception_module/Exception.cpp
+        "include/Exception.h"
+        include/FileException.h
+        src/classes/exception_module/FileException.cpp
+        include/InputException.h
+        src/classes/exception_module/InputException.cpp
         #src/classes/teacher.cpp
         #src/classes/teacher.h
         #src/classes/student.cpp

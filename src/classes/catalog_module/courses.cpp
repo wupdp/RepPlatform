@@ -2,7 +2,7 @@
 // Created by wupdp on 25.11.23.
 //
 
-#include "courses.h"
+#include "../../../include/courses.h"
 
 #include <utility>
 

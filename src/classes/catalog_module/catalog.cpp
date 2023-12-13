@@ -2,8 +2,8 @@
 // Created by wupdp on 12.12.23.
 //
 
-#include "catalog.h"
-#include "courses.h"
+#include "../../../include/catalog.h"
+#include "../../../include/courses.h"
 
 Catalog::Catalog() = default;
 

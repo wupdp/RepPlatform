@@ -2,7 +2,7 @@
 // Created by wupdp on 25.11.23.
 //
 
-#include "algorythm.h"
+#include "../../include/algorythm.h"
 
 void Algorithm::parse_cards(int idToFind, Cards& cardsObj) {
     std::ifstream file("../var/info/Cards");

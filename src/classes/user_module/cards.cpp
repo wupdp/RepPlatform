@@ -2,7 +2,7 @@
 // Created by wupdp on 25.11.23.
 //
 
-#include "cards.h"
+#include "../../../include/cards.h"
 
 Cards::Cards(){
     id = 0;

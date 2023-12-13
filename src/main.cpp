@@ -1,9 +1,9 @@
-#include "classes/Guest.h"
-#include "classes/User.h"
-#include "classes/algorythm.h"
-#include "classes/courses.h"
-#include "classes/catalog.h"
-#include "classes/cards.h"
+#include "../include/Guest.h"
+#include "../include/User.h"
+#include "../include/algorythm.h"
+#include "../include/courses.h"
+#include "../include/catalog.h"
+#include "../include/cards.h"
 #include "iostream"
 
 int main(){
