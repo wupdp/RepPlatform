@@ -7,7 +7,7 @@
 
 
 #include <string>
-#include <vector>
+#include <map>
 
 class User;
 struct User_data;
@@ -16,7 +16,7 @@ class Guest {
 public:
     Guest();
 
-    Guest(std::vector<User> *users);  // Конструктор класса.
+    Guest(std::map<int, User> *users);  // Конструктор класса.
     ~Guest(); // Деструктор класса.
 
     int register_user(User_data data); // Регистрация пользователя на сайте.
@@ -32,9 +32,9 @@ private:
         std::string password;
     };
 
-    std::vector<User> *users;
+    std::map<int, User> *users;
 
-    bool isUsernameUnique(const std::string &username);
+    bool is_username_unique(const std::string &username);
 };
 
 

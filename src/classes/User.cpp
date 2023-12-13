@@ -14,22 +14,25 @@ User::User(int id){
 
 }
 
-void User::registerAsTeacher() {
+User::User() = default;
+
+void User::register_as_teacher() {
     data.role = "Teacher"; // Меняем роль пользователя на "Teacher"
 }
 
-void User::registerAsStudent() {
+void User::register_as_student() {
     data.role = "Student"; // Меняем роль пользователя на "Student"
 }
 
-void User::viewNotifications() {
+void User::view_notifications() {
     std::cout << "Notifications:" << std::endl;
     for (const auto& notif : data.notifications) {
         std::cout << notif << std::endl;
     }
 }
 
-void User::viewProfile() const {
+
+void User::view_profile() const {
     std::cout << "User Profile:" << std::endl;
     std::cout << "Username: " << data.username << std::endl;
     std::cout << "User ID: " << data.id << std::endl;
@@ -41,18 +44,18 @@ void User::viewProfile() const {
     std::cout << "Phone Number: " << data.phoneNumber << std::endl;
 }
 
-
-void User::changePassword(std::string newPassword) {
+void User::change_password(std::string newPassword) {
     // Логика для изменения пароля пользователя
     data.password = newPassword; // Изменяем пароль на новый
 }
 
-void User::changePhoneNumber(std::string newNumber) {
+void User::change_phone_number(std::string newNumber) {
     // Логика для изменения номера телефона пользователя
     data.phoneNumber = newNumber; // Обновляем номер телефона
 }
 
-void User::deactivateAccount(std::map<int, User>& usersMap) {
+
+void User::deactivate_account(std::map<int, User>& usersMap) {
     if (usersMap.find(data.id) != usersMap.end()) {
         // Удаляем пользователя из map по его ID
         usersMap.erase(data.id);
@@ -64,42 +67,37 @@ void User::deactivateAccount(std::map<int, User>& usersMap) {
 
 
 void User::logOut() {
-    // Логика для выхода из аккаунта пользователя
-    loggedIn = false; // Устанавливаем флаг в "false", чтобы указать, что пользователь вышел из системы
+    loggedIn = false;
 }
 
-
-bool User::checkPassword(std::string password) const {
-    // Логика для проверки пароля пользователя
-    return data.password == password; // Сравниваем переданный пароль с паролем пользователя
+bool User::check_password(std::string password) const {
+    return data.password == password;
 }
 
-int User::checkID(std::string password) const {
+int User::check_id(std::string password) const {
     return data.id;
 }
 
-const std::string &User::getUsername() const {
+const std::string &User::get_username() const {
     return data.username;
 }
 
-void User::setUsername(const std::string &name) {
-    data.username = name;
+void User::set_username(const std::string &username) {
+    data.username = username;
 }
 
-const std::string &User::getRole() const {
+const std::string &User::get_role() const {
     return data.role;
 }
 
-void User::setRole(const std::string &role) {
+void User::set_role(const std::string &role) {
     data.role = role;
 }
 
-void User::setData(const User_data &data) {
-    User::data = data;
+void User::set_data(const User_data &data_) {
+    User::data = data_;
 }
 
-const int &User::getwalletid() const {
+const int &User::get_wallet_id() const {
     return data.wallet;
 }
-
-User::User() = default;

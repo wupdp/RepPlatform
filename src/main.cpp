@@ -15,9 +15,9 @@ int main(){
     std::cout << catalog;
     std::map<int, User> users;
     Algorithm::parse_users(users);
-    users[1].viewProfile();
-    users[1].deactivateAccount(users);
-    users[1].viewProfile();
+    users[1].view_profile();
+    users[1].deactivate_account(users);
+    users[1].view_profile();
 
     return 0;
 }

@@ -75,7 +75,7 @@ void Algorithm::parse_users(std::map<int, User>& usersMap) {
 
         User_data user_data{username, id, role, notifications, wallet, phoneNumber, password};
         User newUser(user_data);
-        parse_cards(newUser.getwalletid(), newUser.current_card);
+        parse_cards(newUser.get_wallet_id(), newUser.current_card);
         usersMap[id] = newUser;
 
         // Можно выполнить другие операции или вывод на консоль

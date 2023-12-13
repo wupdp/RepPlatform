@@ -21,6 +21,12 @@ add_executable(RepPlatform src/main.cpp
         src/classes/subcatalog.h
         src/classes/catalog.cpp
         src/classes/catalog.h
+        src/classes/Exception.cpp
+        "src/classes/Exception.h"
+        src/classes/FileException.h
+        src/classes/FileException.cpp
+        src/classes/InputException.h
+        src/classes/InputException.cpp
         #src/classes/teacher.cpp
         #src/classes/teacher.h
         #src/classes/student.cpp

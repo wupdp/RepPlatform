@@ -29,25 +29,25 @@ public:
     Cards current_card;
 
     User();
-    User(int id);
+    explicit User(int id);
     explicit User(User_data data);
-    void setUsername(const std::string &username);
-    void setRole(const std::string &role);
-    void setData(const User_data &data);
+    void set_username(const std::string &username);
+    void set_role(const std::string &role);
+    void set_data(const User_data &data);
 
-    [[nodiscard]] const std::string &getUsername() const;
-    [[nodiscard]] const std::string &getRole() const;
-    [[nodiscard]] const int &getwalletid() const;
+    [[nodiscard]] const std::string &get_username() const;
+    [[nodiscard]] const std::string &get_role() const;
+    [[nodiscard]] const int &get_wallet_id() const;
 
-    [[nodiscard]] int checkID(std::string password) const;
-    bool checkPassword(std::string password) const;
-    void registerAsTeacher();
-    void registerAsStudent();
-    void viewNotifications();
-    void viewProfile() const;
-    void changePassword(std::string newPassword);
-    void changePhoneNumber(std::string newNumber);
-    void deactivateAccount(std::map<int, User>& usersMap);
+    [[nodiscard]] int check_id(std::string password) const;
+    [[nodiscard]] bool check_password(std::string password) const;
+    void register_as_teacher();
+    void register_as_student();
+    void view_notifications();
+    void view_profile() const;
+    void change_password(std::string newPassword);
+    void change_phone_number(std::string newNumber);
+    void deactivate_account(std::map<int, User>& usersMap);
     void logOut();
 protected:
     User_data data;
