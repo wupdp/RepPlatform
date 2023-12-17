@@ -1,6 +1,4 @@
 //
-// Created by wupdp on 17.12.23.
-//
 
 #include <iostream>
 #include <limits>
@@ -13,9 +11,13 @@ Interface::Interface() {
     Algorithm::parse_users(usersMap);
     Algorithm::parse_students(studentsMap, usersMap);
     Algorithm::parse_teachers(teachersMap, usersMap);
+    currentUserType = GUEST;
 }
 
-void Interface::displayMenu() {
+//
+// Created by wupdp on 17.12.23.
+
+void Interface::displayMenuGuest() {
     system("clear");
     cout << "================================" << endl;
     cout << "=== Репетиционное обучение =====" << endl;
@@ -34,10 +36,33 @@ void Interface::displayMenu() {
     cout << "Выберите опцию: ";
 }
 
-void Interface::handleUserInput() {
+void Interface::displayMenu() {
+    system("clear");
+
+    switch (currentUserType) {
+        case GUEST:
+            handleGuestInput();
+            break;
+        case USER:
+            handleUserInput();
+            break;
+        case STUDENT:
+            handleStudentInput();
+            break;
+        case TEACHER:
+            handleTeacherInput();
+            break;
+        default:
+            std::cout << "Неправильный тип пользователя." << std::endl;
+            break;
+    }
+}
+
+
+void Interface::handleGuestInput() {
     int choice;
     while (true) {
-        displayMenu();
+        displayMenuGuest();
         cin >> choice;
 
         switch (choice) {
@@ -50,6 +75,9 @@ void Interface::handleUserInput() {
             case 3:
                 displayTeachers();
                 break;
+            case 5:
+                registerUser();
+                break;
             case 7:
                 cout << "Выход из программы." << endl;
                 exit(0);
@@ -59,6 +87,7 @@ void Interface::handleUserInput() {
         }
     }
 }
+
 
 void Interface::displayCourses() {
     system("clear");
@@ -75,7 +104,6 @@ void Interface::displayCourses() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 }
-
 
 void Interface::displayTeachers() {
     system("clear");
@@ -134,6 +162,58 @@ void Interface::displaySubcatalogs() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
+void Interface::registerUser() {
+    User_data userData; // Создаем структуру для данных нового пользователя
+
+    std::cout << "Введите имя пользователя: ";
+    std::cin >> userData.username;
+
+    std::cout << "Введите пароль: ";
+    std::cin >> userData.password;
+
+    std::cout << "Введите номер телефона: ";
+    std::cin >> userData.phoneNumber;
+
+    //TODO Card
+    //TODO add id
+
+    int userId = guest.register_user(userData, usersMap); // Регистрация пользователя
+
+    if (userId != -1) {
+        // Регистрация прошла успешно, можно выполнить дополнительные действия, если нужно
+        currentUserType = USER;
+        std::cout << "Регистрация прошла успешно. Теперь вы зарегистрированный пользователь." << std::endl;
+    } else {
+        // Регистрация не удалась из-за уже существующего имени пользователя
+        std::cout << "Ошибка регистрации. Пользователь с таким именем уже существует." << std::endl;
+    }
+}
+
+
 Interface::~Interface() {
+
+}
+
+void Interface::displayMenuUser() {
+
+}
+
+void Interface::displayMenuStudent() {
+
+}
+
+void Interface::displayMenuTeacher() {
+
+}
+
+void Interface::handleUserInput() {
+
+}
+
+void Interface::handleStudentInput() {
+
+}
+
+void Interface::handleTeacherInput() {
 
 }

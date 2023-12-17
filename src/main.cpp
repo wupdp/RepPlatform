@@ -6,9 +6,7 @@
 
 int main(){
     Interface interface;
-    while(true) {
-        interface.handleUserInput();
-    }
+    interface.displayMenu();
 
     return 0;
 }

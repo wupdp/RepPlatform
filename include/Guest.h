@@ -15,26 +15,15 @@ struct User_data;
 class Guest {
 public:
     Guest();
-
-    Guest(std::map<int, User> *users);  // Конструктор класса.
     ~Guest(); // Деструктор класса.
 
-    int register_user(User_data data); // Регистрация пользователя на сайте.
-    int authorize(std::string username, std::string password); // Авторизация пользователя.
-    void view_teacher_profiles(int teacher_id); // Просмотр карточек доступных преподавателей.
+    int register_user(User_data data, std::map<int, User> users); // Регистрация пользователя на сайте.
+    int authorize(std::string username, std::string password, std::map<int, User> users);
 
 private:
     int nextUserId;
 
-    struct UserData {
-        int id = 0;
-        std::string username;
-        std::string password;
-    };
-
-    std::map<int, User> *users;
-
-    bool is_username_unique(const std::string &username);
+    bool is_username_unique(const std::string &username, std::map<int, User> users);
 };
 
 
