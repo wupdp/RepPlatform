@@ -38,9 +38,14 @@ const std::string &Subcatalog::getSubcatalogName() const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Subcatalog& subcatalog) {
-    os << "Subcatalog: " << subcatalog.subcatalog_name << std::endl;
+    os << "================================" << std::endl;
+    os << "Подкаталог: " << subcatalog.subcatalog_name << std::endl;
+    os << "================================" << std::endl;
+
     for (const auto& pair : subcatalog.courses) {
-        os << "Course Name: " << pair.first << std::endl;
+        os << pair.first << std::endl;
     }
+
     return os;
 }
+

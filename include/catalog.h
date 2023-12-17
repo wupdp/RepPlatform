@@ -18,6 +18,8 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Catalog& catalog);
     [[nodiscard]] bool hasSubcatalog(const std::string& subcatalog) const;
     Subcatalog& getSubcatalog(const std::string& subcatalogName);
+    std::map<std::string, Subcatalog> getSubcatalogs();
+    void display_courses();
 };
 
 

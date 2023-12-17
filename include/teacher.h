@@ -29,7 +29,7 @@ public:
     void set_exp(int);
     void set_rate(double);
 
-    Teacher_data &get_data();
+    const Teacher_data &get_tdata() const;
     int &get_id();
     std::map<std::string, std::vector<std::string>> &get_courses();
     int &get_exp();

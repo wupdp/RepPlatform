@@ -41,7 +41,7 @@ void Teacher::set_rate(double rating) {
     data.rating = rating;
 }
 
-Teacher_data &Teacher::get_data() {
+const Teacher_data &Teacher::get_tdata() const{
     return data;
 }
 

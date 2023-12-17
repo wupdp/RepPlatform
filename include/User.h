@@ -39,7 +39,7 @@ public:
     [[nodiscard]] const std::string &get_role() const;
     [[nodiscard]] const int &get_wallet_id() const;
 
-    [[nodiscard]] const User_data &get_data() const;
+    const User_data &get_data() const;
 
     [[nodiscard]] int check_id(std::string password) const;
     [[nodiscard]] bool check_password(std::string password) const;

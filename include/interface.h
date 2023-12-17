@@ -16,15 +16,12 @@ private:
     std::map<int, Student> studentsMap;
     Algorithm alg;
 
-
+    void displayCourses();
+    void displayTeachers();
+    void displaySubcatalogs();
 public:
     Interface();
     virtual ~Interface();
     void displayMenu();
     void handleUserInput();
-    void displayCourses();
-    void displayUsers();
-    void displayTeachers();
-    void displayStudents();
-    void displayCards();
 };

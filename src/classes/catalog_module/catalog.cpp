@@ -45,3 +45,20 @@ Subcatalog &Catalog::getSubcatalog(const std::string &subcatalogName) {
         return subcatalogs[subcatalogName];
 }
 
+void Catalog::display_courses() {
+    if (subcatalogs.empty()) {
+        std::cout << "Каталог курсов пуст." << std::endl;
+        return;
+    }
+
+    for (const auto& pair : subcatalogs) {
+        const Subcatalog& subcatalog = pair.second;
+        std::cout << subcatalog; // Используем оператор <<
+    }
+}
+
+std::map<std::string, Subcatalog> Catalog::getSubcatalogs() {
+    return subcatalogs;
+}
+
+
