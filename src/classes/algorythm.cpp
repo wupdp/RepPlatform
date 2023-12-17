@@ -4,26 +4,28 @@
 
 #include "../../include/algorythm.h"
 
+using namespace std;
+
 void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
-    std::ifstream file("../var/info/Cards");
-    std::string line;
-    while (std::getline(file, line)) {
+    ifstream file("../var/info/Cards");
+    string line;
+    while (getline(file, line)) {
         int id;
-        std::string number, validity, cvcCodeStr, holderName;
+        string number, validity, cvcCodeStr, holderName;
 
-        std::istringstream iss(line);
-        std::getline(iss, cvcCodeStr, '/');
-        std::getline(iss, number, '/');
-        std::getline(iss, validity, '/');
-        std::string cvcStr;
-        std::getline(iss, cvcStr, '/');
-        std::getline(iss, holderName);
+        istringstream iss(line);
+        getline(iss, cvcCodeStr, '/');
+        getline(iss, number, '/');
+        getline(iss, validity, '/');
+        string cvcStr;
+        getline(iss, cvcStr, '/');
+        getline(iss, holderName);
 
-        std::istringstream cvcStream(cvcStr);
+        istringstream cvcStream(cvcStr);
         int cvcCode;
         cvcStream >> cvcCode;
 
-        std::istringstream idStream(cvcCodeStr);
+        istringstream idStream(cvcCodeStr);
         idStream >> id;
 
         if (id == idToFind) {
@@ -32,8 +34,8 @@ void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
             cardsObj.setCvcCode(cvcCode);
             cardsObj.setHolderName(holderName);
 
-            std::cout << "Card found! ID: " << id << ", Number: " << number << ", Validity: " << validity << ", CVC: "
-                      << cvcCode << std::endl;
+            cout << "Card found! ID: " << id << ", Number: " << number << ", Validity: " << validity << ", CVC: "
+                      << cvcCode << endl;
 
             break;
         }
@@ -45,51 +47,51 @@ void Algorithm::parse_students() {
 
 }
 
-void Algorithm::parse_teachers(std::map<int, Teacher>& teachersMap, std::map<int, User>& usersMap) {
-    std::ifstream file("../var/info/Teachers");
-    std::string line;
+void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& usersMap) {
+    ifstream file("../var/info/Teachers");
+    string line;
 
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
+    while (getline(file, line)) {
+        istringstream iss(line);
 
-        std::string teacherIdStr, coursesStr, experienceStr, ratingStr;
-        std::getline(iss, teacherIdStr, '/'); // Получение ID учителя
+        string teacherIdStr, coursesStr, experienceStr, ratingStr;
+        getline(iss, teacherIdStr, '/'); // Получение ID учителя
 
-        int teacherId = std::stoi(teacherIdStr);
+        int teacherId = stoi(teacherIdStr);
 
-        std::getline(iss, coursesStr, '/'); // Получение данных о курсах и расписании
-        std::getline(iss, experienceStr, '/'); // Получение стажа
-        std::getline(iss, ratingStr); // Получение рейтинга
+        getline(iss, coursesStr, '/'); // Получение данных о курсах и расписании
+        getline(iss, experienceStr, '/'); // Получение стажа
+        getline(iss, ratingStr); // Получение рейтинга
 
-        std::map<std::string, std::vector<std::string>> studentSchedules;
+        map<string, vector<string>> studentSchedules;
 
         // Разделение данных coursesStr на отдельные курсы и их расписание
-        std::istringstream coursesStream(coursesStr);
-        std::string courseInfo;
-        while (std::getline(coursesStream, courseInfo, '}')) {
-            std::istringstream courseStream(courseInfo);
+        istringstream coursesStream(coursesStr);
+        string courseInfo;
+        while (getline(coursesStream, courseInfo, '}')) {
+            istringstream courseStream(courseInfo);
 
-            std::string courseName;
-            std::getline(courseStream, courseName, '{');
+            string courseName;
+            getline(courseStream, courseName, '{');
 
-            std::string studentInfo;
-            while (std::getline(courseStream, studentInfo, '}')) {
-                std::istringstream studentStream(studentInfo);
+            string studentInfo;
+            while (getline(courseStream, studentInfo, '}')) {
+                istringstream studentStream(studentInfo);
 
-                std::string studentIdStr, scheduleStr;
-                std::getline(studentStream, studentIdStr, ':');
-                int studentId = std::stoi(studentIdStr);
+                string studentIdStr, scheduleStr;
+                getline(studentStream, studentIdStr, ':');
+                int studentId = stoi(studentIdStr);
 
-                std::getline(studentStream, scheduleStr);
-                std::istringstream scheduleStream(scheduleStr);
+                getline(studentStream, scheduleStr);
+                istringstream scheduleStream(scheduleStr);
 
-                std::string date;
-                std::vector<std::string> scheduleDates;
-                while (std::getline(scheduleStream, date, ' ')) {
+                string date;
+                vector<string> scheduleDates;
+                while (getline(scheduleStream, date, ' ')) {
                     scheduleDates.push_back(date);
                 }
 
-                studentSchedules[std::to_string(studentId)] = scheduleDates;
+                studentSchedules[to_string(studentId)] = scheduleDates;
             }
         }
 
@@ -100,8 +102,8 @@ void Algorithm::parse_teachers(std::map<int, Teacher>& teachersMap, std::map<int
         Teacher_data teacherData{
                 teacherId,
                 studentSchedules,
-                std::stoi(experienceStr),
-                std::stod(ratingStr)
+                stoi(experienceStr),
+                stod(ratingStr)
         };
 
         // Создание объекта Teacher и заполнение его данными
@@ -116,28 +118,28 @@ void Algorithm::parse_teachers(std::map<int, Teacher>& teachersMap, std::map<int
 
 
 
-void Algorithm::parse_users(std::map<int, User> &usersMap) {
-    std::ifstream file("../var/info/Users");
-    std::string line;
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
-        std::string idStr, username, role, notificationsStr, walletStr, phoneNumber, password;
+void Algorithm::parse_users(map<int, User> &usersMap) {
+    ifstream file("../var/info/Users");
+    string line;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string idStr, username, role, notificationsStr, walletStr, phoneNumber, password;
 
-        std::getline(iss, idStr, '/');
-        int id = std::stoi(idStr);
+        getline(iss, idStr, '/');
+        int id = stoi(idStr);
 
-        std::getline(iss, username, '/');
-        std::getline(iss, role, '/');
-        std::getline(iss, notificationsStr, '/');
-        std::getline(iss, walletStr, '/');
-        int wallet = std::stoi(walletStr);
-        std::getline(iss, phoneNumber, '/');
-        std::getline(iss, password);
+        getline(iss, username, '/');
+        getline(iss, role, '/');
+        getline(iss, notificationsStr, '/');
+        getline(iss, walletStr, '/');
+        int wallet = stoi(walletStr);
+        getline(iss, phoneNumber, '/');
+        getline(iss, password);
 
-        std::vector<std::string> notifications;
-        std::istringstream notificationsStream(notificationsStr);
-        std::string notif;
-        while (std::getline(notificationsStream, notif, ',')) {
+        vector<string> notifications;
+        istringstream notificationsStream(notificationsStr);
+        string notif;
+        while (getline(notificationsStream, notif, ',')) {
             notifications.push_back(notif);
         }
 
@@ -152,18 +154,18 @@ void Algorithm::parse_users(std::map<int, User> &usersMap) {
 }
 
 void Algorithm::parse_courses(Catalog &catalog) {
-    std::ifstream file("../var/info/Courses");
-    std::string line;
-    while (std::getline(file, line)) {
+    ifstream file("../var/info/Courses");
+    string line;
+    while (getline(file, line)) {
         Course_struct course_data;
 
-        std::istringstream iss(line);
-        std::getline(iss, course_data.name, '/');
-        std::getline(iss, course_data.subcatalog, '/');
-        std::string teachersID;
-        std::getline(iss, teachersID);
+        istringstream iss(line);
+        getline(iss, course_data.name, '/');
+        getline(iss, course_data.subcatalog, '/');
+        string teachersID;
+        getline(iss, teachersID);
 
-        std::istringstream teachersStream(teachersID);
+        istringstream teachersStream(teachersID);
         int teacherID;
         while (teachersStream >> teacherID) {
             course_data.teachers.push_back(teacherID);
