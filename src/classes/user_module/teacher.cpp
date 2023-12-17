@@ -1,6 +1,6 @@
 //
-// Created by wupdp on 07.11.23.
-//
+
+#include <utility>
 
 #include "../../../include/teacher.h"
 
@@ -13,6 +13,9 @@ Teacher::Teacher(int _id) {     //Use User constructor
     data.id = _id;
 }
 
+Teacher::Teacher(const User_data &userData, Teacher_data teacherData)
+        : User(userData), data(std::move(teacherData)) {
+}
 
 void Teacher::get_lesson_request(std::string student_id, std::string course_name, double lesson_price) {
 
@@ -34,7 +37,7 @@ void Teacher::get_lessons() {
 
 }
 
-void Teacher::set_data(const TeacherData &data) {
+void Teacher::set_data(const Teacher_data &data) {
     Teacher::data = data;
 }
 
@@ -54,23 +57,23 @@ void Teacher::set_rate(double rating) {
     data.rating = rating;
 }
 
-TeacherData Teacher::get_data() {
+Teacher_data &Teacher::get_data() {
     return data;
 }
 
-int Teacher::get_id() {
+int &Teacher::get_id() {
     return data.id;
 }
 
-std::vector<std::pair<std::string, std::vector<std::string>>> Teacher::get_courses() {
+std::vector<std::pair<std::string, std::vector<std::string>>> &Teacher::get_courses() {
     return data.courses;
 }
 
-int Teacher::get_exp() {
+int &Teacher::get_exp() {
     return data.experience;
 }
 
-double Teacher::get_rate() {
+double &Teacher::get_rate() {
     return data.rating;
 }
 

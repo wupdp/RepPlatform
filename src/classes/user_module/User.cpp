@@ -107,3 +107,7 @@ void User::set_data(const User_data &data_) {
 const int &User::get_wallet_id() const {
     return data.wallet;
 }
+
+const User_data &User::get_data() const {
+    return data;
+}

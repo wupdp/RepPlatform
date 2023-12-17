@@ -4,7 +4,7 @@
 
 #include "../../include/algorythm.h"
 
-void Algorithm::parse_cards(int idToFind, Cards& cardsObj) {
+void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
     std::ifstream file("../var/info/Cards");
     std::string line;
     while (std::getline(file, line)) {
@@ -32,7 +32,8 @@ void Algorithm::parse_cards(int idToFind, Cards& cardsObj) {
             cardsObj.setCvcCode(cvcCode);
             cardsObj.setHolderName(holderName);
 
-            std::cout << "Card found! ID: " << id << ", Number: " << number << ", Validity: " << validity << ", CVC: " << cvcCode << std::endl;
+            std::cout << "Card found! ID: " << id << ", Number: " << number << ", Validity: " << validity << ", CVC: "
+                      << cvcCode << std::endl;
 
             break;
         }
@@ -44,11 +45,71 @@ void Algorithm::parse_students() {
 
 }
 
-void Algorithm::parse_teachers() {
+void Algorithm::parse_teachers(std::map<int, Teacher> &teachersMap, std::map<int, User> &usersMap) {
+    std::ifstream file("../var/info/teachers");
+    std::string line;
 
+    while (std::getline(file, line)) {
+        std::istringstream iss(line);
+
+        std::string teacherIdStr, coursesStr, experienceStr, ratingStr;
+        std::getline(iss, teacherIdStr, '/'); // Получение ID учителя
+
+        int teacherId = std::stoi(teacherIdStr);
+
+        std::getline(iss, coursesStr, '/'); // Получение данных о курсах и расписании
+        std::getline(iss, experienceStr, '/'); // Получение стажа
+        std::getline(iss, ratingStr); // Получение рейтинга
+
+        std::vector<std::pair<std::string, std::vector<std::string>>> courses;
+
+        // Разделение данных coursesStr на отдельные курсы и их расписание
+        std::istringstream coursesStream(coursesStr);
+        std::string courseInfo;
+        while (std::getline(coursesStream, courseInfo, '}')) {
+            std::istringstream courseStream(courseInfo);
+
+            std::string courseName;
+            std::vector<std::string> schedule;
+
+            // Извлечение имени курса
+            std::getline(courseStream, courseName, '{');
+
+            // Извлечение расписания занятий для этого курса
+            std::string scheduleInfo;
+            std::getline(courseStream, scheduleInfo);
+
+            std::istringstream scheduleStream(scheduleInfo);
+            std::string lessonInfo;
+            while (std::getline(scheduleStream, lessonInfo, '/')) {
+                schedule.push_back(lessonInfo);
+            }
+
+            courses.push_back({courseName, schedule});
+        }
+
+        // Создание объекта TeacherData с извлеченными данными
+        Teacher_data teacherData{
+                teacherId,
+                courses,
+                std::stoi(experienceStr),
+                std::stod(ratingStr)
+        };
+
+        // Получение данных пользователя из usersMap
+        User_data userData = usersMap[teacherId].get_data();
+
+        // Создание объекта Teacher и заполнение его данными
+        Teacher newTeacher(userData, teacherData);
+
+        // Добавление объекта Teacher в teachersMap
+        teachersMap[teacherId] = newTeacher;
+    }
+
+    file.close();
 }
 
-void Algorithm::parse_users(std::map<int, User>& usersMap) {
+void Algorithm::parse_users(std::map<int, User> &usersMap) {
     std::ifstream file("../var/info/Users");
     std::string line;
     while (std::getline(file, line)) {
@@ -83,7 +144,7 @@ void Algorithm::parse_users(std::map<int, User>& usersMap) {
     file.close();
 }
 
-void Algorithm::parse_courses(Catalog& catalog) {
+void Algorithm::parse_courses(Catalog &catalog) {
     std::ifstream file("../var/info/Courses");
     std::string line;
     while (std::getline(file, line)) {
@@ -110,7 +171,7 @@ void Algorithm::parse_courses(Catalog& catalog) {
             catalog.addSubcatalog(course_data.subcatalog);
         }
 
-        Subcatalog& subcatalog = catalog.getSubcatalog(course_data.subcatalog);
+        Subcatalog &subcatalog = catalog.getSubcatalog(course_data.subcatalog);
         subcatalog.add_course(course_data);
     }
     file.close();
