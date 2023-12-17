@@ -45,8 +45,8 @@ void Teacher::set_id(int id) {
     data.id = id;
 }
 
-void Teacher::set_courses(std::vector<std::pair<std::string, std::vector<std::string>>> courses) {
-    data.courses = courses;
+void Teacher::set_courses(std::map<std::string, std::vector<std::string>> courses) {
+    data.studentSchedules = courses;
 }
 
 void Teacher::set_exp(int exp) {
@@ -65,8 +65,8 @@ int &Teacher::get_id() {
     return data.id;
 }
 
-std::vector<std::pair<std::string, std::vector<std::string>>> &Teacher::get_courses() {
-    return data.courses;
+std::map<std::string, std::vector<std::string>> &Teacher::get_courses() {
+    return data.studentSchedules;
 }
 
 int &Teacher::get_exp() {

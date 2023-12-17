@@ -14,7 +14,9 @@ int main(){
     Algorithm::parse_courses(catalog);       //Ensure map
     std::cout << catalog;
     std::map<int, User> users;
+    std::map<int, Teacher> teachers;
     Algorithm::parse_users(users);
+    Algorithm::parse_teachers( teachers, users);
     users[1].view_profile();
     users[1].deactivate_account(users);
     users[1].view_profile();

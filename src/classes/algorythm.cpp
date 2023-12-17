@@ -45,8 +45,8 @@ void Algorithm::parse_students() {
 
 }
 
-void Algorithm::parse_teachers(std::map<int, Teacher> &teachersMap, std::map<int, User> &usersMap) {
-    std::ifstream file("../var/info/teachers");
+void Algorithm::parse_teachers(std::map<int, Teacher>& teachersMap, std::map<int, User>& usersMap) {
+    std::ifstream file("../var/info/Teachers");
     std::string line;
 
     while (std::getline(file, line)) {
@@ -61,7 +61,7 @@ void Algorithm::parse_teachers(std::map<int, Teacher> &teachersMap, std::map<int
         std::getline(iss, experienceStr, '/'); // Получение стажа
         std::getline(iss, ratingStr); // Получение рейтинга
 
-        std::vector<std::pair<std::string, std::vector<std::string>>> courses;
+        std::map<std::string, std::vector<std::string>> studentSchedules;
 
         // Разделение данных coursesStr на отдельные курсы и их расписание
         std::istringstream coursesStream(coursesStr);
@@ -70,34 +70,39 @@ void Algorithm::parse_teachers(std::map<int, Teacher> &teachersMap, std::map<int
             std::istringstream courseStream(courseInfo);
 
             std::string courseName;
-            std::vector<std::string> schedule;
-
-            // Извлечение имени курса
             std::getline(courseStream, courseName, '{');
 
-            // Извлечение расписания занятий для этого курса
-            std::string scheduleInfo;
-            std::getline(courseStream, scheduleInfo);
+            std::string studentInfo;
+            while (std::getline(courseStream, studentInfo, '}')) {
+                std::istringstream studentStream(studentInfo);
 
-            std::istringstream scheduleStream(scheduleInfo);
-            std::string lessonInfo;
-            while (std::getline(scheduleStream, lessonInfo, '/')) {
-                schedule.push_back(lessonInfo);
+                std::string studentIdStr, scheduleStr;
+                std::getline(studentStream, studentIdStr, ':');
+                int studentId = std::stoi(studentIdStr);
+
+                std::getline(studentStream, scheduleStr);
+                std::istringstream scheduleStream(scheduleStr);
+
+                std::string date;
+                std::vector<std::string> scheduleDates;
+                while (std::getline(scheduleStream, date, ' ')) {
+                    scheduleDates.push_back(date);
+                }
+
+                studentSchedules[std::to_string(studentId)] = scheduleDates;
             }
-
-            courses.push_back({courseName, schedule});
         }
+
+        // Получение данных пользователя из usersMap
+        User_data userData = usersMap[teacherId].get_data();
 
         // Создание объекта TeacherData с извлеченными данными
         Teacher_data teacherData{
                 teacherId,
-                courses,
+                studentSchedules,
                 std::stoi(experienceStr),
                 std::stod(ratingStr)
         };
-
-        // Получение данных пользователя из usersMap
-        User_data userData = usersMap[teacherId].get_data();
 
         // Создание объекта Teacher и заполнение его данными
         Teacher newTeacher(userData, teacherData);
@@ -108,6 +113,8 @@ void Algorithm::parse_teachers(std::map<int, Teacher> &teachersMap, std::map<int
 
     file.close();
 }
+
+
 
 void Algorithm::parse_users(std::map<int, User> &usersMap) {
     std::ifstream file("../var/info/Users");
