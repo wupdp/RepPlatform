@@ -111,3 +111,11 @@ const int &User::get_wallet_id() const {
 const User_data &User::get_data() const {
     return data;
 }
+
+const std::string &User::get_phonenumber() const {
+    return data.phoneNumber;
+}
+
+const std::vector<std::string> &User::get_notifications() const {
+    return data.notifications;
+}

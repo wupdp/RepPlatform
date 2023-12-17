@@ -14,8 +14,28 @@ Interface::Interface() {
     currentUserType = GUEST;
 }
 
-//
-// Created by wupdp on 17.12.23.
+void Interface::displayMenu() {
+    system("clear");
+    while (true) {
+        switch (currentUserType) {
+            case GUEST:
+                handleGuestInput();
+                break;
+            case USER:
+                handleUserInput();
+                break;
+            case STUDENT:
+                handleStudentInput();
+                break;
+            case TEACHER:
+                handleTeacherInput();
+                break;
+            default:
+                std::cout << "Неправильный тип пользователя." << std::endl;
+                break;
+        }
+    }
+}
 
 void Interface::displayMenuGuest() {
     system("clear");
@@ -36,26 +56,11 @@ void Interface::displayMenuGuest() {
     cout << "Выберите опцию: ";
 }
 
-void Interface::displayMenu() {
-    system("clear");
 
-    switch (currentUserType) {
-        case GUEST:
-            handleGuestInput();
-            break;
-        case USER:
-            handleUserInput();
-            break;
-        case STUDENT:
-            handleStudentInput();
-            break;
-        case TEACHER:
-            handleTeacherInput();
-            break;
-        default:
-            std::cout << "Неправильный тип пользователя." << std::endl;
-            break;
-    }
+Interface::~Interface() {
+    usersMap.clear();
+    teachersMap.clear();
+    studentsMap.clear();
 }
 
 
@@ -75,9 +80,12 @@ void Interface::handleGuestInput() {
             case 3:
                 displayTeachers();
                 break;
+            case 4:
+                authorizeUser();
+                return;
             case 5:
                 registerUser();
-                break;
+                return;
             case 7:
                 cout << "Выход из программы." << endl;
                 exit(0);
@@ -88,6 +96,84 @@ void Interface::handleGuestInput() {
     }
 }
 
+void Interface::displayMenuUser() {
+    system("clear");
+    cout << "================================" << endl;
+    cout << "=== Репетиционное обучение =====" << endl;
+    cout << "================================" << endl;
+
+    cout << "1. Просмотр всех курсов" << endl;
+    cout << "2. Просмотр подкаталогов" << endl;
+    cout << "3. Просмотр преподавателей" << endl;
+    cout << "4. Ваши данные" << endl;
+    cout << "5. Стать студентом" << endl;
+    cout << "6. Стать преподавателем" << endl;
+    cout << "7. Выйти из аккаунта" << endl;
+    cout << "8. Удалить аккаунт" << endl;
+
+    cout << "================================" << endl;
+    cout << "9. Выход" << endl;
+    cout << "================================" << endl;
+    cout << "Выберите опцию: ";
+}
+
+void Interface::displayMenuStudent() {
+
+}
+
+void Interface::displayMenuTeacher() {
+
+}
+
+void Interface::handleUserInput() {
+    int choice;
+    while (true) {
+        displayMenuUser();
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                displayCourses();
+                break;
+            case 2:
+                displaySubcatalogs();
+                break;
+            case 3:
+                displayTeachers();
+                break;
+            case 4:
+                UserProfile();
+                break;
+            case 5:
+                user.register_as_student();
+                break;
+            case 6:
+                user.register_as_teacher();
+                break;
+            case 7:
+                currentUserType = GUEST;
+                return;
+            case 8:
+                user.deactivate_account(usersMap);
+                currentUserType = GUEST;
+                return;
+            case 9:
+                cout << "Выход из программы." << endl;
+                exit(0);
+            default:
+                cout << "Неверный выбор. Пожалуйста, выберите снова." << endl;
+                break;
+        }
+    }
+}
+
+void Interface::handleStudentInput() {
+
+}
+
+void Interface::handleTeacherInput() {
+
+}
 
 void Interface::displayCourses() {
     system("clear");
@@ -112,9 +198,9 @@ void Interface::displayTeachers() {
         return;
     }
 
-    for (const auto& teacher_pair : teachersMap) {
-        const Teacher& teacher = teacher_pair.second;
-        const Teacher_data& teacherData = teacher.get_tdata();
+    for (const auto &teacher_pair: teachersMap) {
+        const Teacher &teacher = teacher_pair.second;
+        const Teacher_data &teacherData = teacher.get_tdata();
 
         cout << "ID преподавателя: " << teacherData.id << endl;
         cout << "Имя преподавателя: " << teacher.get_username() << endl;
@@ -123,6 +209,7 @@ void Interface::displayTeachers() {
         cout << endl;
     }
     cout << "Нажмите Enter, чтобы вернуться в главное меню... ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
@@ -136,7 +223,7 @@ void Interface::displaySubcatalogs() {
     map<string, Subcatalog> subcatalogs = catalog.getSubcatalogs();
 
     int index = 1;
-    for (const auto& pair : subcatalogs) {
+    for (const auto &pair: subcatalogs) {
         cout << index << ". " << pair.first << endl;
         ++index;
     }
@@ -163,6 +250,7 @@ void Interface::displaySubcatalogs() {
 }
 
 void Interface::registerUser() {
+    system("clear");
     User_data userData; // Создаем структуру для данных нового пользователя
 
     std::cout << "Введите имя пользователя: ";
@@ -190,30 +278,145 @@ void Interface::registerUser() {
 }
 
 
-Interface::~Interface() {
+void Interface::authorizeUser() {
+    system("clear");
+    std::string username, password;
 
+    std::cout << "Введите имя пользователя: ";
+    std::cin >> username;
+
+    std::cout << "Введите пароль: ";
+    std::cin >> password;
+
+    int userId = guest.authorize(username, password, usersMap); // Авторизация пользователя
+
+    if (userId != -1) {
+        // Авторизация прошла успешно, можно выполнить дополнительные действия, если нужно
+        currentUserType = USER; // Установка текущего типа пользователя
+        std::cout << "Авторизация прошла успешно. Добро пожаловать, " << username << "!" << std::endl;
+    } else {
+        // Неверные имя пользователя или пароль
+        std::cout << "Ошибка авторизации. Проверьте имя пользователя и пароль." << std::endl;
+    }
 }
 
-void Interface::displayMenuUser() {
+void Interface::UserProfile() {
+    system("clear");
+    cout << "================================" << endl;
+    cout << "=== Профиль пользователя ======" << endl;
+    cout << "================================" << endl;
 
+    cout << "Имя пользователя: " << user.get_username() << endl;
+    cout << "Ваша карта: " << user.current_card.getNumber() << endl;
+    cout << "Баланс: " << user.current_card.getBalance() << endl;
+    cout << "Номер телефона: " << user.get_phonenumber() << endl;
+    cout << "Уведомления:" << endl;
+    for (const auto &notification: user.get_notifications()) {
+        cout << "- " << notification << endl;
+    }
+
+    cout << "================================" << endl;
+    cout << "1. Изменить пароль" << endl;
+    cout << "2. Изменить данные профиля" << endl;
+    cout << "2. Пополнить баланс" << endl;
+    cout << "3. Выход из профиля" << endl;
+    cout << "Выберите действие: " << endl;
+
+    int choice;
+    cin >> choice;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    if (choice == 3)
+        return;
+
+    ChangeProfileInfo(choice);
 }
 
-void Interface::displayMenuStudent() {
+void Interface::ChangeProfileInfo(int choice) {
+    system("clear");
+    switch (choice) {
+        case 1: {
+            string oldPassword;
+            cout << "Введите старый пароль: ";
+            cin >> oldPassword;
+            if (user.check_password(oldPassword)) {
+                string newPassword;
+                cout << "Введите новый пароль: ";
+                cin >> newPassword;
+                user.change_password(newPassword);
+                break;
+            }
+            cout << "Неверный пароль";
+            break;
+        }
+        case 2: {
+            while (true) {
+                system("clear");
+                cout << "================================" << endl;
+                cout << "=== Изменение данных профиля ===" << endl;
+                cout << "================================" << endl;
+                cout << "1. Изменить имя пользователя" << endl;
+                cout << "2. Изменить номер телефона" << endl;
+                cout << "3. Изменить банковскую карту" << endl;
+                cout << "4. Вернуться назад" << endl;
 
+                int profileChoice;
+                cin >> profileChoice;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                switch (profileChoice) {
+                    case 1: {
+                        string newUsername;
+                        cout << "Введите новое имя пользователя: ";
+                        cin >> newUsername;
+                        user.set_username(newUsername);
+                        break;
+                    }
+                    case 2: {
+                        string newPhoneNumber;
+                        cout << "Введите новый номер телефона: ";
+                        cin >> newPhoneNumber;
+                        user.change_phone_number(newPhoneNumber);
+                        break;
+                    }
+                    case 3: {
+                        string newCardNumber, newValidity, newHolderName;
+                        int newCvcCode;
+
+                        cout << "Введите новый номер карты: ";
+                        cin >> newCardNumber;
+                        user.current_card.setNumber(newCardNumber);
+
+                        cout << "Введите новую дату действия: ";
+                        cin >> newValidity;
+                        user.current_card.setValidity(newValidity);
+
+                        cout << "Введите новое имя держателя: ";
+                        cin >> newHolderName;
+                        user.current_card.setHolderName(newHolderName);
+
+                        cout << "Введите новый CVC-код: ";
+                        cin >> newCvcCode;
+                        user.current_card.setCvcCode(newCvcCode);
+
+                        break;
+                    }
+
+                    case 4:
+                        break;
+                    default:
+                        cout << "Некорректный выбор." << endl;
+                        break;
+                }
+                if (profileChoice == 4) {
+                    break;
+                }
+            }
+            break;
+        }
+        default:
+            cout << "Некорректный выбор." << endl;
+            break;
+    }
 }
 
-void Interface::displayMenuTeacher() {
-
-}
-
-void Interface::handleUserInput() {
-
-}
-
-void Interface::handleStudentInput() {
-
-}
-
-void Interface::handleTeacherInput() {
-
-}

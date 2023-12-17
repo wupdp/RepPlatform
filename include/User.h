@@ -38,6 +38,8 @@ public:
     [[nodiscard]] const std::string &get_username() const;
     [[nodiscard]] const std::string &get_role() const;
     [[nodiscard]] const int &get_wallet_id() const;
+    [[nodiscard]] const std::string &get_phonenumber() const;
+    [[nodiscard]] const std::vector<std::string> &get_notifications() const;
 
     const User_data &get_data() const;
 

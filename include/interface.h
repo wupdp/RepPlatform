@@ -27,6 +27,9 @@ private:
     void displayTeachers();
     void displaySubcatalogs();
     void registerUser();
+    void authorizeUser();
+    void UserProfile();
+    void ChangeProfileInfo(int choice);
 
     // Меню для различных типов пользователей
     void displayMenuGuest();
