@@ -9,36 +9,20 @@ Teacher::Teacher()= default;
 Teacher::~Teacher() = default;
 
 Teacher::Teacher(int _id) {     //Use User constructor
-    get_lessons();
     data.id = _id;
 }
 
 Teacher::Teacher(const User_data &userData, Teacher_data teacherData)
         : User(userData), data(std::move(teacherData)) {
+
 }
 
 void Teacher::get_lesson_request(std::string student_id, std::string course_name, double lesson_price) {
 
 }
 
-void Teacher::view_lesson_schedule() {
-
-}
-
-void Teacher::edit_lesson_schedule() {
-
-}
-
-void Teacher::edit_profile() {
-
-}
-
-void Teacher::get_lessons() {
-
-}
-
-void Teacher::set_data(const Teacher_data &data) {
-    Teacher::data = data;
+void Teacher::set_data(const Teacher_data &data_) {
+    Teacher::data = data_;
 }
 
 void Teacher::set_id(int id) {
@@ -76,5 +60,3 @@ int &Teacher::get_exp() {
 double &Teacher::get_rate() {
     return data.rating;
 }
-
-

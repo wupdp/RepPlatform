@@ -43,9 +43,67 @@ void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
     file.close();
 }
 
-void Algorithm::parse_students() {
+void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &usersMap) {
+    ifstream file("../var/info/Students");
+    string line;
 
+    while (getline(file, line)) {
+        istringstream iss(line);
+
+        string studentIdStr, coursesStr;
+        getline(iss, studentIdStr, '/'); // Получение ID студента
+
+        int studentId = stoi(studentIdStr);
+
+        getline(iss, coursesStr); // Получение данных о курсах и расписании
+
+        // Разделение данных coursesStr на отдельные курсы и их расписание
+        istringstream coursesStream(coursesStr);
+        string courseInfo;
+        map<string, vector<string>> courseSchedules;
+
+        while (getline(coursesStream, courseInfo, '}')) {
+            istringstream courseStream(courseInfo);
+
+            string courseName;
+            vector<string> schedule;
+
+            // Извлечение имени курса
+            getline(courseStream, courseName, '{');
+
+            // Извлечение расписания занятий для этого курса
+            string scheduleInfo;
+            getline(courseStream, scheduleInfo);
+
+            istringstream scheduleStream(scheduleInfo);
+            string lessonInfo;
+            while (getline(scheduleStream, lessonInfo, '/')) {
+                schedule.push_back(lessonInfo);
+            }
+
+            courseSchedules[courseName] = schedule;
+        }
+
+        // Создание объекта StudentData с извлеченными данными
+        StudentData studentData{
+                studentId,
+                courseSchedules
+        };
+
+        // Получение данных пользователя из usersMap
+        User_data userData = usersMap[studentId].get_data();
+
+        // Создание объекта Student и заполнение его данными
+        Student newStudent(userData, studentData);
+
+        parse_cards(newStudent.get_wallet_id(), newStudent.current_card);
+        // Добавление объекта Student в studentsMap
+        studentsMap[studentId] = newStudent;
+    }
+
+    file.close();
 }
+
 
 void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& usersMap) {
     ifstream file("../var/info/Teachers");
@@ -109,14 +167,13 @@ void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& u
         // Создание объекта Teacher и заполнение его данными
         Teacher newTeacher(userData, teacherData);
 
+        parse_cards(newTeacher.get_wallet_id(), newTeacher.current_card);
         // Добавление объекта Teacher в teachersMap
         teachersMap[teacherId] = newTeacher;
     }
 
     file.close();
 }
-
-
 
 void Algorithm::parse_users(map<int, User> &usersMap) {
     ifstream file("../var/info/Users");

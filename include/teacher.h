@@ -22,9 +22,6 @@ public:
     explicit Teacher(const User_data &userData, Teacher_data teacherData);
     virtual ~Teacher();
     void get_lesson_request(std::string student_id, std::string course_name, double lesson_price);
-    void view_lesson_schedule();
-    void edit_lesson_schedule();
-    void edit_profile();
 
     void set_data(const Teacher_data &data);
     void set_id(int);
@@ -40,7 +37,6 @@ public:
 
 private:
     Teacher_data data;
-    void get_lessons();
 };
 //ID/{Курс{ID ученика:даты ближайших занятий в виде день.месяц день.месяц}Курс{ID ученика:даты ближайших занятий в виде день.месяц день.месяц}}/стаж/рейтинг
 

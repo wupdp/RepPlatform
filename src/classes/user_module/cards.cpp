@@ -22,12 +22,12 @@ void Cards::add_balance(int money) {
     balance+=money;
 }
 
-void Cards::setNumber(const std::string &number) {
-    Cards::number = number;
+void Cards::setNumber(const std::string &number_) {
+    Cards::number = number_;
 }
 
-void Cards::setValidity(const std::string &validity) {
-    Cards::validity = validity;
+void Cards::setValidity(const std::string &validity_) {
+    Cards::validity = validity_;
 }
 
 void Cards::setCvcCode(int cvcCode) {
