@@ -34,9 +34,6 @@ void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
             cardsObj.setCvcCode(cvcCode);
             cardsObj.setHolderName(holderName);
 
-            cout << "Card found! ID: " << id << ", Number: " << number << ", Validity: " << validity << ", CVC: "
-                      << cvcCode << endl;
-
             break;
         }
     }
