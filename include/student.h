@@ -9,7 +9,7 @@
 
 class Student : public User {
 public:
-    explicit Student(int id);
+    explicit Student(int id, std::map<int, User> users);
     virtual ~Student();
 
     void view_messages();

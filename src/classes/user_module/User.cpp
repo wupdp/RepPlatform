@@ -10,8 +10,14 @@ User::User(User_data data_) {
     loggedIn = false;
 }
 
-User::User(int id){
+User::User(int id, std::map<int, User> users){
+    auto it = users.find(id);
 
+    if (it != users.end())
+        *this = it->second;
+    else
+        ///
+        return;
 }
 
 User::User() = default;

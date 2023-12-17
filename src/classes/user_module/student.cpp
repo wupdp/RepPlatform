@@ -5,7 +5,7 @@
 #include "../../../include/User.h"
 #include "../../../include/student.h"
 
-Student::Student(int id) : User(id) {
+Student::Student(int id, std::map<int, User> users) : User(id, users) {
     get_lessons();
 }
 

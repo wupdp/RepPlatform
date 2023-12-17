@@ -29,7 +29,7 @@ public:
     Cards current_card;
 
     User();
-    explicit User(int id);
+    explicit User(int id, std::map<int, User> users);
     explicit User(User_data data);
     void set_username(const std::string &username);
     void set_role(const std::string &role);
