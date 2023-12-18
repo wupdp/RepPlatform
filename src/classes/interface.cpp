@@ -118,7 +118,26 @@ void Interface::displayMenuUser() {
 }
 
 void Interface::displayMenuStudent() {
+    system("clear");
+    cout << "================================" << endl;
+    cout << "Студент: " << student.get_username() << endl; // Получите имя текущего студента
+    cout << "================================" << endl;
 
+    cout << "1. Просмотр расписания" << endl;
+    cout << "2. Просмотр всех курсов" << endl;
+    cout << "3. Просмотр подкаталогов" << endl;
+    cout << "4. Просмотр сообщений" << endl;
+    cout << "5. Просмотр преподавателей" << endl;
+    cout << "6. Ваши данные" << endl;
+    cout << "7. Отправить запрос на урок" << endl;
+    cout << "8. Выйти из аккаунта" << endl;
+    cout << "9. Удалить учетную запись студента" << endl;
+    cout << "10. Удалить аккаунт" << endl;
+
+    cout << "================================" << endl;
+    cout << "11. Выход" << endl;
+    cout << "================================" << endl;
+    cout << "Выберите опцию: ";
 }
 
 void Interface::displayMenuTeacher() {
@@ -144,12 +163,20 @@ void Interface::handleUserInput() {
             case 4:
                 UserProfile();
                 break;
-            case 5:
+            case 5: {
                 user.register_as_student();
-                break;
-            case 6:
+                studentsMap[user.get_id()] = Student(user.get_id(), usersMap); // Добавление студента в studentsMap по ID
+                student = studentsMap[user.get_id()];
+                currentUserType = STUDENT;
+                return;
+            }
+            case 6: {
                 user.register_as_teacher();
-                break;
+                teachersMap[user.get_id()] = Teacher(user.get_id(), usersMap); // Добавление преподавателя в teachersMap по ID
+                teacher = teachersMap[user.get_id()];
+                currentUserType = TEACHER;
+                return;
+            }
             case 7:
                 currentUserType = GUEST;
                 return;
@@ -168,7 +195,65 @@ void Interface::handleUserInput() {
 }
 
 void Interface::handleStudentInput() {
+    int choice;
 
+    while (true) {
+        displayMenuStudent();
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                // Логика для просмотра расписания
+                break;
+            case 2:
+                displayCourses();
+                break;
+            case 3:
+                displaySubcatalogs();
+                break;
+            case 4:
+                student.view_messages();
+                break;
+            case 5:
+                displayTeachers();
+                break;
+            case 6:
+                UserProfile();
+                break;
+            case 7: {
+                string teacherId, courseName;
+                double lessonPrice;
+
+                cout << "Введите ID преподавателя: ";
+                cin >> teacherId;
+
+                cout << "Введите название курса: ";
+                cin >> courseName;
+
+                cout << "Введите стоимость урока: ";
+                cin >> lessonPrice;
+
+                student.send_lesson_request(teacherId, courseName, lessonPrice);
+                break;
+            }
+            case 8:
+                cout << "Выход из аккаунта." << endl;
+                // Логика выхода из аккаунта студента
+                exit(0);
+            case 9:
+                // Логика удаления учетной записи студента
+                break;
+            case 10:
+                cout << "Удаление аккаунта." << endl;
+                // Логика удаления аккаунта студента
+                break;
+            case 11:
+                exit(0);
+            default:
+                cout << "Некорректный выбор." << endl;
+                break;
+        }
+    }
 }
 
 void Interface::handleTeacherInput() {
@@ -199,7 +284,7 @@ void Interface::displayTeachers() {
     }
 
     for (const auto &teacher_pair: teachersMap) {
-        const Teacher &teacher = teacher_pair.second;
+        teacher = teacher_pair.second;
         const Teacher_data &teacherData = teacher.get_tdata();
 
         cout << "ID преподавателя: " << teacherData.id << endl;
@@ -270,6 +355,7 @@ void Interface::registerUser() {
     if (userId != -1) {
         // Регистрация прошла успешно, можно выполнить дополнительные действия, если нужно
         currentUserType = USER;
+        user = usersMap[userId];
         std::cout << "Регистрация прошла успешно. Теперь вы зарегистрированный пользователь." << std::endl;
     } else {
         // Регистрация не удалась из-за уже существующего имени пользователя
@@ -318,15 +404,15 @@ void Interface::UserProfile() {
     cout << "================================" << endl;
     cout << "1. Изменить пароль" << endl;
     cout << "2. Изменить данные профиля" << endl;
-    cout << "2. Пополнить баланс" << endl;
-    cout << "3. Выход из профиля" << endl;
+    cout << "3. Пополнить баланс" << endl;
+    cout << "4. Выход из профиля" << endl;
     cout << "Выберите действие: " << endl;
 
     int choice;
     cin >> choice;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    if (choice == 3)
+    if (choice == 4)
         return;
 
     ChangeProfileInfo(choice);
@@ -414,6 +500,11 @@ void Interface::ChangeProfileInfo(int choice) {
             }
             break;
         }
+        case 3:
+            int num;
+            cout << "Введите сумму, которая будет снята с вашей карты" << endl;
+            cin >> num;
+            user.current_card.add_balance(num);
         default:
             cout << "Некорректный выбор." << endl;
             break;

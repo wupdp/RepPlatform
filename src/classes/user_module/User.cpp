@@ -1,10 +1,5 @@
-//
-
 #include "../../../include/User.h"
-#include "../../../include/Guest.h"
 
-//
-// Created by wupdp on 07.11.23.
 User::User(User_data data_) {
     data = data_;
     loggedIn = false;
@@ -118,4 +113,8 @@ const std::string &User::get_phonenumber() const {
 
 const std::vector<std::string> &User::get_notifications() const {
     return data.notifications;
+}
+
+const int &User::get_id() const {
+    return data.id;
 }

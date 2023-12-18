@@ -14,7 +14,7 @@ Student::Student(int id, std::map<int, User> users) : User(id, users) {
 
 
 Student::Student(User_data userData, StudentData studentData) {
-    this->data = studentData;
+    this->data_s = studentData;
     this->set_data(userData);
 }
 
@@ -27,27 +27,23 @@ void Student::send_lesson_request(std::string teacher_id, std::string course_nam
 }
 
 const StudentData &Student::getData() const {
-    return data;
-}
-
-const int &Student::get_id() const {
-    return data.id;
+    return data_s;
 }
 
 const std::map<std::string, std::vector<std::string>> &Student::get_lessons() const {
-    return data.courseSchedules;
+    return data_s.courseSchedules;
 }
 
-void Student::setData(const StudentData &data) {
-    Student::data = data;
+void Student::setData(const StudentData &data_) {
+    Student::data_s = data_;
 }
 
 void Student::set_id(const int id) {
-    data.id = id;
+    data_s.id = id;
 }
 
 void Student::set_lessons(const std::map<std::string, std::vector<std::string>> lessons) {
-    data.courseSchedules = lessons;
+    data_s.courseSchedules = lessons;
 }
 
 

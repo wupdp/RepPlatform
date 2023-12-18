@@ -25,7 +25,6 @@ public:
     void send_lesson_request(std::string teacher_id, std::string course_name, double lesson_price);
 
     const StudentData &getData() const;
-    const int &get_id() const;
     const std::map<std::string, std::vector<std::string>> &get_lessons() const;
 
     void setData(const StudentData &data);
@@ -33,7 +32,7 @@ public:
     void set_lessons(const std::map<std::string, std::vector<std::string>> lessons);
 
 private:
-    StudentData data;
+    StudentData data_s;
 };
 //ID/Курс{ID преподавателя:даты ближайших занятий в виде день.месяц день.месяц}Курс{ID преподавателя:даты ближайших занятий в виде день.месяц день.месяц}
 

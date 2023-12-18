@@ -18,7 +18,7 @@ struct Teacher_data {
 class Teacher : public User {
 public:
     Teacher();
-    explicit Teacher(int id);
+    explicit Teacher(int id, std::map<int, User> users);
     explicit Teacher(const User_data &userData, Teacher_data teacherData);
     virtual ~Teacher();
     void get_lesson_request(std::string student_id, std::string course_name, double lesson_price);
@@ -36,7 +36,7 @@ public:
     double &get_rate();
 
 private:
-    Teacher_data data;
+    Teacher_data data_t;
 };
 //ID/{Курс{ID ученика:даты ближайших занятий в виде день.месяц день.месяц}Курс{ID ученика:даты ближайших занятий в виде день.месяц день.месяц}}/стаж/рейтинг
 

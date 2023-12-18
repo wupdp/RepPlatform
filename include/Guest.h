@@ -17,8 +17,8 @@ public:
     Guest();
     ~Guest(); // Деструктор класса.
 
-    int register_user(User_data data, std::map<int, User> users); // Регистрация пользователя на сайте.
-    int authorize(std::string username, std::string password, std::map<int, User> users);
+    int register_user(User_data data, std::map<int, User> &users); // Регистрация пользователя на сайте.
+    int authorize(std::string username, std::string password, std::map<int, User> &users);
 
 private:
     int nextUserId;
