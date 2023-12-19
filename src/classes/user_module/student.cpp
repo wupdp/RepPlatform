@@ -11,7 +11,7 @@ Student::Student(User_data userData, Student_data studentData) {
     this->set_data(userData);
 }
 
-void Student::send_lesson_request(int teacher_id, string course_name, map<int, Teacher> teachers) {
+void Student::send_lesson_request(int teacher_id, string course_name, map<int, Teacher>& teachers) {
     if (current_card.get_balance() >= 30) {
         teachers[teacher_id].get_lesson_request(get_id(), course_name);
         current_card.add_balance(-30);

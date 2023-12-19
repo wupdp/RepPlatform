@@ -36,6 +36,7 @@ public:
     void set_username(const string &username);
     void set_role(const string &role);
     void set_data(const User_data &data);
+    void setCurrentCard(const Cards &currentCard);
 
     const string &get_username() const;
     const string &get_role() const;
@@ -43,6 +44,7 @@ public:
     const string &get_phonenumber() const;
     const vector<string> &get_notifications() const;
     const User_data &get_data() const;
+    const Cards &getCurrentCard() const;
 
     int check_id(string password) const;
     bool check_password(string password) const;

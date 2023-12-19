@@ -20,8 +20,8 @@ void Teacher::get_lesson_request(int student_id, string course_name) {
     current_card.add_balance(30);
 }
 
-void Teacher::set_data(const Teacher_data &data_) {
-    Teacher::data_t = data_;
+void Teacher::set_tdata(const Teacher_data &data) {
+    Teacher::data_t = data;
 }
 
 void Teacher::set_id(int id) {

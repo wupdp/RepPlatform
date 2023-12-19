@@ -94,3 +94,11 @@ const vector<string> &User::get_notifications() const {
 const int &User::get_id() const {
     return data.id;
 }
+
+const Cards &User::getCurrentCard() const {
+    return current_card;
+}
+
+void User::setCurrentCard(const Cards &currentCard) {
+    current_card = currentCard;
+}

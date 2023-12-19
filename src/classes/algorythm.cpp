@@ -61,6 +61,8 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
             string studentInfo;
             while (getline(courseStream, studentInfo, ',')) {
                 istringstream studentStream(studentInfo);
+                if(studentInfo == " ")
+                    continue;
 
                 string teacherIdStr;
                 getline(studentStream, teacherIdStr, ':');
@@ -112,7 +114,8 @@ void Algorithm::parse_teachers(map<int, Teacher> &teachersMap, map<int, User> &u
 
         string teacherIdStr, coursesStr, experienceStr, ratingStr;
         getline(iss, teacherIdStr, '/'); // Получение ID учителя
-
+        if(teacherIdStr == "0")
+            continue;
         int teacherId = stoi(teacherIdStr);
 
         getline(iss, coursesStr, '/'); // Получение данных о курсах и расписании
@@ -132,6 +135,11 @@ void Algorithm::parse_teachers(map<int, Teacher> &teachersMap, map<int, User> &u
 
             string studentInfo;
             while (getline(courseStream, studentInfo, ',')) {
+                vector<string> scheduleDates;
+                if(studentInfo == "end") {
+                    studentSchedules[courseName];
+                    continue;
+                }
                 istringstream studentStream(studentInfo);
 
                 string studentIdStr, scheduleStr;
@@ -142,7 +150,6 @@ void Algorithm::parse_teachers(map<int, Teacher> &teachersMap, map<int, User> &u
                 istringstream scheduleStream(scheduleStr);
 
                 string date;
-                vector<string> scheduleDates;
                 while (getline(scheduleStream, date, ' ')) {
                     scheduleDates.push_back(date);
                 }
@@ -284,11 +291,11 @@ void Algorithm::write_students(const map<int, Student> &studentsMap) {
     if (file.is_open()) {
         for (const auto &student: studentsMap) {
             const Student_data &studentData = student.second.get_data_s();
-            file << studentData.id << '/';
+            file << student.first << '/';
 
             const SCHEDULE &courseSchedules = studentData.Schedules;
             for (const auto &course: courseSchedules) {
-                file << course.first << '{';
+                file << course.first << "{";
 
                 for (const auto &teacher_schedule: course.second) {
                     file << teacher_schedule.first << ':';
@@ -298,10 +305,10 @@ void Algorithm::write_students(const map<int, Student> &studentsMap) {
                     file << ',';
                 }
 
-                file << '}';
+                file << " }";
             }
 
-            file << ' ';
+            file << '\n';
         }
 
         file.close();
@@ -333,7 +340,7 @@ void Algorithm::write_teachers(const map<int, Teacher> &teachersMap) {
                     }
                     file << ',';
                 }
-                file << '}';
+                file << "end}";
             }
             file << '/' << teacherInfo.experience << '/' << teacherInfo.rating << '\n';
         }

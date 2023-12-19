@@ -61,44 +61,6 @@ Interface::~Interface() {
 }
 
 
-void Interface::handle_guest_input() {
-    int choice;
-    while (true) {
-        display_menu_guest();
-        cin >> choice;
-
-        switch (choice) {
-            case 1:
-                display_courses();
-                break;
-            case 2:
-                display_subcatalogs();
-                break;
-            case 3:
-                display_teachers();
-                break;
-            case 4:
-                authorize_user();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                return;
-            case 5:
-                register_user();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                return;
-            case 0:
-                cout << "Выход из программы." << endl;
-                update_files();
-                exit(0);
-            default:
-                cout << "Неверный выбор. Пожалуйста, выберите снова." << endl;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                break;
-        }
-    }
-}
-
 void Interface::display_menu_user() {
     system("clear");
     cout << "===================================" << endl;
@@ -148,7 +110,7 @@ void Interface::display_menu_teacher() {
     system("clear");
     cout << "================================" << endl;
     cout << "=== Меню преподавателя ========" << endl;
-    cout << "===" << teacher.get_username() << endl;
+    cout << "Преподаватель: " << teacher.get_username() << endl;
     cout << "================================" << endl;
     cout << "1. Просмотр ваших курсов" << endl;
     cout << "2. Просмотр всех курсов" << endl;
@@ -166,6 +128,43 @@ void Interface::display_menu_teacher() {
     cout << "0. Выход" << endl;
     cout << "================================" << endl;
     cout << "Выберите опцию: ";
+}
+
+void Interface::handle_guest_input() {
+    int choice;
+    while (true) {
+        display_menu_guest();
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                display_courses();
+                break;
+            case 2:
+                display_subcatalogs();
+                break;
+            case 3:
+                display_teachers();
+                break;
+            case 4:
+                authorize_user();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                return;
+            case 5:
+                register_user();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                return;
+            case 0:
+                cout << "Выход из программы." << endl;
+                update_files();
+                exit(0);
+            default:
+                cout << "Неверный выбор. Пожалуйста, выберите снова." << endl;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                break;
+        }
+    }
 }
 
 void Interface::handle_user_input() {
@@ -189,26 +188,29 @@ void Interface::handle_user_input() {
                 user_profile();
                 break;
             case 5: {
-                if (user.get_role() != "S" && user.get_role() != "ST") {
-                    studentsMap[user.get_id()] = Student(user.get_id(),usersMap); // Добавление студента в studentsMap по ID
-                    if (user.get_role() == "T")
-                        user.set_role("ST");
-                    else
-                        user.set_role("S");
+                //TODO
+                if (user.get_role() != "S") {
+                    user.set_role("S");
+                    usersMap[user.get_id()].set_role("S");
+                    studentsMap[user.get_id()] = Student(user.get_id(),
+                                                         usersMap); // Добавление студента в studentsMap по ID
                 }
                 student = studentsMap[user.get_id()];
+                student.set_data(user.get_data());
+                student.setCurrentCard(user.getCurrentCard());
                 current_user_type = STUDENT;
                 return;
             }
             case 6: {
-                if (user.get_role() != "T" && user.get_role() != "ST") {
-                    teachersMap[user.get_id()] = Teacher(user.get_id(),usersMap); // Добавление студента в studentsMap по ID
-                    if (user.get_role() == "S")
-                        user.set_role("ST");
-                    else
-                        user.set_role("T");
+                if (user.get_role() != "T") {
+                    user.set_role("T");
+                    teachersMap[user.get_id()].set_role("T");
+                    teachersMap[user.get_id()] = Teacher(user.get_id(),
+                                                         usersMap); // Добавление студента в studentsMap по ID
                 }
                 teacher = teachersMap[user.get_id()];
+                teacher.set_data(user.get_data());
+                teacher.setCurrentCard(user.getCurrentCard());
                 current_user_type = TEACHER;
                 return;
             }
@@ -221,6 +223,7 @@ void Interface::handle_user_input() {
                 return;
             case 0:
                 cout << "Выход из программы." << endl;
+                update_files();
                 exit(0);
             default:
                 cout << "Неверный выбор. Пожалуйста, выберите снова." << endl;
@@ -235,6 +238,8 @@ void Interface::handle_student_input() {
     int choice;
 
     while (true) {
+        user.set_data(student.get_data());
+        user.setCurrentCard(student.getCurrentCard());
         display_menu_student();
         cin >> choice;
 
@@ -266,6 +271,7 @@ void Interface::handle_student_input() {
                 // Вывод доступных курсов
                 cout << "Доступные курсы: " << endl;
                 Teacher teacher1(teacherId, usersMap);
+                teacher1.set_tdata(teachersMap[teacherId].get_tdata());
                 display_schedule_courses(teacher1);
 
                 string selectedCourse;
@@ -295,6 +301,7 @@ void Interface::handle_student_input() {
                 break;
             case 0:
                 cout << "Выход из программы." << endl;
+                update_files();
                 exit(0);
             default:
                 cout << "Некорректный выбор." << endl;
@@ -306,6 +313,8 @@ void Interface::handle_student_input() {
 
 void Interface::handle_teacher_input() {
     int choice;
+    user.set_data(teacher.get_data());
+    user.setCurrentCard(teacher.getCurrentCard());
 
     while (true) {
         display_menu_teacher();
@@ -314,6 +323,7 @@ void Interface::handle_teacher_input() {
         switch (choice) {
             case 1:
                 system("clear");
+                cout << "Ваши курсы:" << endl;
                 display_schedule_courses(teacher);
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -365,6 +375,7 @@ void Interface::handle_teacher_input() {
                 return;
             case 0:
                 cout << "Выход из программы." << endl;
+                update_files();
                 exit(0);
             default:
                 cout << "Неверный выбор. Пожалуйста, выберите снова." << endl;
@@ -394,6 +405,9 @@ void Interface::display_courses() {
 
 void Interface::display_teachers() {
     system("clear");
+    cout << "================================" << endl;
+    cout << "=== Просмотр преподавателей ====" << endl;
+    cout << "================================" << endl;
     if (teachersMap.empty()) {
         cout << "Нет зарегистрированных преподавателей." << endl;
         return;
@@ -405,7 +419,7 @@ void Interface::display_teachers() {
 
         cout << "ID преподавателя: " << teacherData.id << endl;
         cout << "Имя преподавателя: " << teacher.get_username() << endl;
-        cout << "Опыт работы: " << teacherData.experience << " лет" << endl;
+        cout << "Опыт работы(лет): " << teacherData.experience << endl;
         cout << "Рейтинг: " << teacherData.rating << endl;
         cout << endl;
         display_schedule_courses(teacher);
@@ -419,7 +433,7 @@ void Interface::display_subcatalogs() {
     system("clear");
 
     cout << "================================" << endl;
-    cout << "=== Просмотр подкаталогов =======" << endl;
+    cout << "=== Просмотр подкаталогов ======" << endl;
     cout << "================================" << endl;
 
     map<string, Subcatalog> subcatalogs = catalog.get_subcatalogs();
@@ -453,28 +467,30 @@ void Interface::display_subcatalogs() {
 
 void Interface::register_user() {
     system("clear");
-    User_data userData; // Создаем структуру для данных нового пользователя
+    cout << "================================" << endl;
+    cout << "=== Регистрация ================" << endl;
+    cout << "================================" << endl;
+    User_data userData;
 
     cout << "Введите имя пользователя: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, userData.username);
-
+    cout << "================================" << endl;
     cout << "Введите пароль: ";
     cin >> userData.password;
-
+    cout << "================================" << endl;
     cout << "Введите номер телефона: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, userData.phone_number);
+    cout << "================================" << endl;
 
     int userId = guest.register_user(userData, usersMap); // Регистрация пользователя
 
     if (userId != -1) {
-        // Регистрация прошла успешно, можно выполнить дополнительные действия, если нужно
         current_user_type = USER;
         user = usersMap[userId];
         cout << "Регистрация прошла успешно. Теперь вы зарегистрированный пользователь." << endl;
     } else {
-        // Регистрация не удалась из-за уже существующего имени пользователя
         cout << "Ошибка регистрации. Пользователь с таким именем уже существует." << endl;
     }
 }
@@ -485,10 +501,14 @@ void Interface::authorize_user() {
     system("clear");
     string username, password;
 
+    cout << "================================" << endl;
+    cout << "=== Авторизация ================" << endl;
+    cout << "================================" << endl;
+
     cout << "Введите имя пользователя: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, username);
-
+    cout << "================================" << endl;
     cout << "Введите пароль: ";
     cin >> password;
 
@@ -496,15 +516,20 @@ void Interface::authorize_user() {
 
     if (userId != -1) {
         user = User(userId, usersMap);
-        current_user_type = USER; // Установка текущего типа пользователя
         if (teachersMap.find(user.get_id()) != teachersMap.end()) {
-            current_user_type = USER; // Установка текущего типа пользователя как преподаватель
-            user.set_role("T");
+            current_user_type = TEACHER; // Установка текущего типа пользователя как преподаватель
+            //user.set_role("T");
+            teacher = teachersMap[user.get_id()];
+            teacher.set_data(user.get_data());
+            teacher.setCurrentCard(user.getCurrentCard());
             cout << "Авторизация прошла успешно, вы можете переключиться на преподавателя. Добро пожаловать, "
                  << username << "!" << endl;
         } else if (studentsMap.find(user.get_id()) != studentsMap.end()) {
             current_user_type = STUDENT; // Установка текущего типа пользователя как студент
-            user.set_role("S");
+            //user.set_role("S");
+            student = studentsMap[user.get_id()];
+            student.set_data(user.get_data());
+            student.setCurrentCard(user.getCurrentCard());
             cout << "Авторизация прошла успешно, вы можете переключиться на студента. Добро пожаловать, " << username
                  << "!" << endl;
         } else {
@@ -554,7 +579,9 @@ void Interface::change_profile(int choice) {
     switch (choice) {
         case 1: {
             string oldPassword;
+            cout << "================================" << endl;
             cout << "Введите старый пароль: ";
+            cout << "================================" << endl;
             cin >> oldPassword;
             if (user.check_password(oldPassword)) {
                 string newPassword;
@@ -576,10 +603,12 @@ void Interface::change_profile(int choice) {
                 cout << "2. Изменить номер телефона" << endl;
                 cout << "3. Изменить банковскую карту" << endl;
                 cout << "4. Вернуться назад" << endl;
-
+                cout << "================================" << endl;
+                cout << "Выберите действие: ";
                 int profileChoice;
                 cin >> profileChoice;
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "================================" << endl;
 
                 switch (profileChoice) {
                     case 1: {
@@ -633,9 +662,17 @@ void Interface::change_profile(int choice) {
         }
         case 3:
             int num;
+            cout << "================================================" << endl;
             cout << "Введите сумму, которая будет снята с вашей карты" << endl;
+            cout << "================================================" << endl;
             cin >> num;
-            user.current_card.add_balance(num);
+            if (current_user_type == USER)
+                user.current_card.add_balance(num);
+            if (current_user_type == TEACHER)
+                teacher.current_card.add_balance(num);
+            if (current_user_type == STUDENT)
+                student.current_card.add_balance(num);
+            break;
         default:
             cout << "Некорректный выбор." << endl;
             break;
@@ -646,7 +683,7 @@ void Interface::display_schedule_t() {
     const SCHEDULE &lessons = teacher.get_courses();
 
     cout << "================================" << endl;
-    cout << "=== Расписание ========" << endl;
+    cout << "=== Расписание =================" << endl;
     cout << "================================" << endl;
 
     for (const auto &course: lessons) {
@@ -657,7 +694,7 @@ void Interface::display_schedule_t() {
             if (studentsMap.find(student_map.first) != studentsMap.end()) {
                 cout << studentsMap.at(student_map.first).get_username() << endl;
             } else {
-                cout << "Unknown Student" << endl;
+                cout << "Error. Unknown Student" << endl;
             }
 
             cout << "  Расписание занятий:" << endl;
@@ -680,7 +717,6 @@ void Interface::display_schedule_courses(Teacher teacher_) {
     stack<string> courses_st;
     Algorithm::parse_schedule_courses(teacher_.get_courses(), courses_st);
 
-    cout << "Список курсов:" << endl;
     while (!courses_st.empty()) {
         cout << courses_st.top() << endl;
         courses_st.pop();
@@ -691,7 +727,9 @@ void Interface::display_schedule_students() {
     stack<int> students_st;
     Algorithm::parse_schedule_students(teacher.get_courses(), students_st);
 
+    cout << "================================" << endl;
     cout << "Ваши студенты:" << endl;
+    cout << "================================" << endl;
     while (!students_st.empty()) {
         int studentId = students_st.top();
         students_st.pop();
@@ -707,6 +745,7 @@ void Interface::display_schedule_students() {
 
 void Interface::add_course() {
     string courseName;
+    cout << "================================" << endl;
     cout << "Введите название нового курса: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, courseName);
@@ -753,6 +792,7 @@ void Interface::add_course() {
 void Interface::delete_course() {
     string courseName;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << "================================" << endl;
     cout << "Введите название курса для удаления: ";
     getline(cin, courseName);
 
@@ -787,7 +827,7 @@ void Interface::display_schedule_s() {
     SCHEDULE lessons = student.get_lessons();
 
     cout << "================================" << endl;
-    cout << "=== Расписание ========" << endl;
+    cout << "=== Расписание =================" << endl;
     cout << "================================" << endl;
 
     for (const auto &course: lessons) {
@@ -822,13 +862,13 @@ void Interface::display_lesson_requests() {
     cout << "=== Запросы на занятие ========" << endl;
     cout << "================================" << endl;
 
-    for (auto &course : lessons) {
+    for (auto &course: lessons) {
         cout << "Курс: " << course.first << endl;
 
         for (auto &student_map: course.second) {
 
-            for (auto &date : student_map.second) {
-                if (date.find("Request") != string::npos) {
+            for (auto &date: student_map.second) {
+                if (date.find("Запрос-") != string::npos) {
                     cout << "    " << date << endl;
                     cout << "Установите дату занятия: ";
                     string newDate;
@@ -851,7 +891,7 @@ void Interface::display_lesson_requests() {
 void Interface::teacher_profile() {
     system("clear");
     cout << "================================" << endl;
-    cout << "=== Профиль преподавателя =====" << endl;
+    cout << "=== Профиль преподавателя ======" << endl;
     cout << "================================" << endl;
     cout << "ID: " << teacher.get_id() << endl;
     cout << "Опыт: " << teacher.get_exp() << " лет" << endl;
@@ -865,10 +905,22 @@ void Interface::get_data() {
     Algorithm::parse_students(studentsMap, usersMap);
     Algorithm::parse_teachers(teachersMap, usersMap);
 }
+
 void Interface::update_files() {
-    usersMap[user.get_id()] = user;
-    teachersMap[teacher.get_id()] = teacher;
-    studentsMap[student.get_id()] = student;
+    if (user.get_id() != 0) {
+        usersMap[user.get_id()] = user;
+        usersMap[user.get_id()].set_data(user.get_data());
+    }
+    if (teacher.get_id() != 0) {
+        teachersMap[teacher.get_id()] = teacher;
+        teachersMap[teacher.get_id()].set_data(teacher.get_data());
+        teachersMap[teacher.get_id()].set_tdata(teacher.get_tdata());
+    }
+    if (student.get_id() != 0) {
+        studentsMap[student.get_id()] = student;
+        studentsMap[student.get_id()].set_data(student.get_data());
+        studentsMap[student.get_id()].set_data_s(student.get_data_s());
+    }
     Algorithm::write_courses(catalog);
     Algorithm::write_students(studentsMap);
     Algorithm::write_teachers(teachersMap);

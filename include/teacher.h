@@ -19,7 +19,7 @@ public:
     explicit Teacher(const User_data &userData, Teacher_data teacherData);
     virtual ~Teacher();
 
-    void set_data(const Teacher_data &data);
+    void set_tdata(const Teacher_data &data);
     void set_id(int);
     void set_courses(SCHEDULE);
     void set_exp(int);

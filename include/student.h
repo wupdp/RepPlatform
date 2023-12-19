@@ -16,7 +16,7 @@ public:
     explicit Student(User_data userData, Student_data studentData);
     virtual ~Student();
 
-    void send_lesson_request(int teacher_id, string course_name, map<int, Teacher>);
+    void send_lesson_request(int teacher_id, string course_name, map<int, Teacher>&);
     void sent_notif(string course, int t_id, string date);
 
     const Student_data &get_data_s() const;
