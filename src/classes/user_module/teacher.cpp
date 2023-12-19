@@ -29,7 +29,7 @@ void Teacher::set_id(int id) {
     data_t.id = id;
 }
 
-void Teacher::set_courses(std::map<std::string, std::vector<std::string>> courses) {
+void Teacher::set_courses(std::map<std::string,std::map<int, std::vector<std::string>>> courses) {
     data_t.studentSchedules = courses;
 }
 
@@ -49,7 +49,7 @@ int &Teacher::get_id() {
     return data_t.id;
 }
 
-std::map<std::string, std::vector<std::string>> &Teacher::get_courses() {
+std::map<std::string,std::map<int, std::vector<std::string>>> &Teacher::get_courses() {
     return data_t.studentSchedules;
 }
 
@@ -59,4 +59,8 @@ int &Teacher::get_exp() {
 
 double &Teacher::get_rate() {
     return data_t.rating;
+}
+
+void Teacher::send_notification() {
+
 }

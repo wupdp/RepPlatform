@@ -20,6 +20,10 @@ const std::vector<int> &Course::get_course_teachers() const {
     return current_course.teachers;
 }
 
+void Course::set_teachers(std::vector<int> teachers) {
+    current_course.teachers = teachers;
+}
+
 Course::Course() = default;
 
 Course::~Course() = default;

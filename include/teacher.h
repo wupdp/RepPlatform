@@ -10,7 +10,7 @@
 
 struct Teacher_data {
     int id;
-    std::map<std::string, std::vector<std::string>> studentSchedules; // Курсы и их расписание
+    std::map<std::string,std::map<int, std::vector<std::string>>> studentSchedules; // Курсы и их расписание
     int experience;
     double rating;
 };
@@ -25,13 +25,14 @@ public:
 
     void set_data(const Teacher_data &data);
     void set_id(int);
-    void set_courses(std::map<std::string, std::vector<std::string>>);
+    void set_courses(std::map<std::string,std::map<int, std::vector<std::string>>>);
     void set_exp(int);
     void set_rate(double);
+    void send_notification();
 
     const Teacher_data &get_tdata() const;
     int &get_id();
-    std::map<std::string, std::vector<std::string>> &get_courses();
+    std::map<std::string,std::map<int, std::vector<std::string>>> &get_courses();
     int &get_exp();
     double &get_rate();
 

@@ -16,7 +16,6 @@ private:
     std::map<int, User> usersMap;
     std::map<int, Teacher> teachersMap;
     std::map<int, Student> studentsMap;
-    Algorithm alg;
     UserType currentUserType;
     Guest guest;
     User user;
@@ -30,13 +29,17 @@ private:
     void authorizeUser();
     void UserProfile();
     void ChangeProfileInfo(int choice);
+    void display_schedule();
+    void display_schedule_students();
+    void display_schedule_courses(Teacher);
+    void add_course();
+    void delete_course();
 
     // Меню для различных типов пользователей
     void displayMenuGuest();
     void displayMenuUser();
     void displayMenuStudent();
     void displayMenuTeacher();
-
     // Обработка ввода для различных типов пользователей
     void handleGuestInput();
     void handleUserInput();
@@ -45,5 +48,6 @@ private:
 public:
     Interface();
     virtual ~Interface();
+
     void displayMenu();
 };

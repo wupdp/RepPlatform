@@ -118,7 +118,7 @@ void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& u
         getline(iss, experienceStr, '/'); // Получение стажа
         getline(iss, ratingStr); // Получение рейтинга
 
-        map<string, vector<string>> studentSchedules;
+        map<string, map<int, vector<string>>> studentSchedules;
 
         // Разделение данных coursesStr на отдельные курсы и их расписание
         istringstream coursesStream(coursesStr);
@@ -146,7 +146,7 @@ void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& u
                     scheduleDates.push_back(date);
                 }
 
-                studentSchedules[to_string(studentId)] = scheduleDates;
+                studentSchedules[courseName][studentId] = scheduleDates;
             }
         }
 
@@ -165,12 +165,15 @@ void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& u
         Teacher newTeacher(userData, teacherData);
 
         parse_cards(newTeacher.get_wallet_id(), newTeacher.current_card);
+
         // Добавление объекта Teacher в teachersMap
         teachersMap[teacherId] = newTeacher;
     }
 
     file.close();
 }
+
+
 
 void Algorithm::parse_users(map<int, User> &usersMap) {
     ifstream file("../var/info/Users");
@@ -239,3 +242,30 @@ void Algorithm::parse_courses(Catalog &catalog) {
     }
     file.close();
 }
+
+void Algorithm::parse_schedule_students(const map<string, map<int, vector<string>>> schedule, stack<int>& students_id) {
+    for (const auto& course : schedule) {
+        const map<int, vector<string>>& students_schedule = course.second;
+        for (const auto& student_schedule : students_schedule) {
+            const vector<string>& schedules = student_schedule.second;
+            for (const string& date : schedules) {
+                istringstream iss(date);
+                string student_id_str;
+                getline(iss, student_id_str, ':');
+                int studentId = stoi(student_id_str);
+                students_id.push(studentId);
+            }
+        }
+    }
+}
+
+
+void Algorithm::parse_schedule_courses(const map<string, map<int, vector<string>>> schedule, stack<string>& courses) {
+    for (const auto& course : schedule) {
+        courses.push(course.first);
+    }
+}
+
+
+
+
