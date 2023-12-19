@@ -27,6 +27,7 @@ private:
     void displaySubcatalogs();
     void registerUser();
     void authorizeUser();
+    void teacherProfile();
     void UserProfile();
     void ChangeProfileInfo(int choice);
     void display_schedule_t();
@@ -35,8 +36,8 @@ private:
     void display_schedule_courses(Teacher);
     void add_course();
     void delete_course();
-    void display_lesson_requests();
 
+    void display_lesson_requests();
     // Меню для различных типов пользователей
     void displayMenuGuest();
     void displayMenuUser();
@@ -49,7 +50,7 @@ private:
     void handleTeacherInput();
 public:
     Interface();
-    virtual ~Interface();
 
+    virtual ~Interface();
     void displayMenu();
 };

@@ -184,6 +184,7 @@ void Interface::handleUserInput() {
                 displayTeachers();
                 break;
             case 4:
+                system("clear");
                 UserProfile();
                 break;
             case 5: {
@@ -251,6 +252,7 @@ void Interface::handleStudentInput() {
                 displayTeachers();
                 break;
             case 5:
+                system("clear");
                 UserProfile();
                 break;
             case 6: {
@@ -325,6 +327,7 @@ void Interface::handleTeacherInput() {
                 display_schedule_t();
                 break;
             case 5:
+                teacherProfile();
                 UserProfile();
                 break;
             case 6:
@@ -514,7 +517,6 @@ void Interface::authorizeUser() {
 }
 
 void Interface::UserProfile() {
-    system("clear");
     cout << "================================" << endl;
     cout << "=== Профиль пользователя ======" << endl;
     cout << "================================" << endl;
@@ -840,3 +842,14 @@ void Interface::display_lesson_requests() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
+
+void Interface::teacherProfile() {
+    system("clear");
+    cout << "================================" << endl;
+    cout << "=== Профиль преподавателя =====" << endl;
+    cout << "================================" << endl;
+    cout << "ID: " << teacher.get_id() << endl;
+    cout << "Опыт: " << teacher.get_exp() << " лет" << endl;
+    cout << "Рейтинг: " << teacher.get_rate() << endl;
+}
+
