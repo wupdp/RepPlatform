@@ -38,15 +38,15 @@ private:
     void delete_course();
     void display_lesson_requests();
     // Меню для различных типов пользователей
-    void displayMenuGuest();
-    void displayMenuUser();
-    void displayMenuStudent();
-    void displayMenuTeacher();
+    void display_menu_guest();
+    void display_menu_user();
+    void display_menu_student();
+    void display_menu_teacher();
     // Обработка ввода для различных типов пользователей
-    void handleGuestInput();
-    void handleUserInput();
-    void handleStudentInput();
-    void handleTeacherInput();
+    void handle_guest_input();
+    void handle_user_input();
+    void handle_student_input();
+    void handle_teacher_input();
     //Работа с памятью
     void update_files();
     void get_data();

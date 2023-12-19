@@ -16,16 +16,16 @@ void Interface::displayMenu() {
         get_data();
         switch (current_user_type) {
             case GUEST:
-                handleGuestInput();
+                handle_guest_input();
                 break;
             case USER:
-                handleUserInput();
+                handle_user_input();
                 break;
             case STUDENT:
-                handleStudentInput();
+                handle_student_input();
                 break;
             case TEACHER:
-                handleTeacherInput();
+                handle_teacher_input();
                 break;
             default:
                 cout << "Неправильный тип пользователя." << endl;
@@ -34,7 +34,7 @@ void Interface::displayMenu() {
     }
 }
 
-void Interface::displayMenuGuest() {
+void Interface::display_menu_guest() {
     system("clear");
     cout << "================================" << endl;
     cout << "=== Репетиционное обучение =====" << endl;
@@ -61,10 +61,10 @@ Interface::~Interface() {
 }
 
 
-void Interface::handleGuestInput() {
+void Interface::handle_guest_input() {
     int choice;
     while (true) {
-        displayMenuGuest();
+        display_menu_guest();
         cin >> choice;
 
         switch (choice) {
@@ -99,7 +99,7 @@ void Interface::handleGuestInput() {
     }
 }
 
-void Interface::displayMenuUser() {
+void Interface::display_menu_user() {
     system("clear");
     cout << "===================================" << endl;
     cout << "=== Репетиционное обучение ========" << endl;
@@ -121,7 +121,7 @@ void Interface::displayMenuUser() {
     cout << "Выберите опцию: ";
 }
 
-void Interface::displayMenuStudent() {
+void Interface::display_menu_student() {
     system("clear");
     cout << "===================================" << endl;
     cout << "=== Репетиционное обучение ========" << endl;
@@ -144,7 +144,7 @@ void Interface::displayMenuStudent() {
     cout << "Выберите опцию: ";
 }
 
-void Interface::displayMenuTeacher() {
+void Interface::display_menu_teacher() {
     system("clear");
     cout << "================================" << endl;
     cout << "=== Меню преподавателя ========" << endl;
@@ -168,10 +168,10 @@ void Interface::displayMenuTeacher() {
     cout << "Выберите опцию: ";
 }
 
-void Interface::handleUserInput() {
+void Interface::handle_user_input() {
     int choice;
     while (true) {
-        displayMenuUser();
+        display_menu_user();
         cin >> choice;
 
         switch (choice) {
@@ -231,11 +231,11 @@ void Interface::handleUserInput() {
     }
 }
 
-void Interface::handleStudentInput() {
+void Interface::handle_student_input() {
     int choice;
 
     while (true) {
-        displayMenuStudent();
+        display_menu_student();
         cin >> choice;
 
         switch (choice) {
@@ -304,11 +304,11 @@ void Interface::handleStudentInput() {
     }
 }
 
-void Interface::handleTeacherInput() {
+void Interface::handle_teacher_input() {
     int choice;
 
     while (true) {
-        displayMenuTeacher();
+        display_menu_teacher();
         cin >> choice;
 
         switch (choice) {
