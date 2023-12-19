@@ -1,7 +1,6 @@
 #include "../include/interface.h"
 #include "iostream"
 //TODO requests
-//TODO interface
 //TODO file insertion
 
 int main(){

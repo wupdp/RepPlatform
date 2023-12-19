@@ -7,10 +7,12 @@
 #include "iostream"
 #include "vector"
 #include "User.h"
+using namespace std;
+
 
 struct Teacher_data {
     int id;
-    std::map<std::string,std::map<int, std::vector<std::string>>> studentSchedules; // Курсы и их расписание
+    SCHEDULE studentSchedules; // Курсы и их расписание
     int experience;
     double rating;
 };
@@ -18,21 +20,20 @@ struct Teacher_data {
 class Teacher : public User {
 public:
     Teacher();
-    explicit Teacher(int id, std::map<int, User> users);
+    explicit Teacher(int id, map<int, User> users);
     explicit Teacher(const User_data &userData, Teacher_data teacherData);
     virtual ~Teacher();
-    void get_lesson_request(std::string student_id, std::string course_name, double lesson_price);
+    void get_lesson_request(int student_id, string course_name);
 
     void set_data(const Teacher_data &data);
     void set_id(int);
-    void set_courses(std::map<std::string,std::map<int, std::vector<std::string>>>);
+    void set_courses(SCHEDULE);
     void set_exp(int);
     void set_rate(double);
-    void send_notification();
 
     const Teacher_data &get_tdata() const;
     int &get_id();
-    std::map<std::string,std::map<int, std::vector<std::string>>> &get_courses();
+    SCHEDULE &get_courses();
     int &get_exp();
     double &get_rate();
 

@@ -29,11 +29,13 @@ private:
     void authorizeUser();
     void UserProfile();
     void ChangeProfileInfo(int choice);
-    void display_schedule();
+    void display_schedule_t();
+    void display_schedule_s();
     void display_schedule_students();
     void display_schedule_courses(Teacher);
     void add_course();
     void delete_course();
+    void display_lesson_requests();
 
     // Меню для различных типов пользователей
     void displayMenuGuest();

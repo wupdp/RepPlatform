@@ -18,19 +18,20 @@ Student::Student(User_data userData, StudentData studentData) {
     this->set_data(userData);
 }
 
-void Student::view_messages() {
-
-}
-
-void Student::send_lesson_request(std::string teacher_id, std::string course_name, double lesson_price) {
-
+void Student::send_lesson_request(int teacher_id, string course_name, map<int, Teacher> teachers) {
+    if (current_card.getBalance() >= 30) {
+        teachers[teacher_id].get_lesson_request(get_id(), course_name);
+        current_card.add_balance(-30);
+    }
+    else
+        cout << "Недостаточно средтв на балансе";
 }
 
 const StudentData &Student::getData() const {
     return data_s;
 }
 
-const std::map<std::string, std::vector<std::string>> &Student::get_lessons() const {
+const SCHEDULE &Student::get_lessons() const {
     return data_s.courseSchedules;
 }
 
@@ -42,9 +43,17 @@ void Student::set_id(const int id) {
     data_s.id = id;
 }
 
-void Student::set_lessons(const std::map<std::string, std::vector<std::string>> lessons) {
+void Student::set_lessons(const SCHEDULE lessons) {
     data_s.courseSchedules = lessons;
 }
+
+void Student::sent_notif(string course, int t_id, string date) {
+    data_s.courseSchedules[course][t_id].push_back(date);
+
+    string notification = "Установлено занятие на " + date + " по курсу " + course;
+    data.notifications.push_back(notification);
+}
+
 
 
 Student::~Student() = default;

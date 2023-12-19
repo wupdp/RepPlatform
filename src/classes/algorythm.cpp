@@ -57,7 +57,7 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
         // Разделение данных coursesStr на отдельные курсы и их расписание
         istringstream coursesStream(coursesStr);
         string courseInfo;
-        map<string, vector<string>> courseSchedules;
+        SCHEDULE courseSchedules;
 
         while (getline(coursesStream, courseInfo, '}')) {
             istringstream courseStream(courseInfo);
@@ -78,7 +78,7 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
                 schedule.push_back(lessonInfo);
             }
 
-            courseSchedules[courseName] = schedule;
+            courseSchedules[courseName][studentId] = schedule;
         }
 
         // Создание объекта StudentData с извлеченными данными
@@ -118,7 +118,7 @@ void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& u
         getline(iss, experienceStr, '/'); // Получение стажа
         getline(iss, ratingStr); // Получение рейтинга
 
-        map<string, map<int, vector<string>>> studentSchedules;
+        SCHEDULE studentSchedules;
 
         // Разделение данных coursesStr на отдельные курсы и их расписание
         istringstream coursesStream(coursesStr);

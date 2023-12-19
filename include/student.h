@@ -6,30 +6,30 @@
 #define REPPLATFORM_STUDENT_H
 
 #include "User.h"
+#include "teacher.h"
 
 struct StudentData {
     int id;
-    std::map<std::string, std::vector<std::string>> courseSchedules; // Курсы и их расписание
+    SCHEDULE courseSchedules;
 };
-
 
 class Student : public User {
 public:
     Student();
 
-    explicit Student(int id, std::map<int, User> users);
+    explicit Student(int id, map<int, User> users);
     Student(User_data userData, StudentData studentData);
     virtual ~Student();
 
-    void view_messages();
-    void send_lesson_request(std::string teacher_id, std::string course_name, double lesson_price);
+    void send_lesson_request(int teacher_id, string course_name, std::map<int, Teacher>);
+    void sent_notif(string course, int t_id, string date);
 
     const StudentData &getData() const;
-    const std::map<std::string, std::vector<std::string>> &get_lessons() const;
+    const SCHEDULE &get_lessons() const;
 
     void setData(const StudentData &data);
     void set_id(const int id);
-    void set_lessons(const std::map<std::string, std::vector<std::string>> lessons);
+    void set_lessons(const SCHEDULE lessons);
 
 private:
     StudentData data_s;

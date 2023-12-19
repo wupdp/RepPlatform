@@ -5,7 +5,7 @@ User::User(User_data data_) {
     loggedIn = false;
 }
 
-User::User(int id, std::map<int, User> users){
+User::User(int id, map<int, User> users){
     auto it = users.find(id);
 
     if (it != users.end())
@@ -17,52 +17,44 @@ User::User(int id, std::map<int, User> users){
 
 User::User() = default;
 
-void User::register_as_teacher() {
-    data.role = "Teacher"; // Меняем роль пользователя на "Teacher"
-}
-
-void User::register_as_student() {
-    data.role = "Student"; // Меняем роль пользователя на "Student"
-}
-
 void User::view_notifications() {
-    std::cout << "Notifications:" << std::endl;
+    cout << "Notifications:" << endl;
     for (const auto& notif : data.notifications) {
-        std::cout << notif << std::endl;
+        cout << notif << endl;
     }
 }
 
 
 void User::view_profile() const {
-    std::cout << "User Profile:" << std::endl;
-    std::cout << "Username: " << data.username << std::endl;
-    std::cout << "User ID: " << data.id << std::endl;
-    std::cout << "Role: " << data.role << std::endl;
+    cout << "User Profile:" << endl;
+    cout << "Username: " << data.username << endl;
+    cout << "User ID: " << data.id << endl;
+    cout << "Role: " << data.role << endl;
 
-    std::cout << "Number of Notifications: " << data.notifications.size() << std::endl;
+    cout << "Number of Notifications: " << data.notifications.size() << endl;
 
-    std::cout << "Card Number: " << current_card.getNumber() << std::endl;
-    std::cout << "Phone Number: " << data.phoneNumber << std::endl;
+    cout << "Card Number: " << current_card.getNumber() << endl;
+    cout << "Phone Number: " << data.phoneNumber << endl;
 }
 
-void User::change_password(std::string newPassword) {
+void User::change_password(string newPassword) {
     // Логика для изменения пароля пользователя
     data.password = newPassword; // Изменяем пароль на новый
 }
 
-void User::change_phone_number(std::string newNumber) {
+void User::change_phone_number(string newNumber) {
     // Логика для изменения номера телефона пользователя
     data.phoneNumber = newNumber; // Обновляем номер телефона
 }
 
 
-void User::deactivate_account(std::map<int, User>& usersMap) {
+void User::deactivate_account(map<int, User>& usersMap) {
     if (usersMap.find(data.id) != usersMap.end()) {
         // Удаляем пользователя из map по его ID
         usersMap.erase(data.id);
-        std::cout << "User with ID " << data.id << " has been deactivated and removed." << std::endl;
+        cout << "User with ID " << data.id << " has been deactivated and removed." << endl;
     } else {
-        std::cout << "User with ID " << data.id << " not found." << std::endl;
+        cout << "User with ID " << data.id << " not found." << endl;
     }
 }
 
@@ -71,27 +63,27 @@ void User::logOut() {
     loggedIn = false;
 }
 
-bool User::check_password(std::string password) const {
+bool User::check_password(string password) const {
     return data.password == password;
 }
 
-int User::check_id(std::string password) const {
+int User::check_id(string password) const {
     return data.id;
 }
 
-const std::string &User::get_username() const {
+const string &User::get_username() const {
     return data.username;
 }
 
-void User::set_username(const std::string &username) {
+void User::set_username(const string &username) {
     data.username = username;
 }
 
-const std::string &User::get_role() const {
+const string &User::get_role() const {
     return data.role;
 }
 
-void User::set_role(const std::string &role) {
+void User::set_role(const string &role) {
     data.role = role;
 }
 
@@ -107,11 +99,11 @@ const User_data &User::get_data() const {
     return data;
 }
 
-const std::string &User::get_phonenumber() const {
+const string &User::get_phonenumber() const {
     return data.phoneNumber;
 }
 
-const std::vector<std::string> &User::get_notifications() const {
+const vector<string> &User::get_notifications() const {
     return data.notifications;
 }
 
