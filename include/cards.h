@@ -12,6 +12,12 @@ public:
 
     [[nodiscard]] int getBalance() const;
     [[nodiscard]] const std::string &getNumber() const;
+
+    int getId() const;
+    const std::string &getValidity() const;
+    const std::string &getHolderName() const;
+    int getCvcCode() const;
+
     virtual ~Cards();
     void add_balance(int money);
     void setNumber(const std::string &number);

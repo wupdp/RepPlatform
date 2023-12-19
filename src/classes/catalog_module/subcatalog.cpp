@@ -49,3 +49,7 @@ std::ostream& operator<<(std::ostream& os, const Subcatalog& subcatalog) {
     return os;
 }
 
+const std::map<std::string, Course> &Subcatalog::get_courses() const {
+    return courses;
+}
+

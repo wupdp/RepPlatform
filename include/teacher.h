@@ -32,7 +32,6 @@ public:
     void set_rate(double);
 
     const Teacher_data &get_tdata() const;
-    int &get_id();
     SCHEDULE &get_courses();
     int &get_exp();
     double &get_rate();

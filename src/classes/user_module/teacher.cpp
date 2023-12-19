@@ -47,10 +47,6 @@ const Teacher_data &Teacher::get_tdata() const {
     return data_t;
 }
 
-int &Teacher::get_id() {
-    return data_t.id;
-}
-
 SCHEDULE &Teacher::get_courses() {
     return data_t.studentSchedules;
 }

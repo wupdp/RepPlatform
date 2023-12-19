@@ -48,6 +48,7 @@ private:
     void handleUserInput();
     void handleStudentInput();
     void handleTeacherInput();
+    void update_files();
 public:
     Interface();
 

@@ -41,3 +41,19 @@ const std::string &Cards::getNumber() const {
 void Cards::setHolderName(const std::string &holderName) {
     holder_name = holderName;
 }
+
+int Cards::getId() const {
+    return id;
+}
+
+const std::string &Cards::getValidity() const {
+    return validity;
+}
+
+const std::string &Cards::getHolderName() const {
+    return holder_name;
+}
+
+int Cards::getCvcCode() const {
+    return cvc_code;
+}

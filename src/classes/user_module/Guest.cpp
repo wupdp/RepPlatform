@@ -11,7 +11,6 @@ int Guest::authorize(std::string username, std::string password, std::map<int, U
     for (const auto& userPair : users) {
         const User& user = userPair.second;
         if (user.get_username() == username && user.check_password(password)) {
-            std::cout << "Authorization successful for user_module: " << username << std::endl;
             int userId = user.check_id(password);
             return userId;
         }
@@ -34,7 +33,6 @@ int Guest::register_user(User_data data, std::map<int, User> &users) {
         data.role = "student";
         User newUser(data);
         (users)[newId] = newUser;
-        std::cout << "Registration successful for user_module: " << data.username << std::endl;
         return newId;
     } else {
         std::cout << "Registration failed for user_module: " << data.username << ". Username already exists." << std::endl;

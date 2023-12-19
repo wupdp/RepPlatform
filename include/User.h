@@ -38,7 +38,8 @@ public:
     [[nodiscard]] const string &get_username() const;
     [[nodiscard]] const string &get_role() const;
     [[nodiscard]] const int &get_wallet_id() const;
-    [[nodiscard]] const int &get_id() const;
+
+    const int &get_id() const;
     [[nodiscard]] const string &get_phonenumber() const;
     [[nodiscard]] const vector<string> &get_notifications() const;
 

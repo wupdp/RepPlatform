@@ -23,6 +23,7 @@ public:
     [[nodiscard]] const std::string &get_course_name() const;
     [[nodiscard]] const std::string &get_course_subcatalog() const;
     [[nodiscard]] const std::vector<int> &get_course_teachers() const;
+    const Course_struct &getCurrentCourse() const;
 
     void set_teachers(std::vector<int> teachers);
 };

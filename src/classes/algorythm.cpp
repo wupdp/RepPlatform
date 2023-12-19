@@ -11,10 +11,10 @@ void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
     string line;
     while (getline(file, line)) {
         int id;
-        string number, validity, cvcCodeStr, holderName;
+        string number, validity, idStr, holderName;
 
         istringstream iss(line);
-        getline(iss, cvcCodeStr, '/');
+        getline(iss, idStr, '/');
         getline(iss, number, '/');
         getline(iss, validity, '/');
         string cvcStr;
@@ -25,7 +25,7 @@ void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
         int cvcCode;
         cvcStream >> cvcCode;
 
-        istringstream idStream(cvcCodeStr);
+        istringstream idStream(idStr);
         idStream >> id;
 
         if (id == idToFind) {
@@ -55,31 +55,38 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
         getline(iss, coursesStr); // Получение данных о курсах и расписании
 
         // Разделение данных coursesStr на отдельные курсы и их расписание
+        SCHEDULE courseSchedules;
         istringstream coursesStream(coursesStr);
         string courseInfo;
-        SCHEDULE courseSchedules;
-
         while (getline(coursesStream, courseInfo, '}')) {
             istringstream courseStream(courseInfo);
 
             string courseName;
-            vector<string> schedule;
-
-            // Извлечение имени курса
             getline(courseStream, courseName, '{');
 
-            // Извлечение расписания занятий для этого курса
-            string scheduleInfo;
-            getline(courseStream, scheduleInfo);
+            string studentInfo;
+            while (getline(courseStream, studentInfo, '}')) {
+                istringstream studentStream(studentInfo);
 
-            istringstream scheduleStream(scheduleInfo);
-            string lessonInfo;
-            while (getline(scheduleStream, lessonInfo, '/')) {
-                schedule.push_back(lessonInfo);
+                string teacherIdStr;
+                getline(studentStream, studentIdStr, ':');
+                int teacherId = stoi(studentIdStr);
+
+                string scheduleStr;
+                getline(studentStream, scheduleStr);
+                istringstream scheduleStream(scheduleStr);
+
+                string date;
+                vector<string> scheduleDates;
+                while (getline(scheduleStream, date, ' ')) {
+                    scheduleDates.push_back(date);
+                }
+
+                courseSchedules[courseName][teacherId] = scheduleDates;
             }
-
-            courseSchedules[courseName][studentId] = schedule;
         }
+
+
 
         // Создание объекта StudentData с извлеченными данными
         StudentData studentData{
@@ -266,6 +273,142 @@ void Algorithm::parse_schedule_courses(const map<string, map<int, vector<string>
     }
 }
 
+void Algorithm::write_cards(const Cards &cardsObj) {
+    ofstream file("../var/info/Cards", ios::app); // Открываем файл для добавления данных
 
+    if (file.is_open()) {
+        file << cardsObj.getId() << '/' << cardsObj.getNumber() << '/'
+             << cardsObj.getValidity() << '/' << cardsObj.getCvcCode() << '/'
+             << cardsObj.getHolderName() << '\n';
 
+        file.close();
+    } else {
+        cout << "Ошибка открытия файла!" << endl;
+    }
+}
 
+void Algorithm::write_students(const map<int, Student>& studentsMap) {
+    ofstream file("../var/info/Students");
+
+    if (file.is_open()) {
+        for (const auto& student : studentsMap) {
+            const StudentData& studentData = student.second.getData();
+            file << studentData.id << '/';
+
+            const SCHEDULE& courseSchedules = studentData.courseSchedules;
+            for (const auto& course : courseSchedules) {
+                file << course.first << '{';
+
+                for (const auto& teacher_schedule : course.second) {
+                    file << teacher_schedule.first << ':';
+                    for (const auto& date : teacher_schedule.second) {
+                        file << date << ' ';
+                    }
+                }
+
+                file << '}';
+            }
+
+            file << ' ';
+        }
+
+        file.close();
+    } else {
+        cout << "Ошибка открытия файла!" << endl;
+    }
+}
+
+void Algorithm::write_teachers(const map<int, Teacher>& teachersMap) {
+    ofstream file("../var/info/Teachers");
+
+    if (file.is_open()) {
+        for (const auto& teacherData : teachersMap) {
+            const Teacher& teacher = teacherData.second;
+
+            file << teacher.get_id() << '/'; // Запись ID преподавателя
+
+            const Teacher_data& teacherInfo = teacher.get_tdata();
+            const SCHEDULE& studentSchedules = teacherInfo.studentSchedules;
+
+            for (const auto& course : studentSchedules) {
+                file << course.first << '{'; // Запись имени курса
+
+                for (const auto& studentInfo : course.second) {
+                    file << studentInfo.first << ':';
+
+                    for (const auto& date : studentInfo.second) {
+                        file << date << ' ';
+                    }
+                    file << '}';
+                }
+                file << '}';
+            }
+            file << '/' << teacherInfo.experience << '/' << teacherInfo.rating << '\n';
+        }
+
+        file.close();
+    } else {
+        cout << "Ошибка открытия файла!" << endl;
+    }
+}
+
+void Algorithm::write_users(const map<int, User>& usersMap) {
+    ofstream file("../var/info/Users");
+
+    if (file.is_open()) {
+        for (const auto& userData : usersMap) {
+            const User& user = userData.second;
+
+            const User_data& userInfo = user.get_data();
+
+            file << userInfo.id << '/';
+            file << userInfo.username << '/';
+            file << userInfo.role << '/';
+
+            const vector<string>& notifications = userInfo.notifications;
+            for (size_t i = 0; i < notifications.size(); ++i) {
+                file << notifications[i];
+                if (i != notifications.size() - 1) {
+                    file << ',';
+                }
+            }
+
+            file << '/' << userInfo.wallet << '/';
+            file << userInfo.phoneNumber << '/';
+            file << userInfo.password << '\n';
+        }
+
+        file.close();
+    } else {
+        cout << "Ошибка открытия файла!" << endl;
+    }
+}
+
+void Algorithm::write_courses(Catalog& catalog) {
+    ofstream file("../var/info/Courses");
+
+    if (file.is_open()) {
+        for (auto& subcatalog : catalog.getSubcatalogs()) {
+            for (auto& course : subcatalog.second.get_courses()) {
+                Course_struct courseData = course.second.getCurrentCourse();
+
+                file << courseData.name << '/';
+                file << courseData.subcatalog << '/';
+
+                vector<int>& teachers = courseData.teachers;
+                for (size_t i = 0; i < teachers.size(); ++i) {
+                    file << teachers[i];
+                    if (i != teachers.size() - 1) {
+                        file << ',';
+                    }
+                }
+
+                file << '\n';
+            }
+        }
+
+        file.close();
+    } else {
+        cout << "Ошибка открытия файла!" << endl;
+    }
+}

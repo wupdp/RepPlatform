@@ -82,12 +82,17 @@ void Interface::handleGuestInput() {
                 break;
             case 4:
                 authorizeUser();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 return;
             case 5:
                 registerUser();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 return;
             case 0:
                 cout << "Выход из программы." << endl;
+                update_files();
                 exit(0);
             default:
                 cout << "Неверный выбор. Пожалуйста, выберите снова." << endl;
@@ -157,10 +162,9 @@ void Interface::displayMenuTeacher() {
     cout << "7. Просмотреть запросы на уроки" << endl;
     cout << "8. Добавить свой курс" << endl;
     cout << "9. Удалить свой курс" << endl;
-    cout << "10. Отправить уведомление студентам" << endl;
-    cout << "11. Выйти из аккаунта" << endl;
-    cout << "12. Удалить учетную запись преподавателя" << endl;
-    cout << "13. Удалить аккаунт" << endl;
+    cout << "10. Выйти из аккаунта" << endl;
+    cout << "11. Удалить учетную запись преподавателя" << endl;
+    cout << "12. Удалить аккаунт" << endl;
     cout << "================================" << endl;
     cout << "0. Выход" << endl;
     cout << "================================" << endl;
@@ -265,7 +269,7 @@ void Interface::handleStudentInput() {
                 // Вывод доступных курсов
                 cout << "Доступные курсы: " << endl;
                 Teacher teacher1(teacherId, usersMap);
-                displayCourses();
+                display_schedule_courses(teacher1);
 
                 string selectedCourse;
                 cout << "Выберите курс: ";
@@ -324,6 +328,7 @@ void Interface::handleTeacherInput() {
                 displaySubcatalogs();
                 break;
             case 4:
+                system("clear");
                 display_schedule_t();
                 break;
             case 5:
@@ -336,7 +341,7 @@ void Interface::handleTeacherInput() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             case 7:
-                // Логика для просмотра запросов на уроки
+                display_lesson_requests();
                 break;
             case 8:
                 add_course();
@@ -349,17 +354,14 @@ void Interface::handleTeacherInput() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             case 10:
-                // Логика для отправки уведомления студентам
-                break;
-            case 11:
                 currentUserType = GUEST;
                 return;
-            case 12:
+            case 11:
                 currentUserType = GUEST;
                 teachersMap.erase(teacher.get_id());
                 teacher = Teacher();
                 return;
-            case 13:
+            case 12:
                 teacher.deactivate_account(usersMap);
                 cout << "Удаление аккаунта." << endl;
                 currentUserType = GUEST;
@@ -457,12 +459,14 @@ void Interface::registerUser() {
     User_data userData; // Создаем структуру для данных нового пользователя
 
     cout << "Введите имя пользователя: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, userData.username);
 
     cout << "Введите пароль: ";
     cin >> userData.password;
 
     cout << "Введите номер телефона: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, userData.phoneNumber);
 
     int userId = guest.register_user(userData, usersMap); // Регистрация пользователя
@@ -485,6 +489,7 @@ void Interface::authorizeUser() {
     string username, password;
 
     cout << "Введите имя пользователя: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, username);
 
     cout << "Введите пароль: ";
@@ -535,7 +540,7 @@ void Interface::UserProfile() {
     cout << "2. Изменить данные профиля" << endl;
     cout << "3. Пополнить баланс" << endl;
     cout << "4. Выход из профиля" << endl;
-    cout << "Выберите действие: " << endl;
+    cout << "Выберите действие: ";
 
     int choice;
     cin >> choice;
@@ -706,6 +711,7 @@ void Interface::display_schedule_students() {
 void Interface::add_course() {
     string courseName;
     cout << "Введите название нового курса: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     getline(cin, courseName);
 
     bool found = false;
@@ -722,6 +728,7 @@ void Interface::add_course() {
 
     if (!found) {
         // Запрос имени подкаталога, если курс не найден
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Курс не найден. Введите имя подкаталога для нового курса: ";
         getline(cin, subcatalogName);
 
@@ -748,6 +755,7 @@ void Interface::add_course() {
 
 void Interface::delete_course() {
     string courseName;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << "Введите название курса для удаления: ";
     getline(cin, courseName);
 
@@ -827,7 +835,7 @@ void Interface::display_lesson_requests() {
                     cout << "    " << date << endl;
                     cout << "Установите дату занятия: ";
                     string newDate;
-                    getline(cin, newDate);
+                    cin >> newDate;
                     date = newDate;
                     studentsMap[student_map.first].sent_notif(course.first, teacher.get_id(), newDate);
                 }
@@ -851,5 +859,12 @@ void Interface::teacherProfile() {
     cout << "ID: " << teacher.get_id() << endl;
     cout << "Опыт: " << teacher.get_exp() << " лет" << endl;
     cout << "Рейтинг: " << teacher.get_rate() << endl;
+}
+
+void Interface::update_files() {
+    Algorithm::write_courses(catalog);
+    Algorithm::write_students(studentsMap);
+    Algorithm::write_teachers(teachersMap);
+    Algorithm::write_users(usersMap);
 }
 

@@ -24,6 +24,10 @@ void Course::set_teachers(std::vector<int> teachers) {
     current_course.teachers = teachers;
 }
 
+const Course_struct &Course::getCurrentCourse() const {
+    return current_course;
+}
+
 Course::Course() = default;
 
 Course::~Course() = default;

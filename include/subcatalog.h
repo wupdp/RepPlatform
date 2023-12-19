@@ -20,6 +20,9 @@ public:
     Course find_course(std::string name);
     void delete_course(std::string name);
     [[nodiscard]] const std::string &getSubcatalogName() const;
+
+    const std::map<std::string, Course> &get_courses() const;
+
     friend std::ostream& operator<<(std::ostream& os, const Subcatalog& subcatalog);
 };
 
