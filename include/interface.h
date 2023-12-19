@@ -16,27 +16,26 @@ private:
     std::map<int, User> usersMap;
     std::map<int, Teacher> teachersMap;
     std::map<int, Student> studentsMap;
-    UserType currentUserType;
+    UserType current_user_type;
     Guest guest;
     User user;
     Teacher teacher;
     Student student;
 
-    void displayCourses();
-    void displayTeachers();
-    void displaySubcatalogs();
-    void registerUser();
-    void authorizeUser();
-    void teacherProfile();
-    void UserProfile();
-    void ChangeProfileInfo(int choice);
+    void display_courses();
+    void display_teachers();
+    void display_subcatalogs();
+    void register_user();
+    void authorize_user();
+    void teacher_profile();
+    void user_profile();
+    void change_profile(int choice);
     void display_schedule_t();
     void display_schedule_s();
     void display_schedule_students();
     void display_schedule_courses(Teacher);
     void add_course();
     void delete_course();
-
     void display_lesson_requests();
     // Меню для различных типов пользователей
     void displayMenuGuest();
@@ -48,13 +47,13 @@ private:
     void handleUserInput();
     void handleStudentInput();
     void handleTeacherInput();
+    //Работа с памятью
     void update_files();
+    void get_data();
+    void clear();
 public:
     Interface();
 
     virtual ~Interface();
     void displayMenu();
-
-    void get_data();
-    void clear();
 };

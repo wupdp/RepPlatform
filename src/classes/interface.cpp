@@ -1,5 +1,3 @@
-//
-
 #include <iostream>
 #include <limits>
 #include "../../include/interface.h"
@@ -8,7 +6,7 @@ using namespace std;
 
 Interface::Interface() {
     get_data();
-    currentUserType = GUEST;
+    current_user_type = GUEST;
 }
 
 void Interface::displayMenu() {
@@ -16,7 +14,7 @@ void Interface::displayMenu() {
     while (true) {
         update_files();
         get_data();
-        switch (currentUserType) {
+        switch (current_user_type) {
             case GUEST:
                 handleGuestInput();
                 break;
@@ -71,21 +69,21 @@ void Interface::handleGuestInput() {
 
         switch (choice) {
             case 1:
-                displayCourses();
+                display_courses();
                 break;
             case 2:
-                displaySubcatalogs();
+                display_subcatalogs();
                 break;
             case 3:
-                displayTeachers();
+                display_teachers();
                 break;
             case 4:
-                authorizeUser();
+                authorize_user();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 return;
             case 5:
-                registerUser();
+                register_user();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 return;
@@ -178,17 +176,17 @@ void Interface::handleUserInput() {
 
         switch (choice) {
             case 1:
-                displayCourses();
+                display_courses();
                 break;
             case 2:
-                displaySubcatalogs();
+                display_subcatalogs();
                 break;
             case 3:
-                displayTeachers();
+                display_teachers();
                 break;
             case 4:
                 system("clear");
-                UserProfile();
+                user_profile();
                 break;
             case 5: {
                 if (user.get_role() != "S" && user.get_role() != "ST") {
@@ -199,7 +197,7 @@ void Interface::handleUserInput() {
                         user.set_role("S");
                 }
                 student = studentsMap[user.get_id()];
-                currentUserType = STUDENT;
+                current_user_type = STUDENT;
                 return;
             }
             case 6: {
@@ -211,15 +209,15 @@ void Interface::handleUserInput() {
                         user.set_role("T");
                 }
                 teacher = teachersMap[user.get_id()];
-                currentUserType = TEACHER;
+                current_user_type = TEACHER;
                 return;
             }
             case 7:
-                currentUserType = GUEST;
+                current_user_type = GUEST;
                 return;
             case 8:
                 user.deactivate_account(usersMap);
-                currentUserType = GUEST;
+                current_user_type = GUEST;
                 return;
             case 0:
                 cout << "Выход из программы." << endl;
@@ -246,17 +244,17 @@ void Interface::handleStudentInput() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             case 2:
-                displayCourses();
+                display_courses();
                 break;
             case 3:
-                displaySubcatalogs();
+                display_subcatalogs();
                 break;
             case 4:
-                displayTeachers();
+                display_teachers();
                 break;
             case 5:
                 system("clear");
-                UserProfile();
+                user_profile();
                 break;
             case 6: {
                 int teacherId;
@@ -281,19 +279,19 @@ void Interface::handleStudentInput() {
 
             case 7:
                 cout << "Выход из аккаунта." << endl;
-                currentUserType = GUEST;
+                current_user_type = GUEST;
                 return;
             case 8:
                 studentsMap.erase(student.get_id());
                 student = Student();
-                currentUserType = USER;
+                current_user_type = USER;
                 return;
             case 9:
                 cout << "Удаление аккаунта." << endl;
                 studentsMap.erase(student.get_id());
                 student = Student();
                 user.deactivate_account(usersMap);
-                currentUserType = GUEST;
+                current_user_type = GUEST;
                 break;
             case 0:
                 cout << "Выход из программы." << endl;
@@ -321,18 +319,18 @@ void Interface::handleTeacherInput() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             case 2:
-                displayCourses();
+                display_courses();
                 break;
             case 3:
-                displaySubcatalogs();
+                display_subcatalogs();
                 break;
             case 4:
                 system("clear");
                 display_schedule_t();
                 break;
             case 5:
-                teacherProfile();
-                UserProfile();
+                teacher_profile();
+                user_profile();
                 break;
             case 6:
                 display_schedule_students();
@@ -353,17 +351,17 @@ void Interface::handleTeacherInput() {
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 break;
             case 10:
-                currentUserType = GUEST;
+                current_user_type = GUEST;
                 return;
             case 11:
-                currentUserType = GUEST;
+                current_user_type = GUEST;
                 teachersMap.erase(teacher.get_id());
                 teacher = Teacher();
                 return;
             case 12:
                 teacher.deactivate_account(usersMap);
                 cout << "Удаление аккаунта." << endl;
-                currentUserType = GUEST;
+                current_user_type = GUEST;
                 return;
             case 0:
                 cout << "Выход из программы." << endl;
@@ -378,7 +376,7 @@ void Interface::handleTeacherInput() {
 }
 
 
-void Interface::displayCourses() {
+void Interface::display_courses() {
     system("clear");
 
     cout << "========================================================================" << endl;
@@ -394,7 +392,7 @@ void Interface::displayCourses() {
 
 }
 
-void Interface::displayTeachers() {
+void Interface::display_teachers() {
     system("clear");
     if (teachersMap.empty()) {
         cout << "Нет зарегистрированных преподавателей." << endl;
@@ -417,7 +415,7 @@ void Interface::displayTeachers() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-void Interface::displaySubcatalogs() {
+void Interface::display_subcatalogs() {
     system("clear");
 
     cout << "================================" << endl;
@@ -453,7 +451,7 @@ void Interface::displaySubcatalogs() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-void Interface::registerUser() {
+void Interface::register_user() {
     system("clear");
     User_data userData; // Создаем структуру для данных нового пользователя
 
@@ -472,7 +470,7 @@ void Interface::registerUser() {
 
     if (userId != -1) {
         // Регистрация прошла успешно, можно выполнить дополнительные действия, если нужно
-        currentUserType = USER;
+        current_user_type = USER;
         user = usersMap[userId];
         cout << "Регистрация прошла успешно. Теперь вы зарегистрированный пользователь." << endl;
     } else {
@@ -482,7 +480,7 @@ void Interface::registerUser() {
 }
 
 
-void Interface::authorizeUser() {
+void Interface::authorize_user() {
 
     system("clear");
     string username, password;
@@ -498,19 +496,19 @@ void Interface::authorizeUser() {
 
     if (userId != -1) {
         user = User(userId, usersMap);
-        currentUserType = USER; // Установка текущего типа пользователя
+        current_user_type = USER; // Установка текущего типа пользователя
         if (teachersMap.find(user.get_id()) != teachersMap.end()) {
-            currentUserType = USER; // Установка текущего типа пользователя как преподаватель
+            current_user_type = USER; // Установка текущего типа пользователя как преподаватель
             user.set_role("T");
             cout << "Авторизация прошла успешно, вы можете переключиться на преподавателя. Добро пожаловать, "
                  << username << "!" << endl;
         } else if (studentsMap.find(user.get_id()) != studentsMap.end()) {
-            currentUserType = STUDENT; // Установка текущего типа пользователя как студент
+            current_user_type = STUDENT; // Установка текущего типа пользователя как студент
             user.set_role("S");
             cout << "Авторизация прошла успешно, вы можете переключиться на студента. Добро пожаловать, " << username
                  << "!" << endl;
         } else {
-            currentUserType = USER; // Установка текущего типа пользователя
+            current_user_type = USER; // Установка текущего типа пользователя
             user.set_role("U");
             cout << "Авторизация прошла успешно. Добро пожаловать, " << username << "!" << endl;
         }
@@ -520,7 +518,7 @@ void Interface::authorizeUser() {
     }
 }
 
-void Interface::UserProfile() {
+void Interface::user_profile() {
     cout << "================================" << endl;
     cout << "=== Профиль пользователя ======" << endl;
     cout << "================================" << endl;
@@ -548,10 +546,10 @@ void Interface::UserProfile() {
     if (choice == 4)
         return;
 
-    ChangeProfileInfo(choice);
+    change_profile(choice);
 }
 
-void Interface::ChangeProfileInfo(int choice) {
+void Interface::change_profile(int choice) {
     system("clear");
     switch (choice) {
         case 1: {
@@ -850,7 +848,7 @@ void Interface::display_lesson_requests() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
-void Interface::teacherProfile() {
+void Interface::teacher_profile() {
     system("clear");
     cout << "================================" << endl;
     cout << "=== Профиль преподавателя =====" << endl;
