@@ -4,10 +4,10 @@ project(RepPlatform)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(RepPlatform src/main.cpp
-        src/classes/user_module/Guest.cpp
-        include/Guest.h
-        src/classes/user_module/User.cpp
-        include/User.h
+        src/classes/user_module/guest.cpp
+        include/guest.h
+        src/classes/user_module/user.cpp
+        include/user.h
         src/classes/catalog_module/courses.cpp
         include/courses.h
         src/classes/user_module/student.cpp

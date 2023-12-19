@@ -1,5 +1,5 @@
 #include <iostream>
-#include "User.h"
+#include "user.h"
 #include "teacher.h"
 #include "student.h"
 #include "courses.h"
@@ -54,4 +54,7 @@ public:
 
     virtual ~Interface();
     void displayMenu();
+
+    void get_data();
+    void clear();
 };

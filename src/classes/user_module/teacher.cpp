@@ -1,5 +1,3 @@
-//
-
 #include <utility>
 
 #include "../../../include/teacher.h"
@@ -8,18 +6,17 @@ Teacher::Teacher() = default;
 
 Teacher::~Teacher() = default;
 
-Teacher::Teacher(int _id, map<int, User> users) : User(_id, users) {     //Use User constructor
+Teacher::Teacher(int _id, map<int, User> users) : User(_id, users) {
     data_t.id = _id;
 }
 
 Teacher::Teacher(const User_data &userData, Teacher_data teacherData)
         : User(userData), data_t(std::move(teacherData)) {
-
 }
 
 void Teacher::get_lesson_request(int student_id, string course_name) {
     string request = "Запрос " + course_name;
-    data_t.studentSchedules[course_name][student_id].push_back(request);
+    data_t.schedules[course_name][student_id].push_back(request);
     current_card.add_balance(30);
 }
 
@@ -32,7 +29,7 @@ void Teacher::set_id(int id) {
 }
 
 void Teacher::set_courses(SCHEDULE courses) {
-    data_t.studentSchedules = courses;
+    data_t.schedules = courses;
 }
 
 void Teacher::set_exp(int exp) {
@@ -48,7 +45,7 @@ const Teacher_data &Teacher::get_tdata() const {
 }
 
 SCHEDULE &Teacher::get_courses() {
-    return data_t.studentSchedules;
+    return data_t.schedules;
 }
 
 int &Teacher::get_exp() {

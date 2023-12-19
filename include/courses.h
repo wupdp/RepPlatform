@@ -1,31 +1,31 @@
-//
-// Created by wupdp on 25.11.23.
-//
-
 #ifndef REPPLATFORM_COURSES_H
 #define REPPLATFORM_COURSES_H
 #include "iostream"
 #include "vector"
 
+using namespace std;
+
 struct Course_struct{
-    std::string name;
-    std::string subcatalog;
-    std::vector<int> teachers;
+    string name;
+    string subcatalog;
+    vector<int> teachers;
 };
 
 class Course {
-    Course_struct current_course;
 public:
     Course();
     ~Course();
-    explicit Course(Course_struct currentCourse);
+    explicit Course(Course_struct course_stuct);
 
-    [[nodiscard]] const std::string &get_course_name() const;
-    [[nodiscard]] const std::string &get_course_subcatalog() const;
-    [[nodiscard]] const std::vector<int> &get_course_teachers() const;
-    const Course_struct &getCurrentCourse() const;
+    const string &get_course_name() const;
+    const string &get_course_subcatalog() const;
+    const vector<int> &get_course_teachers() const;
+    const Course_struct &get_current_course() const;
 
-    void set_teachers(std::vector<int> teachers);
+    void set_teachers(vector<int> teachers);
+    void clear();
+private:
+    Course_struct current_course;
 };
 
 #endif //REPPLATFORM_COURSES_H

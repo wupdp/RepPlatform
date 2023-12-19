@@ -7,16 +7,15 @@
 using namespace std;
 
 Interface::Interface() {
-    Algorithm::parse_courses(catalog);
-    Algorithm::parse_users(usersMap);
-    Algorithm::parse_students(studentsMap, usersMap);
-    Algorithm::parse_teachers(teachersMap, usersMap);
+    get_data();
     currentUserType = GUEST;
 }
 
 void Interface::displayMenu() {
     system("clear");
     while (true) {
+        update_files();
+        get_data();
         switch (currentUserType) {
             case GUEST:
                 handleGuestInput();
@@ -425,7 +424,7 @@ void Interface::displaySubcatalogs() {
     cout << "=== Просмотр подкаталогов =======" << endl;
     cout << "================================" << endl;
 
-    map<string, Subcatalog> subcatalogs = catalog.getSubcatalogs();
+    map<string, Subcatalog> subcatalogs = catalog.get_subcatalogs();
 
     int index = 1;
     for (const auto &pair: subcatalogs) {
@@ -467,7 +466,7 @@ void Interface::registerUser() {
 
     cout << "Введите номер телефона: ";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    getline(cin, userData.phoneNumber);
+    getline(cin, userData.phone_number);
 
     int userId = guest.register_user(userData, usersMap); // Регистрация пользователя
 
@@ -527,8 +526,8 @@ void Interface::UserProfile() {
     cout << "================================" << endl;
 
     cout << "Имя пользователя: " << user.get_username() << endl;
-    cout << "Ваша карта: " << user.current_card.getNumber() << endl;
-    cout << "Баланс: " << user.current_card.getBalance() << " byn" << endl;
+    cout << "Ваша карта: " << user.current_card.get_number() << endl;
+    cout << "Баланс: " << user.current_card.get_balance() << " byn" << endl;
     cout << "Номер телефона: " << user.get_phonenumber() << endl;
     cout << "Уведомления:" << endl;
     for (const auto &notification: user.get_notifications()) {
@@ -605,19 +604,19 @@ void Interface::ChangeProfileInfo(int choice) {
 
                         cout << "Введите новый номер карты: ";
                         getline(cin, newCardNumber);
-                        user.current_card.setNumber(newCardNumber);
+                        user.current_card.set_number(newCardNumber);
 
                         cout << "Введите новую дату действия: ";
                         cin >> newValidity;
-                        user.current_card.setValidity(newValidity);
+                        user.current_card.set_validity(newValidity);
 
                         cout << "Введите новое имя держателя: ";
                         getline(cin, newHolderName);
-                        user.current_card.setHolderName(newHolderName);
+                        user.current_card.set_HolderName(newHolderName);
 
                         cout << "Введите новый CVC-код: ";
                         cin >> newCvcCode;
-                        user.current_card.setCvcCode(newCvcCode);
+                        user.current_card.set_cvc(newCvcCode);
 
                         break;
                     }
@@ -718,7 +717,7 @@ void Interface::add_course() {
     string subcatalogName;
 
     // Поиск курса по всем подкаталогам
-    for (auto &subcatalog: catalog.getSubcatalogs()) {
+    for (auto &subcatalog: catalog.get_subcatalogs()) {
         if (subcatalog.second.find_course(courseName).get_course_name() == courseName) {
             found = true;
             subcatalogName = subcatalog.first;
@@ -733,8 +732,8 @@ void Interface::add_course() {
         getline(cin, subcatalogName);
 
         // Проверка существования подкаталога и добавление курса в него
-        if (!catalog.hasSubcatalog(subcatalogName)) {
-            catalog.addSubcatalog(subcatalogName);
+        if (!catalog.has_subcatalog(subcatalogName)) {
+            catalog.add_subcatalog(subcatalogName);
         }
 
         Course_struct newCourseData;
@@ -742,7 +741,7 @@ void Interface::add_course() {
         newCourseData.subcatalog = subcatalogName;
 
         // Добавление курса в подкаталог
-        catalog.getSubcatalog(subcatalogName).add_course(newCourseData);
+        catalog.get_subcatalog(subcatalogName).add_course(newCourseData);
     }
 
     // Добавление курса в расписание преподавателя
@@ -767,7 +766,7 @@ void Interface::delete_course() {
     }
 
     // Удаление айди преподавателя из объекта курса
-    for (auto &subcatalog: catalog.getSubcatalogs()) {
+    for (auto &subcatalog: catalog.get_subcatalogs()) {
         Course course = subcatalog.second.find_course(courseName);
         if (course.get_course_name() == courseName) {
             vector<int> teachers = course.get_course_teachers();
@@ -861,10 +860,26 @@ void Interface::teacherProfile() {
     cout << "Рейтинг: " << teacher.get_rate() << endl;
 }
 
+void Interface::get_data() {
+    clear();
+    Algorithm::parse_courses(catalog);
+    Algorithm::parse_users(usersMap);
+    Algorithm::parse_students(studentsMap, usersMap);
+    Algorithm::parse_teachers(teachersMap, usersMap);
+}
 void Interface::update_files() {
+    usersMap[user.get_id()] = user;
+    teachersMap[teacher.get_id()] = teacher;
+    studentsMap[student.get_id()] = student;
     Algorithm::write_courses(catalog);
     Algorithm::write_students(studentsMap);
     Algorithm::write_teachers(teachersMap);
     Algorithm::write_users(usersMap);
 }
 
+void Interface::clear() {
+    usersMap.clear();
+    catalog.clear();
+    studentsMap.clear();
+    teachersMap.clear();
+}

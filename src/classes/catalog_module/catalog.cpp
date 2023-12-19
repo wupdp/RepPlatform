@@ -1,64 +1,64 @@
-//
-// Created by wupdp on 12.12.23.
-//
-
 #include "../../../include/catalog.h"
-#include "../../../include/courses.h"
 
 Catalog::Catalog() = default;
 
 Catalog::~Catalog() = default;
 
-void Catalog::addSubcatalog(const std::string& undercatalog_name) {
+void Catalog::add_subcatalog(const string& undercatalog_name) {
     if (subcatalogs.find(undercatalog_name) == subcatalogs.end()) {
         Subcatalog new_subcatalog(undercatalog_name);
         subcatalogs[undercatalog_name] = new_subcatalog;
     } else {
-        std::cout << "Subcatalog " << undercatalog_name << " already exists!" << std::endl;
+        cout << "Подкаталог " << undercatalog_name << " существует." << endl;
     }
 }
 
 
-Course Catalog::find_course(std::string name) {
+Course Catalog::find_course(string name) {
     for (auto& subcatalog : subcatalogs) {
         Course course = subcatalog.second.find_course(name);
         if (!course.get_course_name().empty()) {
             return course;
         }
     }
-    std::cout << "Error, course is not found\n";
+    cout << "Error, course is not found\n";
     return Course();
 }
 
-std::ostream& operator<<(std::ostream& os, const Catalog& catalog) {
+ostream& operator<<(ostream& os, const Catalog& catalog) {
     for (const auto& subcatalog : catalog.subcatalogs) {
-        os << subcatalog.second << std::endl;
+        os << subcatalog.second << endl;
     }
     return os;
 }
 
-bool Catalog::hasSubcatalog(const std::string& subcatalog) const {
+bool Catalog::has_subcatalog(const string &subcatalog) const {
     return subcatalogs.find(subcatalog) != subcatalogs.end();
 }
 
-Subcatalog &Catalog::getSubcatalog(const std::string &subcatalogName) {
+Subcatalog &Catalog::get_subcatalog(const string &subcatalogName) {
         return subcatalogs[subcatalogName];
 }
 
 void Catalog::display_courses() {
     if (subcatalogs.empty()) {
-        std::cout << "Каталог курсов пуст." << std::endl;
+        cout << "Каталог курсов пуст." << endl;
         return;
     }
 
     for (const auto& pair : subcatalogs) {
         const Subcatalog& subcatalog = pair.second;
-        std::cout << subcatalog; // Используем оператор <<
+        cout << subcatalog;
     }
 }
 
-std::map<std::string, Subcatalog> Catalog::getSubcatalogs() {
+map<string, Subcatalog> Catalog::get_subcatalogs() {
     return subcatalogs;
 }
 
-
+void Catalog::clear() {
+    for (auto &subcatalog: subcatalogs){
+        subcatalog.second.clear();
+    }
+    subcatalogs.clear();
+}

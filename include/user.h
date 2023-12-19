@@ -9,18 +9,20 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "Guest.h"
+#include "guest.h"
 #include "cards.h"
-using namespace std;
 #define SCHEDULE map<string,map<int,vector<string>>>
-//id/username/role/{notif1/notif2/notif3/notif4..}/wallet_id/phoneNumber
+using namespace std;
+
+//id/username/role/notif1,notif2,notif3,notif4../wallet_id/phone_number
+
 struct User_data {
     string username;
-    int id{};
+    int id;
     string role;
     vector<string> notifications;
-    int wallet;
-    string phoneNumber;
+
+    string phone_number;
     string password;
 };
 
@@ -35,20 +37,16 @@ public:
     void set_role(const string &role);
     void set_data(const User_data &data);
 
-    [[nodiscard]] const string &get_username() const;
-    [[nodiscard]] const string &get_role() const;
-    [[nodiscard]] const int &get_wallet_id() const;
-
+    const string &get_username() const;
+    const string &get_role() const;
     const int &get_id() const;
-    [[nodiscard]] const string &get_phonenumber() const;
-    [[nodiscard]] const vector<string> &get_notifications() const;
-
+    const string &get_phonenumber() const;
+    const vector<string> &get_notifications() const;
     const User_data &get_data() const;
 
-    [[nodiscard]] int check_id(string password) const;
-    [[nodiscard]] bool check_password(string password) const;
+    int check_id(string password) const;
+    bool check_password(string password) const;
     void view_notifications();
-    void view_profile() const;
     void change_password(string newPassword);
     void change_phone_number(string newNumber);
     void deactivate_account(map<int, User>& usersMap);

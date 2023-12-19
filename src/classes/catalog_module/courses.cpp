@@ -1,31 +1,30 @@
-//
-// Created by wupdp on 25.11.23.
-//
-
 #include "../../../include/courses.h"
+//#include <utility>
 
-#include <utility>
+Course::Course(Course_struct course_stuct) : current_course(std::move(course_stuct)) {}
 
-Course::Course(Course_struct currentCourse) : current_course(std::move(currentCourse)) {}
-
-const std::string &Course::get_course_name() const {
+const string &Course::get_course_name() const {
     return current_course.name;
 }
 
-const std::string &Course::get_course_subcatalog() const {
+const string &Course::get_course_subcatalog() const {
     return current_course.subcatalog;
 }
 
-const std::vector<int> &Course::get_course_teachers() const {
+const vector<int> &Course::get_course_teachers() const {
     return current_course.teachers;
 }
 
-void Course::set_teachers(std::vector<int> teachers) {
+void Course::set_teachers(vector<int> teachers) {
     current_course.teachers = teachers;
 }
 
-const Course_struct &Course::getCurrentCourse() const {
+const Course_struct &Course::get_current_course() const {
     return current_course;
+}
+
+void Course::clear() {
+    current_course.teachers.clear();
 }
 
 Course::Course() = default;

@@ -14,14 +14,12 @@ struct User_data;
 class Guest {
 public:
     Guest();
-    ~Guest(); // Деструктор класса.
+    ~Guest();
 
-    int register_user(User_data data, map<int, User> &users); // Регистрация пользователя на сайте.
+    int register_user(User_data data, map<int, User> &users);
     int authorize(string username, std::string password, map<int, User> &users);
 
 private:
-    int nextUserId;
-
     bool is_username_unique(const string &username, map<int, User> users);
 };
 

@@ -1,16 +1,10 @@
-//
-// Created by wupdp on 12.12.23.
-//
-
 #include "../../../include/subcatalog.h"
-
-//#include <utility>
 
 Subcatalog::Subcatalog() = default;
 
 Subcatalog::~Subcatalog() = default;
 
-Subcatalog::Subcatalog(std::string name) : subcatalog_name(std::move(name)) {
+Subcatalog::Subcatalog(string name) : subcatalog_name(std::move(name)) {
 }
 
 void Subcatalog::add_course(const Course_struct &course) {
@@ -18,38 +12,43 @@ void Subcatalog::add_course(const Course_struct &course) {
     courses[newCourse.get_course_name()] = newCourse;
 }
 
-Course Subcatalog::find_course(std::string name) {
+Course Subcatalog::find_course(string name) {
     auto it = courses.find(name);
     if (it != courses.end()) {
-        return it->second; // Возвращаем найденный курс
+        return it->second;
     }
-    return Course(); // Вернуть пустой объект Course, если курс не найден
+    return Course();
 }
 
-void Subcatalog::delete_course(std::string name) {
+void Subcatalog::delete_course(string name) {
     auto it = courses.find(name);
     if (it != courses.end()) {
-        courses.erase(it); // Удаляем курс, если найден
+        courses.erase(it);
     }
 }
 
-const std::string &Subcatalog::getSubcatalogName() const {
+const string &Subcatalog::get_subcatalog_name() const {
     return subcatalog_name;
 }
 
-std::ostream& operator<<(std::ostream& os, const Subcatalog& subcatalog) {
-    os << "================================" << std::endl;
-    os << "Подкаталог: " << subcatalog.subcatalog_name << std::endl;
-    os << "================================" << std::endl;
+ostream& operator<<(ostream& os, const Subcatalog& subcatalog) {
+    os << "================================" << endl;
+    os << "Подкаталог: " << subcatalog.subcatalog_name << endl;
+    os << "================================" << endl;
 
     for (const auto& pair : subcatalog.courses) {
-        os << pair.first << std::endl;
+        os << pair.first << endl;
     }
-
     return os;
 }
 
-const std::map<std::string, Course> &Subcatalog::get_courses() const {
+const map<string, Course> &Subcatalog::get_courses() const {
     return courses;
 }
 
+void Subcatalog::clear() {
+    for (auto &course: courses){
+        course.second.clear();
+    }
+    courses.clear();
+}

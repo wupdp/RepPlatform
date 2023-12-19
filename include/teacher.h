@@ -1,18 +1,13 @@
-//
-// Created by wupdp on 07.11.23.
-//
-
 #ifndef REPPLATFORM_TEACHER_H
 #define REPPLATFORM_TEACHER_H
 #include "iostream"
 #include "vector"
-#include "User.h"
+#include "user.h"
 using namespace std;
-
 
 struct Teacher_data {
     int id;
-    SCHEDULE studentSchedules; // Курсы и их расписание
+    SCHEDULE schedules;
     int experience;
     double rating;
 };
@@ -23,7 +18,6 @@ public:
     explicit Teacher(int id, map<int, User> users);
     explicit Teacher(const User_data &userData, Teacher_data teacherData);
     virtual ~Teacher();
-    void get_lesson_request(int student_id, string course_name);
 
     void set_data(const Teacher_data &data);
     void set_id(int);
@@ -35,6 +29,8 @@ public:
     SCHEDULE &get_courses();
     int &get_exp();
     double &get_rate();
+
+    void get_lesson_request(int student_id, string course_name);
 
 private:
     Teacher_data data_t;

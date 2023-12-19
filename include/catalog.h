@@ -1,26 +1,22 @@
-//
-// Created by wupdp on 12.12.23.
-//
-
 #ifndef REPPLATFORM_CATALOG_H
 #define REPPLATFORM_CATALOG_H
 #include "subcatalog.h"
 
 class Catalog {
-    std::map<std::string, Subcatalog> subcatalogs;
+    map<string, Subcatalog> subcatalogs;
 
 public:
     Catalog();
     ~Catalog();
 
-    void addSubcatalog(const std::string& undercatalog_name);
-    Course find_course(std::string name);
-    friend std::ostream& operator<<(std::ostream& os, const Catalog& catalog);
-    [[nodiscard]] bool hasSubcatalog(const std::string& subcatalog) const;
-    Subcatalog& getSubcatalog(const std::string& subcatalogName);
-    std::map<std::string, Subcatalog> getSubcatalogs();
+    void add_subcatalog(const string& undercatalog_name);
+    Course find_course(string name);
+    bool has_subcatalog(const string& subcatalog) const;
+    Subcatalog& get_subcatalog(const string& subcatalogName);
+    map<string, Subcatalog> get_subcatalogs();
     void display_courses();
+    void clear();
+    friend ostream& operator<<(ostream& os, const Catalog& catalog);
 };
-
 
 #endif //REPPLATFORM_CATALOG_H

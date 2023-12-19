@@ -1,39 +1,34 @@
-//
-// Created by wupdp on 25.11.23.
-//
-
 #ifndef REPPLATFORM_CARDS_H
 #define REPPLATFORM_CARDS_H
 #include "iostream"
 
+using namespace std;
+
 class Cards {
 public:
     Cards();
-
-    [[nodiscard]] int getBalance() const;
-    [[nodiscard]] const std::string &getNumber() const;
-
-    int getId() const;
-    const std::string &getValidity() const;
-    const std::string &getHolderName() const;
-    int getCvcCode() const;
-
     virtual ~Cards();
-    void add_balance(int money);
-    void setNumber(const std::string &number);
-    void setCvcCode(int cvcCode);
-    void setHolderName(const std::string &holderName);
 
-    void setValidity(const std::string &validity);
+    int get_balance() const;
+    int get_id() const;
+    const string &get_number() const;
+    const string &get_validity() const;
+    const string &get_HolderName() const;
+    int get_cvc() const;
+
+    void add_balance(int money);
+    void set_number(const string &number);
+    void set_cvc(int cvcCode);
+    void set_HolderName(const string &holderName);
+    void set_validity(const string &validity);
 
 private:
     int id;
-    std::string number;
-    std::string validity;
-    std::string holder_name;
+    string number;
+    string validity;
+    string holder_name;
     int cvc_code;
     int balance;
 };
-
 
 #endif //REPPLATFORM_CARDS_H

@@ -1,7 +1,3 @@
-//
-// Created by wupdp on 25.11.23.
-//
-
 #ifndef REPPLATFORM_ALGORYTHM_H
 #define REPPLATFORM_ALGORYTHM_H
 
@@ -12,7 +8,7 @@
 #include <map>
 #include <stack>
 #include <string>
-#include "User.h"
+#include "user.h"
 #include "teacher.h"
 #include "student.h"
 #include "courses.h"
@@ -23,18 +19,17 @@
 class Algorithm {
 public:
     static void parse_courses(Catalog& catalog);
-    static void parse_users(std::map<int, User>& usersMap);
-    static void parse_teachers(std::map<int, Teacher>& teachersMap, std::map<int, User>& usersMap);
-    static void parse_students(std::map<int, Student> &studentsMap, std::map<int, User> &usersMap);
+    static void parse_users(map<int, User>& usersMap);
+    static void parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& usersMap);
+    static void parse_students(map<int, Student> &studentsMap, map<int, User> &usersMap);
     static void parse_cards(int idToFind, Cards& cardsObj);
-    static void parse_schedule_students(std::map<std::string,std::map<int, std::vector<std::string>>>, std::stack<int>&);
-    static void parse_schedule_courses(std::map<std::string,std::map<int, std::vector<std::string>>> schedule, std::stack<std::string> &courses);
+    static void parse_schedule_students(SCHEDULE, stack<int>&);
+    static void parse_schedule_courses(SCHEDULE schedule, stack<string> &courses);
     static void write_cards(const Cards &cardsObj);
     static void write_students(const map<int, Student> &studentsMap);
     static void write_teachers(const map<int, Teacher>& teachersMap);
     static void write_users(const map<int, User> &usersMap);
     static void write_courses(Catalog &catalog);
 };
-
 
 #endif //REPPLATFORM_ALGORYTHM_H

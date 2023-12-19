@@ -1,63 +1,51 @@
-#include "../../../include/User.h"
+#include "../../../include/user.h"
 
 User::User(User_data data_) {
     data = data_;
     loggedIn = false;
 }
 
-User::User(int id, map<int, User> users){
+User::User(int id, map<int, User> users) {
     auto it = users.find(id);
-
     if (it != users.end())
         *this = it->second;
     else
-        ///
-        return;
+        cout << "Error. No such User" << endl;
+    return;
 }
 
 User::User() = default;
 
 void User::view_notifications() {
     cout << "Notifications:" << endl;
-    for (const auto& notif : data.notifications) {
+    for (const auto &notif: data.notifications) {
         cout << notif << endl;
     }
 }
 
-
-void User::view_profile() const {
-    cout << "User Profile:" << endl;
-    cout << "Username: " << data.username << endl;
-    cout << "User ID: " << data.id << endl;
-    cout << "Role: " << data.role << endl;
-
-    cout << "Number of Notifications: " << data.notifications.size() << endl;
-
-    cout << "Card Number: " << current_card.getNumber() << endl;
-    cout << "Phone Number: " << data.phoneNumber << endl;
-}
-
 void User::change_password(string newPassword) {
-    // Логика для изменения пароля пользователя
-    data.password = newPassword; // Изменяем пароль на новый
+    if (data.password != newPassword)
+        data.password = newPassword;
+    else
+        cout << "Введите новый пароль!" << endl;
 }
 
 void User::change_phone_number(string newNumber) {
-    // Логика для изменения номера телефона пользователя
-    data.phoneNumber = newNumber; // Обновляем номер телефона
+    if (data.phone_number == newNumber)
+        data.phone_number = newNumber;
+    else
+        cout << "Введите новый номер!" << endl;
 }
 
 
-void User::deactivate_account(map<int, User>& usersMap) {
+void User::deactivate_account(map<int, User> &usersMap) {
     if (usersMap.find(data.id) != usersMap.end()) {
-        // Удаляем пользователя из map по его ID
         usersMap.erase(data.id);
-        cout << "User with ID " << data.id << " has been deactivated and removed." << endl;
+        cout << "Пользователь по id " << data.id << " был отключен и удален." << endl;
     } else {
-        cout << "User with ID " << data.id << " not found." << endl;
+        cout << "Пользователь по id " << data.id << " не найден." << endl;
     }
 }
-
 
 void User::logOut() {
     loggedIn = false;
@@ -91,16 +79,12 @@ void User::set_data(const User_data &data_) {
     User::data = data_;
 }
 
-const int &User::get_wallet_id() const {
-    return data.wallet;
-}
-
 const User_data &User::get_data() const {
     return data;
 }
 
 const string &User::get_phonenumber() const {
-    return data.phoneNumber;
+    return data.phone_number;
 }
 
 const vector<string> &User::get_notifications() const {

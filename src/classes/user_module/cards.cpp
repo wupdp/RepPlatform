@@ -1,10 +1,6 @@
-//
-// Created by wupdp on 25.11.23.
-//
-
 #include "../../../include/cards.h"
 
-Cards::Cards(){
+Cards::Cards() {
     id = 0;
     number = "000 000 000 000";
     validity = "000";
@@ -14,46 +10,46 @@ Cards::Cards(){
 
 Cards::~Cards() = default;
 
-int Cards::getBalance() const {
+int Cards::get_balance() const {
     return balance;
 }
 
 void Cards::add_balance(int money) {
-    balance+=money;
+    balance += money;
 }
 
-void Cards::setNumber(const std::string &number_) {
-    Cards::number = number_;
+void Cards::set_number(const string &number_) {
+    number = number_;
 }
 
-void Cards::setValidity(const std::string &validity_) {
-    Cards::validity = validity_;
+void Cards::set_validity(const string &validity_) {
+    validity = validity_;
 }
 
-void Cards::setCvcCode(int cvcCode) {
-    cvc_code = cvcCode;
+void Cards::set_cvc(int code) {
+    cvc_code = code;
 }
 
-const std::string &Cards::getNumber() const {
+const string &Cards::get_number() const {
     return number;
 }
 
-void Cards::setHolderName(const std::string &holderName) {
-    holder_name = holderName;
+void Cards::set_HolderName(const string &name) {
+    holder_name = name;
 }
 
-int Cards::getId() const {
+int Cards::get_id() const {
     return id;
 }
 
-const std::string &Cards::getValidity() const {
+const string &Cards::get_validity() const {
     return validity;
 }
 
-const std::string &Cards::getHolderName() const {
+const string &Cards::get_HolderName() const {
     return holder_name;
 }
 
-int Cards::getCvcCode() const {
+int Cards::get_cvc() const {
     return cvc_code;
 }

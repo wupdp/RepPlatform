@@ -1,10 +1,4 @@
-//
-// Created by wupdp on 25.11.23.
-//
-
 #include "../../include/algorythm.h"
-
-using namespace std;
 
 void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
     ifstream file("../var/info/Cards");
@@ -29,10 +23,10 @@ void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
         idStream >> id;
 
         if (id == idToFind) {
-            cardsObj.setNumber(number);
-            cardsObj.setValidity(validity);
-            cardsObj.setCvcCode(cvcCode);
-            cardsObj.setHolderName(holderName);
+            cardsObj.set_number(number);
+            cardsObj.set_validity(validity);
+            cardsObj.set_cvc(cvcCode);
+            cardsObj.set_HolderName(holderName);
 
             break;
         }
@@ -65,12 +59,12 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
             getline(courseStream, courseName, '{');
 
             string studentInfo;
-            while (getline(courseStream, studentInfo, '}')) {
+            while (getline(courseStream, studentInfo, ',')) {
                 istringstream studentStream(studentInfo);
 
                 string teacherIdStr;
-                getline(studentStream, studentIdStr, ':');
-                int teacherId = stoi(studentIdStr);
+                getline(studentStream, teacherIdStr, ':');
+                int teacherId = stoi(teacherIdStr);
 
                 string scheduleStr;
                 getline(studentStream, scheduleStr);
@@ -88,8 +82,8 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
 
 
 
-        // Создание объекта StudentData с извлеченными данными
-        StudentData studentData{
+        // Создание объекта Student_data с извлеченными данными
+        Student_data studentData{
                 studentId,
                 courseSchedules
         };
@@ -100,7 +94,7 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
         // Создание объекта Student и заполнение его данными
         Student newStudent(userData, studentData);
 
-        parse_cards(newStudent.get_wallet_id(), newStudent.current_card);
+        parse_cards(studentId, newStudent.current_card);
         // Добавление объекта Student в studentsMap
         studentsMap[studentId] = newStudent;
     }
@@ -109,7 +103,7 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
 }
 
 
-void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& usersMap) {
+void Algorithm::parse_teachers(map<int, Teacher> &teachersMap, map<int, User> &usersMap) {
     ifstream file("../var/info/Teachers");
     string line;
 
@@ -137,7 +131,7 @@ void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& u
             getline(courseStream, courseName, '{');
 
             string studentInfo;
-            while (getline(courseStream, studentInfo, '}')) {
+            while (getline(courseStream, studentInfo, ',')) {
                 istringstream studentStream(studentInfo);
 
                 string studentIdStr, scheduleStr;
@@ -171,7 +165,7 @@ void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& u
         // Создание объекта Teacher и заполнение его данными
         Teacher newTeacher(userData, teacherData);
 
-        parse_cards(newTeacher.get_wallet_id(), newTeacher.current_card);
+        parse_cards(teacherId, newTeacher.current_card);
 
         // Добавление объекта Teacher в teachersMap
         teachersMap[teacherId] = newTeacher;
@@ -179,7 +173,6 @@ void Algorithm::parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& u
 
     file.close();
 }
-
 
 
 void Algorithm::parse_users(map<int, User> &usersMap) {
@@ -196,7 +189,6 @@ void Algorithm::parse_users(map<int, User> &usersMap) {
         getline(iss, role, '/');
         getline(iss, notificationsStr, '/');
         getline(iss, walletStr, '/');
-        int wallet = stoi(walletStr);
         getline(iss, phoneNumber, '/');
         getline(iss, password);
 
@@ -207,12 +199,11 @@ void Algorithm::parse_users(map<int, User> &usersMap) {
             notifications.push_back(notif);
         }
 
-        User_data user_data{username, id, role, notifications, wallet, phoneNumber, password};
+        User_data user_data{username, id, role, notifications, phoneNumber, password};
         User newUser(user_data);
-        parse_cards(newUser.get_wallet_id(), newUser.current_card);
+        parse_cards(id, newUser.current_card);
         usersMap[id] = newUser;
 
-        // Можно выполнить другие операции или вывод на консоль
     }
     file.close();
 }
@@ -240,22 +231,22 @@ void Algorithm::parse_courses(Catalog &catalog) {
 
         Course newCourse(course_data);
 
-        if (!catalog.hasSubcatalog(course_data.subcatalog)) {
-            catalog.addSubcatalog(course_data.subcatalog);
+        if (!catalog.has_subcatalog(course_data.subcatalog)) {
+            catalog.add_subcatalog(course_data.subcatalog);
         }
 
-        Subcatalog &subcatalog = catalog.getSubcatalog(course_data.subcatalog);
+        Subcatalog &subcatalog = catalog.get_subcatalog(course_data.subcatalog);
         subcatalog.add_course(course_data);
     }
     file.close();
 }
 
-void Algorithm::parse_schedule_students(const map<string, map<int, vector<string>>> schedule, stack<int>& students_id) {
-    for (const auto& course : schedule) {
-        const map<int, vector<string>>& students_schedule = course.second;
-        for (const auto& student_schedule : students_schedule) {
-            const vector<string>& schedules = student_schedule.second;
-            for (const string& date : schedules) {
+void Algorithm::parse_schedule_students(const map<string, map<int, vector<string>>> schedule, stack<int> &students_id) {
+    for (const auto &course: schedule) {
+        const map<int, vector<string>> &students_schedule = course.second;
+        for (const auto &student_schedule: students_schedule) {
+            const vector<string> &schedules = student_schedule.second;
+            for (const string &date: schedules) {
                 istringstream iss(date);
                 string student_id_str;
                 getline(iss, student_id_str, ':');
@@ -267,8 +258,8 @@ void Algorithm::parse_schedule_students(const map<string, map<int, vector<string
 }
 
 
-void Algorithm::parse_schedule_courses(const map<string, map<int, vector<string>>> schedule, stack<string>& courses) {
-    for (const auto& course : schedule) {
+void Algorithm::parse_schedule_courses(const map<string, map<int, vector<string>>> schedule, stack<string> &courses) {
+    for (const auto &course: schedule) {
         courses.push(course.first);
     }
 }
@@ -277,9 +268,9 @@ void Algorithm::write_cards(const Cards &cardsObj) {
     ofstream file("../var/info/Cards", ios::app); // Открываем файл для добавления данных
 
     if (file.is_open()) {
-        file << cardsObj.getId() << '/' << cardsObj.getNumber() << '/'
-             << cardsObj.getValidity() << '/' << cardsObj.getCvcCode() << '/'
-             << cardsObj.getHolderName() << '\n';
+        file << cardsObj.get_id() << '/' << cardsObj.get_number() << '/'
+             << cardsObj.get_validity() << '/' << cardsObj.get_cvc() << '/'
+             << cardsObj.get_HolderName() << '\n';
 
         file.close();
     } else {
@@ -287,23 +278,24 @@ void Algorithm::write_cards(const Cards &cardsObj) {
     }
 }
 
-void Algorithm::write_students(const map<int, Student>& studentsMap) {
+void Algorithm::write_students(const map<int, Student> &studentsMap) {
     ofstream file("../var/info/Students");
 
     if (file.is_open()) {
-        for (const auto& student : studentsMap) {
-            const StudentData& studentData = student.second.getData();
+        for (const auto &student: studentsMap) {
+            const Student_data &studentData = student.second.get_data_s();
             file << studentData.id << '/';
 
-            const SCHEDULE& courseSchedules = studentData.courseSchedules;
-            for (const auto& course : courseSchedules) {
+            const SCHEDULE &courseSchedules = studentData.Schedules;
+            for (const auto &course: courseSchedules) {
                 file << course.first << '{';
 
-                for (const auto& teacher_schedule : course.second) {
+                for (const auto &teacher_schedule: course.second) {
                     file << teacher_schedule.first << ':';
-                    for (const auto& date : teacher_schedule.second) {
+                    for (const auto &date: teacher_schedule.second) {
                         file << date << ' ';
                     }
+                    file << ',';
                 }
 
                 file << '}';
@@ -318,28 +310,28 @@ void Algorithm::write_students(const map<int, Student>& studentsMap) {
     }
 }
 
-void Algorithm::write_teachers(const map<int, Teacher>& teachersMap) {
+void Algorithm::write_teachers(const map<int, Teacher> &teachersMap) {
     ofstream file("../var/info/Teachers");
 
     if (file.is_open()) {
-        for (const auto& teacherData : teachersMap) {
-            const Teacher& teacher = teacherData.second;
+        for (const auto &teacherData: teachersMap) {
+            const Teacher &teacher = teacherData.second;
 
             file << teacher.get_id() << '/'; // Запись ID преподавателя
 
-            const Teacher_data& teacherInfo = teacher.get_tdata();
-            const SCHEDULE& studentSchedules = teacherInfo.studentSchedules;
+            const Teacher_data &teacherInfo = teacher.get_tdata();
+            const SCHEDULE &studentSchedules = teacherInfo.schedules;
 
-            for (const auto& course : studentSchedules) {
+            for (const auto &course: studentSchedules) {
                 file << course.first << '{'; // Запись имени курса
 
-                for (const auto& studentInfo : course.second) {
+                for (const auto &studentInfo: course.second) {
                     file << studentInfo.first << ':';
 
-                    for (const auto& date : studentInfo.second) {
+                    for (const auto &date: studentInfo.second) {
                         file << date << ' ';
                     }
-                    file << '}';
+                    file << ',';
                 }
                 file << '}';
             }
@@ -352,20 +344,20 @@ void Algorithm::write_teachers(const map<int, Teacher>& teachersMap) {
     }
 }
 
-void Algorithm::write_users(const map<int, User>& usersMap) {
+void Algorithm::write_users(const map<int, User> &usersMap) {
     ofstream file("../var/info/Users");
 
     if (file.is_open()) {
-        for (const auto& userData : usersMap) {
-            const User& user = userData.second;
+        for (const auto &userData: usersMap) {
+            const User &user = userData.second;
 
-            const User_data& userInfo = user.get_data();
+            const User_data &userInfo = user.get_data();
 
             file << userInfo.id << '/';
             file << userInfo.username << '/';
             file << userInfo.role << '/';
 
-            const vector<string>& notifications = userInfo.notifications;
+            const vector<string> &notifications = userInfo.notifications;
             for (size_t i = 0; i < notifications.size(); ++i) {
                 file << notifications[i];
                 if (i != notifications.size() - 1) {
@@ -373,8 +365,8 @@ void Algorithm::write_users(const map<int, User>& usersMap) {
                 }
             }
 
-            file << '/' << userInfo.wallet << '/';
-            file << userInfo.phoneNumber << '/';
+            file << '/' << userInfo.id << '/';
+            file << userInfo.phone_number << '/';
             file << userInfo.password << '\n';
         }
 
@@ -384,18 +376,18 @@ void Algorithm::write_users(const map<int, User>& usersMap) {
     }
 }
 
-void Algorithm::write_courses(Catalog& catalog) {
+void Algorithm::write_courses(Catalog &catalog) {
     ofstream file("../var/info/Courses");
 
     if (file.is_open()) {
-        for (auto& subcatalog : catalog.getSubcatalogs()) {
-            for (auto& course : subcatalog.second.get_courses()) {
-                Course_struct courseData = course.second.getCurrentCourse();
+        for (auto &subcatalog: catalog.get_subcatalogs()) {
+            for (auto &course: subcatalog.second.get_courses()) {
+                Course_struct courseData = course.second.get_current_course();
 
                 file << courseData.name << '/';
                 file << courseData.subcatalog << '/';
 
-                vector<int>& teachers = courseData.teachers;
+                vector<int> &teachers = courseData.teachers;
                 for (size_t i = 0; i < teachers.size(); ++i) {
                     file << teachers[i];
                     if (i != teachers.size() - 1) {
