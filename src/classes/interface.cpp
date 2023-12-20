@@ -260,6 +260,8 @@ void Interface::handle_student_input() {
             case 5:
                 system("clear");
                 user_profile();
+                student.set_data(user.get_data());
+                student.setCurrentCard(user.getCurrentCard());
                 break;
             case 6: {
                 int teacherId;
@@ -313,10 +315,10 @@ void Interface::handle_student_input() {
 
 void Interface::handle_teacher_input() {
     int choice;
-    user.set_data(teacher.get_data());
-    user.setCurrentCard(teacher.getCurrentCard());
 
     while (true) {
+        user.set_data(teacher.get_data());
+        user.setCurrentCard(teacher.getCurrentCard());
         display_menu_teacher();
         cin >> choice;
 
@@ -341,6 +343,8 @@ void Interface::handle_teacher_input() {
             case 5:
                 teacher_profile();
                 user_profile();
+                teacher.set_data(user.get_data());
+                teacher.setCurrentCard(user.getCurrentCard());
                 break;
             case 6:
                 display_schedule_students();
@@ -666,12 +670,7 @@ void Interface::change_profile(int choice) {
             cout << "Введите сумму, которая будет снята с вашей карты" << endl;
             cout << "================================================" << endl;
             cin >> num;
-            if (current_user_type == USER)
                 user.current_card.add_balance(num);
-            if (current_user_type == TEACHER)
-                teacher.current_card.add_balance(num);
-            if (current_user_type == STUDENT)
-                student.current_card.add_balance(num);
             break;
         default:
             cout << "Некорректный выбор." << endl;
@@ -736,7 +735,7 @@ void Interface::display_schedule_students() {
 
         if (studentsMap.find(studentId) != studentsMap.end()) {
             student = studentsMap[studentId];
-            cout << "Имя: " << student.get_username() << endl;
+            cout <<  student.get_username() << endl;
         } else {
             cout << "Студент с ID " << studentId << " не найден" << endl;
         }
@@ -875,6 +874,7 @@ void Interface::display_lesson_requests() {
                     cin >> newDate;
                     date = newDate;
                     studentsMap[student_map.first].sent_notif(course.first, teacher.get_id(), newDate);
+                    usersMap[student_map.first].set_data(studentsMap[student_map.first].get_data());
                 }
             }
 

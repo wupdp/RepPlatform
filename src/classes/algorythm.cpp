@@ -61,7 +61,7 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
             string studentInfo;
             while (getline(courseStream, studentInfo, ',')) {
                 istringstream studentStream(studentInfo);
-                if(studentInfo == " ")
+                if (studentInfo == " ")
                     continue;
 
                 string teacherIdStr;
@@ -114,7 +114,7 @@ void Algorithm::parse_teachers(map<int, Teacher> &teachersMap, map<int, User> &u
 
         string teacherIdStr, coursesStr, experienceStr, ratingStr;
         getline(iss, teacherIdStr, '/'); // Получение ID учителя
-        if(teacherIdStr == "0")
+        if (teacherIdStr == "0")
             continue;
         int teacherId = stoi(teacherIdStr);
 
@@ -136,7 +136,7 @@ void Algorithm::parse_teachers(map<int, Teacher> &teachersMap, map<int, User> &u
             string studentInfo;
             while (getline(courseStream, studentInfo, ',')) {
                 vector<string> scheduleDates;
-                if(studentInfo == "end") {
+                if (studentInfo == "end") {
                     studentSchedules[courseName];
                     continue;
                 }
@@ -248,18 +248,12 @@ void Algorithm::parse_courses(Catalog &catalog) {
     file.close();
 }
 
-void Algorithm::parse_schedule_students(const map<string, map<int, vector<string>>> schedule, stack<int> &students_id) {
+void Algorithm::parse_schedule_students(SCHEDULE schedule, stack<int> &students_id) {
     for (const auto &course: schedule) {
         const map<int, vector<string>> &students_schedule = course.second;
         for (const auto &student_schedule: students_schedule) {
-            const vector<string> &schedules = student_schedule.second;
-            for (const string &date: schedules) {
-                istringstream iss(date);
-                string student_id_str;
-                getline(iss, student_id_str, ':');
-                int studentId = stoi(student_id_str);
-                students_id.push(studentId);
-            }
+            int student_id = student_schedule.first;
+            students_id.push(student_id);
         }
     }
 }
@@ -290,6 +284,7 @@ void Algorithm::write_students(const map<int, Student> &studentsMap) {
 
     if (file.is_open()) {
         for (const auto &student: studentsMap) {
+            write_cards(student.second.current_card);
             const Student_data &studentData = student.second.get_data_s();
             file << student.first << '/';
 

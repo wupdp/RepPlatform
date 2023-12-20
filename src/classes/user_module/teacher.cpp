@@ -15,7 +15,7 @@ Teacher::Teacher(const User_data &userData, Teacher_data teacherData)
 }
 
 void Teacher::get_lesson_request(int student_id, string course_name) {
-    string request = "Запрос " + course_name;
+    string request = "Запрос-" + course_name;
     data_t.schedules[course_name][student_id].push_back(request);
     current_card.add_balance(30);
 }
