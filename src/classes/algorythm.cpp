@@ -248,7 +248,7 @@ void Algorithm::parse_courses(Catalog &catalog) {
     file.close();
 }
 
-void Algorithm::parse_schedule_students(SCHEDULE schedule, stack<int> &students_id) {
+void Algorithm::parse_schedule_students(SCHEDULE schedule, Stack<int> &students_id) {
     for (const auto &course: schedule) {
         const map<int, vector<string>> &students_schedule = course.second;
         for (const auto &student_schedule: students_schedule) {
@@ -259,7 +259,7 @@ void Algorithm::parse_schedule_students(SCHEDULE schedule, stack<int> &students_
 }
 
 
-void Algorithm::parse_schedule_courses(const map<string, map<int, vector<string>>> schedule, stack<string> &courses) {
+void Algorithm::parse_schedule_courses(const map<string, map<int, vector<string>>> schedule, Stack<string> &courses) {
     for (const auto &course: schedule) {
         courses.push(course.first);
     }

@@ -7,6 +7,7 @@
 #include "catalog.h"
 #include "cards.h"
 #include "algorythm.h"
+#include "InputException.h"
 
 enum UserType { GUEST, USER, STUDENT, TEACHER };
 

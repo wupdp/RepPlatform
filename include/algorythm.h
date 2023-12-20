@@ -6,7 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
-#include <stack>
+#include "stack.h"
 #include <string>
 #include "user.h"
 #include "teacher.h"
@@ -23,8 +23,8 @@ public:
     static void parse_teachers(map<int, Teacher>& teachersMap, map<int, User>& usersMap);
     static void parse_students(map<int, Student> &studentsMap, map<int, User> &usersMap);
     static void parse_cards(int idToFind, Cards& cardsObj);
-    static void parse_schedule_students(SCHEDULE, stack<int>&);
-    static void parse_schedule_courses(SCHEDULE schedule, stack<string> &courses);
+    static void parse_schedule_students(SCHEDULE, Stack<int>&);
+    static void parse_schedule_courses(SCHEDULE schedule, Stack<string> &courses);
     static void write_cards(const Cards &cardsObj);
     static void write_students(const map<int, Student> &studentsMap);
     static void write_teachers(const map<int, Teacher>& teachersMap);

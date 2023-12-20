@@ -29,6 +29,8 @@ add_executable(RepPlatform src/main.cpp
         src/classes/exception_module/InputException.cpp
         include/interface.h
         src/classes/interface.cpp
+        include/stack.h
+        src/classes/stack.inl
         #src/classes/teacher.cpp
         #src/classes/teacher.h
         #src/classes/student.cpp

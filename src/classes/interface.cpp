@@ -134,7 +134,8 @@ void Interface::handle_guest_input() {
     int choice;
     while (true) {
         display_menu_guest();
-        cin >> choice;
+        //cin >> choice;
+        choice = input_int(cin);
 
         switch (choice) {
             case 1:
@@ -171,7 +172,8 @@ void Interface::handle_user_input() {
     int choice;
     while (true) {
         display_menu_user();
-        cin >> choice;
+        //cin >> choice;
+        choice = input_int(cin);
 
         switch (choice) {
             case 1:
@@ -188,7 +190,6 @@ void Interface::handle_user_input() {
                 user_profile();
                 break;
             case 5: {
-                //TODO
                 if (user.get_role() != "S") {
                     user.set_role("S");
                     usersMap[user.get_id()].set_role("S");
@@ -241,7 +242,8 @@ void Interface::handle_student_input() {
         user.set_data(student.get_data());
         user.setCurrentCard(student.getCurrentCard());
         display_menu_student();
-        cin >> choice;
+        //cin >> choice;
+        choice = input_int(cin);
 
         switch (choice) {
             case 1:
@@ -268,7 +270,8 @@ void Interface::handle_student_input() {
                 double lessonPrice;
 
                 cout << "Введите ID преподавателя: ";
-                cin >> teacherId;
+                teacherId = input_int(cin);
+                //cin >> teacherId;
 
                 // Вывод доступных курсов
                 cout << "Доступные курсы: " << endl;
@@ -278,7 +281,8 @@ void Interface::handle_student_input() {
 
                 string selectedCourse;
                 cout << "Выберите курс: ";
-                cin >> selectedCourse;
+                //cin >> selectedCourse;
+                selectedCourse = input_string(cin);
 
                 student.send_lesson_request(teacherId, selectedCourse, teachersMap);
 
@@ -320,7 +324,8 @@ void Interface::handle_teacher_input() {
         user.set_data(teacher.get_data());
         user.setCurrentCard(teacher.getCurrentCard());
         display_menu_teacher();
-        cin >> choice;
+        //cin >> choice;
+        choice = input_int(cin);
 
         switch (choice) {
             case 1:
@@ -451,7 +456,8 @@ void Interface::display_subcatalogs() {
     cout << "Выберите номер подкаталога: ";
 
     int choice;
-    cin >> choice;
+    //cin >> choice;
+    choice = input_int(cin);
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     if (choice >= 1 && choice <= subcatalogs.size()) {
@@ -509,12 +515,12 @@ void Interface::authorize_user() {
     cout << "=== Авторизация ================" << endl;
     cout << "================================" << endl;
 
-    cout << "Введите имя пользователя: ";
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    getline(cin, username);
-    cout << "================================" << endl;
-    cout << "Введите пароль: ";
-    cin >> password;
+    //cout << "Введите имя пользователя: ";
+    //cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    //getline(cin, username);
+    username = input_username(cin);
+    //cin >> password;
+    password = input_password(cin);
 
     int userId = guest.authorize(username, password, usersMap); // Авторизация пользователя
 
@@ -569,8 +575,7 @@ void Interface::user_profile() {
     cout << "Выберите действие: ";
 
     int choice;
-    cin >> choice;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    choice = input_int(cin);
 
     if (choice == 4)
         return;
@@ -586,11 +591,13 @@ void Interface::change_profile(int choice) {
             cout << "================================" << endl;
             cout << "Введите старый пароль: ";
             cout << "================================" << endl;
-            cin >> oldPassword;
+            oldPassword = input_password(cin);
             if (user.check_password(oldPassword)) {
                 string newPassword;
+                cout << "================================" << endl;
                 cout << "Введите новый пароль: ";
-                cin >> newPassword;
+                cout << "================================" << endl;
+                newPassword = input_password(cin);
                 user.change_password(newPassword);
                 break;
             }
@@ -610,22 +617,26 @@ void Interface::change_profile(int choice) {
                 cout << "================================" << endl;
                 cout << "Выберите действие: ";
                 int profileChoice;
-                cin >> profileChoice;
+                profileChoice = input_int(cin);
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 cout << "================================" << endl;
 
                 switch (profileChoice) {
                     case 1: {
                         string newUsername;
-                        cout << "Введите новое имя пользователя: ";
-                        cin >> newUsername;
+                        cout << "================================" << endl;
+                        cout << "Новое имя пользователя: ";
+                        cout << "================================" << endl;
+                        newUsername = input_username(cin);
                         user.set_username(newUsername);
                         break;
                     }
                     case 2: {
                         string newPhoneNumber;
-                        cout << "Введите новый номер телефона: ";
-                        getline(cin, newPhoneNumber);
+                        cout << "================================" << endl;
+                        cout << "Новый номер телефона: ";
+                        cout << "================================" << endl;
+                        newPhoneNumber = input_phone(cin);
                         user.change_phone_number(newPhoneNumber);
                         break;
                     }
@@ -633,20 +644,16 @@ void Interface::change_profile(int choice) {
                         string newCardNumber, newValidity, newHolderName;
                         int newCvcCode;
 
-                        cout << "Введите новый номер карты: ";
-                        getline(cin, newCardNumber);
+                        newCardNumber = input_card(cin);
                         user.current_card.set_number(newCardNumber);
 
-                        cout << "Введите новую дату действия: ";
-                        cin >> newValidity;
+                        newValidity = input_date(cin);
                         user.current_card.set_validity(newValidity);
 
-                        cout << "Введите новое имя держателя: ";
-                        getline(cin, newHolderName);
+                        newHolderName = input_holdername(cin);
                         user.current_card.set_HolderName(newHolderName);
 
-                        cout << "Введите новый CVC-код: ";
-                        cin >> newCvcCode;
+                        newCvcCode = input_cvc(cin);
                         user.current_card.set_cvc(newCvcCode);
 
                         break;
@@ -669,8 +676,8 @@ void Interface::change_profile(int choice) {
             cout << "================================================" << endl;
             cout << "Введите сумму, которая будет снята с вашей карты" << endl;
             cout << "================================================" << endl;
-            cin >> num;
-                user.current_card.add_balance(num);
+            num = input_int(cin);
+            user.current_card.add_balance(num);
             break;
         default:
             cout << "Некорректный выбор." << endl;
@@ -713,17 +720,18 @@ void Interface::display_schedule_t() {
 
 
 void Interface::display_schedule_courses(Teacher teacher_) {
-    stack<string> courses_st;
+    Stack<string> courses_st;
     Algorithm::parse_schedule_courses(teacher_.get_courses(), courses_st);
 
     while (!courses_st.empty()) {
         cout << courses_st.top() << endl;
         courses_st.pop();
     }
+    courses_st.clear();
 }
 
 void Interface::display_schedule_students() {
-    stack<int> students_st;
+    Stack<int> students_st;
     Algorithm::parse_schedule_students(teacher.get_courses(), students_st);
 
     cout << "================================" << endl;
@@ -735,11 +743,12 @@ void Interface::display_schedule_students() {
 
         if (studentsMap.find(studentId) != studentsMap.end()) {
             student = studentsMap[studentId];
-            cout <<  student.get_username() << endl;
+            cout << student.get_username() << endl;
         } else {
             cout << "Студент с ID " << studentId << " не найден" << endl;
         }
     }
+    students_st.clear();
 }
 
 void Interface::add_course() {
