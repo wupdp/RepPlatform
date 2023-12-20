@@ -1,4 +1,3 @@
-#include <ctime>
 #include <iomanip>
 #include "../../../include/InputException.h"
 
@@ -11,7 +10,6 @@ InputException::InputException(int inputCode, const char firstMessage[80], const
 InputException::~InputException() = default;
 
 void InputException::whatInput() {
-
     this->what();
     std::cout << inputMessage << '\n';
 }

@@ -12,7 +12,7 @@ public:
 	FileException(int, const char[80], const char[80]);
 	~FileException();
 
-	void whatFile();
+	void whatFile() const;
 };
 
-int exist_file(const char* name_file);
+bool exist_file(const char* name_file);

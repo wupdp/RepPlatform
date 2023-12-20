@@ -12,5 +12,5 @@ public:
 	Exception(int, const char[80]);
 	~Exception();
 
-	void what();
+	void what() const;
 };

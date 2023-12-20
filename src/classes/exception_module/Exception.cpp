@@ -9,7 +9,7 @@ Exception::Exception(int inputCode, const char inputMessage[80]) {
 
 Exception::~Exception() = default;
 
-void Exception::what() {
+void Exception::what() const{
 
 	std::cout << "error code " << code << ':' << message << ", ";
 }

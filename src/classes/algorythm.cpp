@@ -3,6 +3,11 @@
 void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
     ifstream file("../var/info/Cards");
     string line;
+    if(!exist_file("../var/info/Cards")){
+        file.close();
+        return;
+    }
+
     while (getline(file, line)) {
         int id;
         string number, validity, idStr, holderName;
@@ -37,6 +42,11 @@ void Algorithm::parse_cards(int idToFind, Cards &cardsObj) {
 void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &usersMap) {
     ifstream file("../var/info/Students");
     string line;
+
+    if(!exist_file("../var/info/Students")){
+        file.close();
+        return;
+    }
 
     while (getline(file, line)) {
         istringstream iss(line);
@@ -108,6 +118,11 @@ void Algorithm::parse_students(map<int, Student> &studentsMap, map<int, User> &u
 void Algorithm::parse_teachers(map<int, Teacher> &teachersMap, map<int, User> &usersMap) {
     ifstream file("../var/info/Teachers");
     string line;
+
+    if(!exist_file("../var/info/Teachers")){
+        file.close();
+        return;
+    }
 
     while (getline(file, line)) {
         istringstream iss(line);
@@ -185,6 +200,12 @@ void Algorithm::parse_teachers(map<int, Teacher> &teachersMap, map<int, User> &u
 void Algorithm::parse_users(map<int, User> &usersMap) {
     ifstream file("../var/info/Users");
     string line;
+
+    if(!exist_file("../var/info/Users")){
+        file.close();
+        return;
+    }
+
     while (getline(file, line)) {
         istringstream iss(line);
         string idStr, username, role, notificationsStr, walletStr, phoneNumber, password;
@@ -218,6 +239,12 @@ void Algorithm::parse_users(map<int, User> &usersMap) {
 void Algorithm::parse_courses(Catalog &catalog) {
     ifstream file("../var/info/Courses");
     string line;
+
+    if(!exist_file("../var/info/Courses")){
+        file.close();
+        return;
+    }
+
     while (getline(file, line)) {
         Course_struct course_data;
 
@@ -268,6 +295,11 @@ void Algorithm::parse_schedule_courses(const map<string, map<int, vector<string>
 void Algorithm::write_cards(const Cards &cardsObj) {
     ofstream file("../var/info/Cards", ios::app); // Открываем файл для добавления данных
 
+    if(!exist_file("../var/info/Cards")){
+        file.close();
+        return;
+    }
+
     if (file.is_open()) {
         file << cardsObj.get_id() << '/' << cardsObj.get_number() << '/'
              << cardsObj.get_validity() << '/' << cardsObj.get_cvc() << '/'
@@ -281,6 +313,11 @@ void Algorithm::write_cards(const Cards &cardsObj) {
 
 void Algorithm::write_students(const map<int, Student> &studentsMap) {
     ofstream file("../var/info/Students");
+
+    if(!exist_file("../var/info/Students")){
+        file.close();
+        return;
+    }
 
     if (file.is_open()) {
         for (const auto &student: studentsMap) {
@@ -314,6 +351,11 @@ void Algorithm::write_students(const map<int, Student> &studentsMap) {
 
 void Algorithm::write_teachers(const map<int, Teacher> &teachersMap) {
     ofstream file("../var/info/Teachers");
+
+    if(!exist_file("../var/info/Teachers")){
+        file.close();
+        return;
+    }
 
     if (file.is_open()) {
         for (const auto &teacherData: teachersMap) {
@@ -349,6 +391,11 @@ void Algorithm::write_teachers(const map<int, Teacher> &teachersMap) {
 void Algorithm::write_users(const map<int, User> &usersMap) {
     ofstream file("../var/info/Users");
 
+    if(!exist_file("../var/info/Users")){
+        file.close();
+        return;
+    }
+
     if (file.is_open()) {
         for (const auto &userData: usersMap) {
             const User &user = userData.second;
@@ -380,6 +427,11 @@ void Algorithm::write_users(const map<int, User> &usersMap) {
 
 void Algorithm::write_courses(Catalog &catalog) {
     ofstream file("../var/info/Courses");
+
+    if(!exist_file("../var/info/Courses")){
+        file.close();
+        return;
+    }
 
     if (file.is_open()) {
         for (auto &subcatalog: catalog.get_subcatalogs()) {

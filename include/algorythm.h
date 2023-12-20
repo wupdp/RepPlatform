@@ -15,6 +15,7 @@
 #include "subcatalog.h"
 #include "catalog.h"
 #include "cards.h"
+#include "FileException.h"
 
 class Algorithm {
 public:

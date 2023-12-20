@@ -3,14 +3,10 @@
 #include "Exception.h"
 
 class InputException : public Exception {
-
 	char inputMessage[80];
-
 public:
-
 	InputException(int, const char[80], const char[80]);
 	~InputException();
-
 	void whatInput();
 };
 
